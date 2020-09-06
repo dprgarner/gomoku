@@ -1,0 +1,20 @@
+{
+  "name": "gomoku",
+  "version": "0.0.1",
+  "description": "Gomoku with Boardgame.io",
+  "main": "index.js",
+  "author": "David Garner",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html --open"
+  },
+  "dependencies": {
+    "boardgame.io": "^0.40.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5"
+  }
+}

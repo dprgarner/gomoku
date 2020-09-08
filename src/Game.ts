@@ -1,21 +1,23 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
+import { GameState } from './types';
+import { Ctx } from 'boardgame.io';
 
 const SIZE = 15;
 const MOVES_IN_A_ROW = 5;
 
-function* getRow(row) {
+function* getRow(row: number): Generator<[number, number]> {
   for (let column = 0; column < SIZE; column++) {
     yield [row, column];
   }
 }
 
-function* getColumn(column) {
+function* getColumn(column: number): Generator<[number, number]> {
   for (let row = 0; row < SIZE; row++) {
     yield [row, column];
   }
 }
 
-function* getDownLeftDiagonal(sum) {
+function* getDownLeftDiagonal(sum: number): Generator<[number, number]> {
   for (let row = 0; row < SIZE; row++) {
     const column = sum - row;
     if (column < 0) break;
@@ -23,7 +25,9 @@ function* getDownLeftDiagonal(sum) {
   }
 }
 
-function* getDownRightDiagonal(difference) {
+function* getDownRightDiagonal(
+  difference: number,
+): Generator<[number, number]> {
   for (let row = 0; row < SIZE; row++) {
     const column = row - difference;
     if (column >= SIZE) break;
@@ -46,7 +50,7 @@ function* getLinesToCheck() {
   }
 }
 
-function isVictory(cells, player) {
+function isVictory(cells: (string | null)[][], player: string) {
   for (const line of getLinesToCheck()) {
     let countersInALine = 0;
     for (const [row, column] of line) {
@@ -63,7 +67,7 @@ function isVictory(cells, player) {
   return false;
 }
 
-function isDraw(cells) {
+function isDraw(cells: (string | null)[][]) {
   for (let i = 0; i < SIZE; i++) {
     for (let j = 0; j < SIZE; j++) {
       if (cells[i][j] === null) {
@@ -88,7 +92,7 @@ export const Gomoku = {
   },
 
   moves: {
-    clickCell: (G, ctx, cellRow, cellCol) => {
+    clickCell: (G: GameState, ctx: Ctx, cellRow: number, cellCol: number) => {
       if (G.cells[cellRow][cellCol] !== null) {
         return INVALID_MOVE;
       }
@@ -96,7 +100,7 @@ export const Gomoku = {
     },
   },
 
-  endIf: (G, ctx) => {
+  endIf: (G: GameState, ctx: Ctx) => {
     if (isVictory(G.cells, ctx.currentPlayer)) {
       return { winner: ctx.currentPlayer };
     }

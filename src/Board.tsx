@@ -1,6 +1,15 @@
-import React from 'react';
+import * as React from 'react';
+import { Ctx } from 'boardgame.io';
 
-const Board = ({ G, ctx, moves }) => {
+import { GameState, Moves } from './types';
+
+type BoardProps = {
+  G: GameState;
+  ctx: Ctx;
+  moves: Moves;
+};
+
+const Board: React.FC<BoardProps> = ({ G, ctx, moves }: BoardProps) => {
   return (
     <>
       <div>

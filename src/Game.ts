@@ -1,6 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { GameState } from './types';
 import { Ctx } from 'boardgame.io';
+
+import { GameState } from './types';
 
 const SIZE = 15;
 const MOVES_IN_A_ROW = 5;

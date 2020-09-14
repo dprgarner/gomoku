@@ -1,4 +1,4 @@
-import Client from 'boardgame.io/react';
+import { Client } from 'boardgame.io/react';
 import { Gomoku } from './Game';
 import Board from './Board';
 

@@ -10,8 +10,8 @@ import {
 type StoneCellProps = {
   ghostPlayer: string | null;
   stonePlayer: string | null;
+  turnNumber: number | null;
   onClick: () => void;
-  turnNumber?: number;
 };
 
 const stoneShadow = '3px 3px 5px 0px rgba(0,0,0,0.6)';

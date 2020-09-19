@@ -2,6 +2,7 @@ import { INVALID_MOVE } from 'boardgame.io/core';
 import { Ctx } from 'boardgame.io';
 
 import { GameState } from './types';
+import range from './range';
 
 const SIZE = 15;
 const MOVES_IN_A_ROW = 5;
@@ -80,12 +81,14 @@ function isDraw(cells: (string | null)[][]) {
 }
 
 const game = {
-  setup: () => {
-    const cells = [];
-    for (let i = 0; i < SIZE; i++) {
-      cells.push(Array(SIZE).fill(null));
-    }
-    return { cells };
+  setup: (): GameState => {
+    const cells: GameState['cells'] = range(SIZE).map(() =>
+      range(SIZE).map(() => null),
+    );
+    const turnNumbers: GameState['turnNumbers'] = range(SIZE).map(() =>
+      range(SIZE).map(() => null),
+    );
+    return { cells, turnNumbers };
   },
 
   turn: {
@@ -98,6 +101,7 @@ const game = {
         return INVALID_MOVE;
       }
       G.cells[cellRow][cellCol] = ctx.currentPlayer;
+      G.turnNumbers[cellRow][cellCol] = ctx.turn;
     },
   },
 

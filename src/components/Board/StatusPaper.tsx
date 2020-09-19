@@ -1,24 +1,11 @@
 import * as React from 'react';
-import { Typography, Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+import SmallPaper from './SmallPaper';
 
-type StatusBarProps = {
+type StatusPaperProps = {
   currentPlayer: string;
   gameover?: { winner: string };
 };
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    margin: theme.spacing(4),
-  },
-
-  paper: {
-    padding: theme.spacing(2),
-  },
-}));
 
 const gameOverText = (gameover: { winner: string }) =>
   gameover.winner !== undefined
@@ -28,17 +15,12 @@ const gameOverText = (gameover: { winner: string }) =>
 const currentPlayerText = (currentPlayer: string) =>
   `It is ${currentPlayer === '1' ? "White's" : "Black's"} turn.`;
 
-const StatusBar = ({ gameover, currentPlayer }: StatusBarProps) => {
-  const classes = useStyles();
-  return (
-    <div className={classes.container}>
-      <Paper elevation={3} className={classes.paper}>
-        <Typography variant="h5" component="h2">
-          {gameover ? gameOverText(gameover) : currentPlayerText(currentPlayer)}
-        </Typography>
-      </Paper>
-    </div>
-  );
-};
+const StatusPaper = ({ gameover, currentPlayer }: StatusPaperProps) => (
+  <SmallPaper>
+    <Typography variant="h5" component="h2">
+      {gameover ? gameOverText(gameover) : currentPlayerText(currentPlayer)}
+    </Typography>
+  </SmallPaper>
+);
 
-export default StatusBar;
+export default StatusPaper;

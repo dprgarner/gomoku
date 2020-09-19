@@ -7,11 +7,9 @@ const useStyles = makeStyles((theme) => ({
   },
 
   boardContainer: {
-    marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(4),
   },
 }));
 
@@ -24,7 +22,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <AppBar position="static">
-        <Typography variant="h3" className={classes.title}>
+        <Typography variant="h3" component="h1" className={classes.title}>
           Gomoku
         </Typography>
       </AppBar>

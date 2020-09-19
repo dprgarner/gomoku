@@ -3,8 +3,8 @@ import { Ctx } from 'boardgame.io';
 
 import { GameState, Moves } from '~/types';
 
-import Winner from './Winner';
 import GoBoard from './GoBoard';
+import StatusPaper from './StatusPaper';
 
 type BoardProps = {
   G: GameState;
@@ -15,8 +15,8 @@ type BoardProps = {
 const Board: React.FC<BoardProps> = ({ G, ctx, moves }: BoardProps) => {
   return (
     <>
-      <Winner gameover={ctx.gameover} />
-      <GoBoard G={G} moves={moves} />
+      <StatusPaper currentPlayer={ctx.currentPlayer} gameover={ctx.gameover} />
+      <GoBoard G={G} ctx={ctx} moves={moves} />
     </>
   );
 };

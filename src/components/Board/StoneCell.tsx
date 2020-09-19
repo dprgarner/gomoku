@@ -11,7 +11,7 @@ type StoneCellProps = {
 };
 
 const useStyles = makeStyles({
-  stoneCell: {
+  cell: {
     border: '1px solid transparent',
     padding: squareSize,
     position: 'relative',
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     },
   },
 
-  stonePlaced: {
+  isPlaced: {
     opacity: 1,
 
     '&:hover': {
@@ -40,18 +40,22 @@ const useStyles = makeStyles({
     position: 'absolute',
     right: 0,
     top: 0,
+
+    '-webkit-box-shadow': '1px 1px 5px 0px rgba(0,0,0,0.75)',
+    '-moz-box-shadow': '1px 1px 5px 0px rgba(0,0,0,0.75)',
+    'box-shadow': '1px 1px 5px 0px rgba(0,0,0,0.75)',
   },
 
   whiteStone: {
     border: '1px solid #333',
     background:
-      'linear-gradient(135deg, rgba(238,238,238,1) 25%, rgba(238,238,238,1) 65%, rgba(204,204,204,1) 100%);',
+      'radial-gradient(circle at top left, rgba(238,238,238,1) 65%, rgba(180,180,180,1) 90%)',
   },
 
   blackStone: {
     border: '1px solid #333',
     background:
-      'linear-gradient(315deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(111,111,111,1) 100%);',
+      'radial-gradient(circle at bottom right, rgba(0,0,0,1) 35%, rgba(111,111,111,1) 100%)',
   },
 });
 
@@ -68,9 +72,9 @@ const StoneCell = ({
   return (
     <td
       className={`
+        ${classes.cell}
         ${disabled ? '' : classes.enabled}
-        ${classes.stoneCell}
-        ${isPlaced ? classes.stonePlaced : ''}
+        ${isPlaced ? classes.isPlaced : ''}
       `}
       onClick={disabled ? undefined : onClick}
       role="button"

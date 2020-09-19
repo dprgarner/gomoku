@@ -8,22 +8,26 @@ import BackgroundGrid from './BackgroundGrid';
 import Grid from './Grid';
 import { squareSize } from './constants';
 
+import woodImage from './wood.jpg';
+
 type GoBoardProps = {
   G: GameState;
   ctx: Ctx;
   moves: Moves;
 };
 
+const boxShadow = '4px 4px 12px 0px rgba(0,0,0,0.75)';
+
 const useStyles = makeStyles((theme) => ({
   board: {
     background: '#EEBB1C',
+    backgroundImage: `url(${woodImage})`,
+    backgroundSize: 'cover',
     padding: 2 * squareSize,
     borderRadius: 10,
-    border: '1px solid #886307',
-    '-webkit-box-shadow': '5px 5px 15px 0px rgba(0,0,0,0.35)',
-    '-moz-box-shadow': '5px 5px 15px 0px rgba(0,0,0,0.35)',
-    'box-shadow': '5px 5px 15px 0px rgba(0,0,0,0.35)',
-
+    '-webkit-box-shadow': boxShadow,
+    '-moz-box-shadow': boxShadow,
+    'box-shadow': boxShadow,
     margin: theme.spacing(4),
   },
 

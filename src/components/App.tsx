@@ -4,7 +4,8 @@ import { Client } from 'boardgame.io/react';
 import { ThemeProvider } from '@material-ui/core';
 
 import game from '~/game';
-import theme from '~/theme';
+
+import theme from './theme';
 import Board from './Board';
 import Layout from './Layout';
 

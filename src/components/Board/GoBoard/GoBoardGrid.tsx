@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { squareSize } from './constants';
+import range from './range';
+import { boardGridBorderWidth, squareSize } from './constants';
 
-type BackgroundGridProps = {
+type GoBoardGridProps = {
   size: number;
 };
 
@@ -12,7 +13,7 @@ const starPointSize = 4;
 const useStyles = makeStyles({
   background: {
     borderCollapse: 'collapse',
-    border: '3px solid black',
+    border: `${boardGridBorderWidth}px solid black`,
   },
 
   cell: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 
   starPointCell: {
     '&:after': {
-      content: '" "',
+      content: '""',
       background: 'black',
       position: 'absolute',
       top: -starPointSize,
@@ -60,9 +61,7 @@ const getStarPoints = (size: number) => {
   return points;
 };
 
-const range = (n: number) => [...new Array(n)].map((_, i) => i);
-
-const BackgroundGrid = ({ size }: BackgroundGridProps) => {
+const GoBoardGrid = ({ size }: GoBoardGridProps) => {
   const classes = useStyles();
   const starPoints = getStarPoints(size);
 
@@ -91,4 +90,4 @@ const BackgroundGrid = ({ size }: BackgroundGridProps) => {
   );
 };
 
-export default BackgroundGrid;
+export default GoBoardGrid;

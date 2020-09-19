@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Ctx } from 'boardgame.io';
 
-import { GameState, Moves } from '../types';
+import { GameState, Moves } from '~/types';
+
 import Winner from './Winner';
 import GoBoard from './GoBoard';
 

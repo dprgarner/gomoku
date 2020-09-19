@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { GameState, Moves } from '../types';
+import { GameState, Moves } from '~/types';
+
 import useStyles from './useStyles';
 import BackgroundGrid from './BackgroundGrid';
 import Grid from './Grid';

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { GameState } from '../types';
+
+import { GameState } from '~/types';
 
 import StoneCell from './StoneCell';
 import useStyles from './useStyles';

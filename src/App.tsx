@@ -1,70 +1,28 @@
 import * as React from 'react';
-import {
-  makeStyles,
-  AppBar,
-  Typography,
-  Container,
-  Paper,
-  ThemeProvider,
-  createMuiTheme,
-} from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Client } from 'boardgame.io/react';
 
-import GomokuClient from './GomokuClient';
+import Board from './Board';
+import game from './game';
+import Layout from './Layout';
+import theme from './theme';
 
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: '"Zilla Slab", serif',
-  },
-  palette: {
-    primary: {
-      main: '#7A4115',
-    },
-    secondary: {
-      main: '#EEBB1C',
-    },
-    background: {
-      default: '#fef9ec',
-      paper: '#fbe7b1',
-    },
-  },
+// Typing is still broken for Client.board as of v0.40. :(
+const GomokuClient = (Client as any)({
+  game: game,
+  board: Board,
+  debug: false,
 });
 
-const useStyles = makeStyles((theme) => ({
-  title: {
-    padding: theme.spacing(2),
-  },
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
 
-  boardContainer: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(4),
-  },
-}));
-
-const App = () => {
-  const classes = useStyles();
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-
-      <AppBar position="static">
-        <Typography variant="h3" className={classes.title}>
-          Gomoku
-        </Typography>
-      </AppBar>
-
-      <Container
-        component="main"
-        maxWidth="md"
-        className={classes.boardContainer}
-      >
-        <GomokuClient />
-      </Container>
-    </ThemeProvider>
-  );
-};
+    <Layout>
+      <GomokuClient />
+    </Layout>
+  </ThemeProvider>
+);
 
 export default App;

@@ -79,7 +79,7 @@ function isDraw(cells: (string | null)[][]) {
   return true;
 }
 
-export const Gomoku = {
+const game = {
   setup: () => {
     const cells = [];
     for (let i = 0; i < SIZE; i++) {
@@ -110,3 +110,5 @@ export const Gomoku = {
     }
   },
 };
+
+export default game;

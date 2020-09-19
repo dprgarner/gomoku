@@ -21,11 +21,11 @@ const theme = createMuiTheme({
       main: '#7A4115',
     },
     secondary: {
-      main: '#FFDD8F',
+      main: '#EEBB1C',
     },
     background: {
-      default: '#fbe6da',
-      paper: '#fff8f5',
+      default: '#fef9ec',
+      paper: '#fbe7b1',
     },
   },
 });
@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     padding: theme.spacing(2),
   },
-  paper: {
+
+  boardContainer: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
@@ -55,10 +56,12 @@ const App = () => {
         </Typography>
       </AppBar>
 
-      <Container component="main" maxWidth="md">
-        <Paper className={classes.paper} elevation={3}>
-          <GomokuClient />
-        </Paper>
+      <Container
+        component="main"
+        maxWidth="md"
+        className={classes.boardContainer}
+      >
+        <GomokuClient />
       </Container>
     </ThemeProvider>
   );

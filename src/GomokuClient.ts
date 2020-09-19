@@ -6,6 +6,7 @@ import Board from './Board';
 const GomokuClient = (Client as any)({
   game: Gomoku,
   board: Board,
+  debug: false,
 });
 
 export default GomokuClient;

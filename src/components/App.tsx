@@ -13,8 +13,10 @@ import ThemeProvider from './ThemeProvider';
 const GomokuClient = (Client as any)({
   game,
   board: Board,
-  // TODO inject via env variables
-  multiplayer: SocketIO({ server: 'localhost:8000' }),
+  multiplayer: SocketIO({
+    server:
+      process.env.NODE_ENV === 'development' ? 'localhost:8000' : undefined,
+  }),
   debug: false,
 });
 

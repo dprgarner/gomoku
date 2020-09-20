@@ -5,3 +5,10 @@ declare module '*.jpg' {
   const value: string;
   export = value;
 }
+
+declare var process: {
+  env: {
+    NODE_ENV: 'development' | 'production';
+    PORT?: string;
+  };
+};

@@ -6,7 +6,7 @@
   "author": "David Garner",
   "license": "MIT",
   "scripts": {
-    "start": "parcel index.html --hmr-port 4321",
+    "start": "parcel index.html --hmr-port 4321 -p 1234",
     "build-client": "parcel build index.html -d dist_client",
     "serve": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build-server": "tsc",
@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@types/koa-static": "^4.0.1",
     "boardgame.io": "^0.40.0",
+    "koa-static": "^5.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

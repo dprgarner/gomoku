@@ -1,6 +1,7 @@
 import path from 'path';
 import { Server } from 'boardgame.io/server';
 import serve from 'koa-static';
+import { PostgresStore } from 'bgio-postgres';
 
 import game from './game';
 
@@ -8,7 +9,13 @@ const distClient = path.resolve(__dirname, '..', 'dist_client');
 const serveStaticFiles = process.env.NODE_ENV === 'production';
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 
-const server = Server({ games: [game] });
+const db = new PostgresStore({
+  database: process.env.DB_NAME,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+});
+const server = Server({ games: [game], db });
 
 if (serveStaticFiles) {
   server.app.use(serve(distClient));

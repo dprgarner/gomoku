@@ -7,5 +7,18 @@ services:
       target: production
     environment:
       PORT: 8000
+      DB_HOST: database
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
     ports:
       - 8000:8000
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres

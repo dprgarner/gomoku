@@ -10,9 +10,6 @@ declare var process: {
   env: {
     NODE_ENV: 'development' | 'production';
     PORT?: string;
-    DB_NAME: string;
-    DB_USER: string;
-    DB_PASSWORD: string;
-    DB_HOST: string;
+    DATABASE_URL: string;
   };
 };

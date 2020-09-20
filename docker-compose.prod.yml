@@ -7,10 +7,7 @@ services:
       target: production
     environment:
       PORT: 8000
-      DB_HOST: database
-      DB_NAME: postgres
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DATABASE_URL: postgresql://postgres:postgres@database:5432/postgres
     ports:
       - 8000:8000
     depends_on:

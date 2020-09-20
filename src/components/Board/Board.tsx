@@ -20,7 +20,7 @@ const Board: React.FC<BoardProps> = ({ G, ctx, moves }: BoardProps) => {
     <>
       <StatusPaper currentPlayer={ctx.currentPlayer} gameover={ctx.gameover} />
 
-      <GoBoard size={G.cells.length}>
+      <GoBoard size={G.size}>
         {(rowIndex: number, colIndex: number) => (
           <GoStone
             stonePlayer={G.cells[rowIndex][colIndex]}

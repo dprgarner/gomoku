@@ -1,59 +1,60 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Ctx } from 'boardgame.io';
 
-import { GameState } from './types';
+import { GameState, SetupData } from './types';
 import range from './range';
 
-const SIZE = 15;
-const MOVES_IN_A_ROW = 5;
-
-function* getRow(row: number): Generator<[number, number]> {
-  for (let column = 0; column < SIZE; column++) {
+function* getRow(size: number, row: number): Generator<[number, number]> {
+  for (let column = 0; column < size; column++) {
     yield [row, column];
   }
 }
 
-function* getColumn(column: number): Generator<[number, number]> {
-  for (let row = 0; row < SIZE; row++) {
+function* getColumn(size: number, column: number): Generator<[number, number]> {
+  for (let row = 0; row < size; row++) {
     yield [row, column];
   }
 }
 
-function* getDownLeftDiagonal(sum: number): Generator<[number, number]> {
-  for (let row = 0; row < SIZE; row++) {
+function* getDownLeftDiagonal(
+  size: number,
+  sum: number,
+): Generator<[number, number]> {
+  for (let row = 0; row < size; row++) {
     const column = sum - row;
     if (column < 0) break;
-    if (column < SIZE) yield [row, column];
+    if (column < size) yield [row, column];
   }
 }
 
 function* getDownRightDiagonal(
+  size: number,
   difference: number,
 ): Generator<[number, number]> {
-  for (let row = 0; row < SIZE; row++) {
+  for (let row = 0; row < size; row++) {
     const column = row - difference;
-    if (column >= SIZE) break;
+    if (column >= size) break;
     if (column >= 0) yield [row, column];
   }
 }
 
-function* getLinesToCheck() {
-  for (let row = 0; row < SIZE; row++) {
-    yield getRow(row);
+function* getLinesToCheck(size: number) {
+  for (let row = 0; row < size; row++) {
+    yield getRow(size, row);
   }
-  for (let column = 0; column < SIZE; column++) {
-    yield getColumn(column);
+  for (let column = 0; column < size; column++) {
+    yield getColumn(size, column);
   }
-  for (let sum = 0; sum < SIZE * 2 - 1; sum++) {
-    yield getDownLeftDiagonal(sum);
+  for (let sum = 0; sum < size * 2 - 1; sum++) {
+    yield getDownLeftDiagonal(size, sum);
   }
-  for (let difference = -SIZE + 1; difference < SIZE; difference++) {
-    yield getDownRightDiagonal(difference);
+  for (let difference = -size + 1; difference < size; difference++) {
+    yield getDownRightDiagonal(size, difference);
   }
 }
 
-function isVictory(cells: (string | null)[][], player: string) {
-  for (const line of getLinesToCheck()) {
+function isVictory({ size, movesInARow, cells }: GameState, player: string) {
+  for (const line of getLinesToCheck(size)) {
     let countersInALine = 0;
     for (const [row, column] of line) {
       if (cells[row][column] === player) {
@@ -61,7 +62,7 @@ function isVictory(cells: (string | null)[][], player: string) {
       } else {
         countersInALine = 0;
       }
-      if (countersInALine === MOVES_IN_A_ROW) {
+      if (countersInALine === movesInARow) {
         return true;
       }
     }
@@ -69,9 +70,9 @@ function isVictory(cells: (string | null)[][], player: string) {
   return false;
 }
 
-function isDraw(cells: (string | null)[][]) {
-  for (let i = 0; i < SIZE; i++) {
-    for (let j = 0; j < SIZE; j++) {
+function isDraw({ size, cells }: GameState) {
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
       if (cells[i][j] === null) {
         return false;
       }
@@ -81,14 +82,18 @@ function isDraw(cells: (string | null)[][]) {
 }
 
 const game = {
-  setup: (): GameState => {
-    const cells: GameState['cells'] = range(SIZE).map(() =>
-      range(SIZE).map(() => null),
+  setup: (
+    _ctx: Ctx,
+    { size, movesInARow }: SetupData = { size: 15, movesInARow: 5 },
+  ): GameState => {
+    const cells: GameState['cells'] = range(size).map(() =>
+      range(size).map(() => null),
     );
-    const turnNumbers: GameState['turnNumbers'] = range(SIZE).map(() =>
-      range(SIZE).map(() => null),
+    const turnNumbers: GameState['turnNumbers'] = range(size).map(() =>
+      range(size).map(() => null),
     );
-    return { cells, turnNumbers };
+
+    return { cells, turnNumbers, size, movesInARow };
   },
 
   turn: {
@@ -106,10 +111,10 @@ const game = {
   },
 
   endIf: (G: GameState, ctx: Ctx) => {
-    if (isVictory(G.cells, ctx.currentPlayer)) {
+    if (isVictory(G, ctx.currentPlayer)) {
       return { winner: ctx.currentPlayer };
     }
-    if (isDraw(G.cells)) {
+    if (isDraw(G)) {
       return { draw: true };
     }
   },

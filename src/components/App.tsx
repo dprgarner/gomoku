@@ -1,7 +1,7 @@
 import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Client } from 'boardgame.io/react';
 import { ThemeProvider } from '@material-ui/core';
+import { Client } from 'boardgame.io/react';
 
 import game from '~/game';
 
@@ -19,7 +19,6 @@ const GomokuClient = (Client as any)({
 const App = () => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-
     <Layout>
       <GomokuClient />
     </Layout>

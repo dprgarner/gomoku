@@ -1,10 +1,15 @@
-export interface GameState {
+export type SetupData = {
+  size: number;
+  movesInARow: number;
+};
+
+export type GameState = {
+  size: number;
+  movesInARow: number;
   cells: (string | null)[][];
   turnNumbers: (number | null)[][];
+};
 
-  // TODO SIZE and IN_A_ROW should live here.
-}
-
-export interface Moves {
+export type Moves = {
   clickCell(rowIndex: number, colIndex: number): void;
-}
+};

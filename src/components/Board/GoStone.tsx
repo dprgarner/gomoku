@@ -14,31 +14,39 @@ type StoneCellProps = {
   onClick: () => void;
 };
 
+type StyleProps = {
+  isEnabled: boolean;
+  hasStone: boolean;
+  cellPlayer: string | null;
+};
+
 const stoneShadow = '3px 3px 5px 0px rgba(0,0,0,0.6)';
 
+const blackStyles = {
+  background:
+    'radial-gradient(circle at bottom right, rgba(0,0,0,1) 35%, rgba(111,111,111,1) 100%)',
+  color: '#ddd',
+};
+
+const whiteStyles = {
+  background:
+    'radial-gradient(circle at top left, rgba(238,238,238,1) 65%, rgba(180,180,180,1) 90%)',
+  color: '#333',
+};
+
 const useStyles = makeStyles({
-  cell: {
+  cell: ({ isEnabled, hasStone }: StyleProps) => ({
     border: '1px solid transparent',
     padding: squareSize,
     position: 'relative',
-    opacity: 0,
-  },
-
-  enabled: {
-    '&:hover': {
-      opacity: 0.5,
-    },
-  },
-
-  isStonePlaced: {
-    opacity: 1,
+    opacity: hasStone ? 1 : 0,
 
     '&:hover': {
-      opacity: 1,
+      opacity: hasStone ? 1 : isEnabled ? 0.5 : 0,
     },
-  },
+  }),
 
-  stone: {
+  stone: ({ cellPlayer }: StyleProps) => ({
     borderRadius: squareSize,
     bottom: 0,
     left: 0,
@@ -57,19 +65,10 @@ const useStyles = makeStyles({
     '-webkit-box-shadow': stoneShadow,
     '-moz-box-shadow': stoneShadow,
     'box-shadow': stoneShadow,
-  },
 
-  white: {
-    background:
-      'radial-gradient(circle at top left, rgba(238,238,238,1) 65%, rgba(180,180,180,1) 90%)',
-    color: '#333',
-  },
-
-  black: {
-    background:
-      'radial-gradient(circle at bottom right, rgba(0,0,0,1) 35%, rgba(111,111,111,1) 100%)',
-    color: '#ddd',
-  },
+    ...(cellPlayer === '0' && blackStyles),
+    ...(cellPlayer === '1' && whiteStyles),
+  }),
 });
 
 const GoStone = ({
@@ -78,29 +77,19 @@ const GoStone = ({
   turnNumber,
   onClick,
 }: StoneCellProps) => {
-  const classes = useStyles();
-  const enabled = ghostPlayer !== null;
-  const isStonePlaced = stonePlayer !== null;
-  const cellPlayer = isStonePlaced ? stonePlayer : ghostPlayer;
+  const isEnabled = ghostPlayer !== null;
+  const hasStone = stonePlayer !== null;
+  const cellPlayer = hasStone ? stonePlayer : ghostPlayer;
+
+  const classes = useStyles({ isEnabled, hasStone, cellPlayer });
 
   return (
     <td
-      className={`
-        ${classes.cell}
-        ${enabled ? classes.enabled : ''}
-        ${isStonePlaced ? classes.isStonePlaced : ''}
-      `}
-      onClick={enabled ? onClick : undefined}
+      className={classes.cell}
+      onClick={isEnabled ? onClick : undefined}
       role="button"
     >
-      <div
-        className={`
-          ${classes.stone}
-          ${classes[cellPlayer === '1' ? 'white' : 'black']}
-        `}
-      >
-        {turnNumber}
-      </div>
+      <div className={classes.stone}>{turnNumber}</div>
     </td>
   );
 };

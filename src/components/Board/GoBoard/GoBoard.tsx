@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import GoBoardGrid from './GoBoardGrid';
 import range from '~/range';
 import { boardGridBorderWidth, squareSize } from './constants';
-
 import woodImage from './wood.jpg';
+import GoBoardGrid from './GoBoardGrid';
 
 type GoBoardProps = {
   /**
@@ -30,13 +29,14 @@ const useStyles = makeStyles((theme) => ({
     'box-shadow': boxShadow,
     margin: theme.spacing(4),
     padding: 2 * squareSize,
-  },
-
-  boardInner: {
     position: 'relative',
   },
 
-  grid: {
+  boardPositioner: {
+    position: 'relative',
+  },
+
+  interactiveGrid: {
     borderCollapse: 'collapse',
     border: `${boardGridBorderWidth}px solid transparent`,
     position: 'absolute',
@@ -47,12 +47,13 @@ const useStyles = makeStyles((theme) => ({
 
 const GoBoard = ({ children, size }: GoBoardProps) => {
   const classes = useStyles();
+
   return (
     <div className={classes.board}>
-      <div className={classes.boardInner}>
+      <div className={classes.boardPositioner}>
         <GoBoardGrid size={size} />
 
-        <table className={classes.grid}>
+        <table className={classes.interactiveGrid}>
           <tbody>
             {range(size).map((_, rowIndex) => (
               <tr key={rowIndex}>

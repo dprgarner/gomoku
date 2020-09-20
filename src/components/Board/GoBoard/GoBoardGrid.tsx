@@ -2,38 +2,12 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import range from '~/range';
-import { boardGridBorderWidth, squareSize } from './constants';
+import { boardGridBorderWidth } from './constants';
+import GoBoardCell from './GoBoardCell';
 
 type GoBoardGridProps = {
   size: number;
 };
-
-const starPointSize = 4;
-
-const useStyles = makeStyles({
-  background: {
-    borderCollapse: 'collapse',
-    border: `${boardGridBorderWidth}px solid black`,
-  },
-
-  cell: {
-    border: '1px solid black',
-    padding: squareSize,
-    position: 'relative',
-  },
-
-  starPointCell: {
-    '&:after': {
-      content: '""',
-      background: 'black',
-      position: 'absolute',
-      top: -starPointSize,
-      left: -starPointSize,
-      border: `${starPointSize}px solid black`,
-      borderRadius: starPointSize,
-    },
-  },
-});
 
 const getStarPoints = (size: number) => {
   const points: { [point: string]: true } = {};
@@ -61,26 +35,25 @@ const getStarPoints = (size: number) => {
   return points;
 };
 
-const GoBoardGrid = ({ size }: GoBoardGridProps) => {
-  const classes = useStyles();
-  const starPoints = getStarPoints(size);
+const useStyles = makeStyles({
+  backgroundGrid: {
+    border: `${boardGridBorderWidth}px solid black`,
+    borderCollapse: 'collapse',
+  },
+});
 
+const GoBoardGrid = ({ size }: GoBoardGridProps) => {
+  const starPoints = getStarPoints(size);
+  const classes = useStyles();
   return (
-    <table className={classes.background}>
+    <table className={classes.backgroundGrid}>
       <tbody>
         {range(size - 1).map((_, rowIndex) => (
           <tr key={rowIndex}>
             {range(size - 1).map((_, colIndex) => (
-              <td
+              <GoBoardCell
                 key={colIndex}
-                className={`
-                  ${classes.cell}
-                  ${
-                    starPoints[`${rowIndex}-${colIndex}`]
-                      ? classes.starPointCell
-                      : ''
-                  }
-                `}
+                hasStarPoint={!!starPoints[`${rowIndex}-${colIndex}`]}
               />
             ))}
           </tr>

@@ -12,20 +12,26 @@ type BoardProps = {
   G: GameState;
   ctx: Ctx;
   moves: Moves;
+  isActive: boolean;
+  playerID: string;
 };
 
-const Board = ({ G, ctx, moves }: BoardProps) => {
+const Board = ({ G, ctx, moves, isActive, playerID }: BoardProps) => {
   const [showNumbers, setShowNumbers] = React.useState(true);
   return (
     <>
-      <StatusPaper currentPlayer={ctx.currentPlayer} gameover={ctx.gameover} />
+      <StatusPaper
+        isActive={isActive}
+        playerID={playerID}
+        gameover={ctx.gameover}
+      />
 
       <GoBoard size={G.size}>
         {(rowIndex: number, colIndex: number) => (
           <GoStone
             stonePlayer={G.cells[rowIndex][colIndex]}
             turnNumber={showNumbers ? G.turnNumbers[rowIndex][colIndex] : null}
-            ghostPlayer={ctx.gameover ? null : ctx.currentPlayer}
+            ghostPlayer={isActive ? ctx.currentPlayer : null}
             onClick={() => moves.clickCell(rowIndex, colIndex)}
           />
         )}

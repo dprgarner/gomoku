@@ -3,23 +3,35 @@ import { Typography } from '@material-ui/core';
 import SmallPaper from './SmallPaper';
 
 type StatusPaperProps = {
-  currentPlayer: string;
+  isActive: boolean;
+  playerID: string;
   gameover?: { winner: string };
 };
 
-const gameOverText = (gameover: { winner: string }) =>
-  gameover.winner !== undefined
-    ? `${gameover.winner === '1' ? 'White' : 'Black'} has won!`
-    : 'The game is a draw.';
+type TextProps = {
+  children: React.ReactNode;
+};
 
-const currentPlayerText = (currentPlayer: string) =>
-  `It is ${currentPlayer === '1' ? "White's" : "Black's"} turn.`;
+const Text = ({ children }: TextProps) => (
+  <Typography variant="h5" component="h2">
+    {children}
+  </Typography>
+);
 
-const StatusPaper = ({ gameover, currentPlayer }: StatusPaperProps) => (
+const getStatusText = ({ isActive, playerID, gameover }: StatusPaperProps) => {
+  if (gameover) {
+    if (gameover.winner === playerID) return 'You have won!';
+    if (gameover.winner === undefined) return 'The game is a draw.';
+    return 'Your opponent has won.';
+  }
+  if (isActive) return 'It is your turn.';
+  return "It is your oppenent's turn.";
+};
+
+const StatusPaper = ({ isActive, playerID, gameover }: StatusPaperProps) => (
   <SmallPaper>
-    <Typography variant="h5" component="h2">
-      {gameover ? gameOverText(gameover) : currentPlayerText(currentPlayer)}
-    </Typography>
+    <Text>{`You are playing as ${playerID === '1' ? 'White' : 'Black'}.`}</Text>
+    <Text>{getStatusText({ isActive, playerID, gameover })}</Text>
   </SmallPaper>
 );
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Client } from 'boardgame.io/react';
+import { Local } from 'boardgame.io/multiplayer';
 
 import game from '~/game';
 
@@ -12,6 +13,7 @@ import ThemeProvider from './ThemeProvider';
 const GomokuClient = (Client as any)({
   game,
   board: Board,
+  multiplayer: Local(),
   debug: false,
 });
 
@@ -19,7 +21,8 @@ const App = () => (
   <ThemeProvider>
     <CssBaseline />
     <Layout>
-      <GomokuClient />
+      <GomokuClient playerID="0" />
+      <GomokuClient playerID="1" />
     </Layout>
   </ThemeProvider>
 );

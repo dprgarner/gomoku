@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  client:
+    build:
+      context: .
+      target: base
+    command: 'yarn start'
+    ports:
+      - 1234:1234
+      - 4321:4321
+    volumes:
+      - ./package.json:/app/package.json
+      - ./src:/app/src
+
+  server:
+    build:
+      context: .
+      target: base
+    command: 'yarn serve'
+    ports:
+      - 8000:8000
+    volumes:
+      - ./package.json:/app/package.json
+      - ./src:/app/src

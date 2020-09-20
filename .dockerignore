@@ -1,0 +1,6 @@
+.cache
+.vscode
+design
+dist_client
+dist_server
+node_modules

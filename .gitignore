@@ -1,5 +1,6 @@
 node_modules
-dist
+dist_client
+dist_server
 .cache
 .vscode
 .DS_Store

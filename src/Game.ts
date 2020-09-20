@@ -82,6 +82,8 @@ function isDraw({ size, cells }: GameState) {
 }
 
 const game = {
+  name: 'gomoku',
+
   setup: (
     _ctx: Ctx,
     { size, movesInARow }: SetupData = { size: 15, movesInARow: 5 },

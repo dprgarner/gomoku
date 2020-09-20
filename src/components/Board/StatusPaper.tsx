@@ -18,20 +18,23 @@ const Text = ({ children }: TextProps) => (
   </Typography>
 );
 
-const getStatusText = ({ isActive, playerID, gameover }: StatusPaperProps) => {
-  if (gameover) {
-    if (gameover.winner === playerID) return 'You have won!';
-    if (gameover.winner === undefined) return 'The game is a draw.';
-    return 'Your opponent has won.';
-  }
-  if (isActive) return 'It is your turn.';
-  return "It is your oppenent's turn.";
+const getGameoverText = (winner: string, playerID: string) => {
+  if (winner === playerID) return 'You have won!';
+  if (winner === undefined) return 'The game is a draw.';
+  return 'Your opponent has won.';
 };
+
+const getCurrentTurnText = (isActive: boolean) =>
+  isActive ? 'It is your turn.' : "It is your opponent's turn.";
 
 const StatusPaper = ({ isActive, playerID, gameover }: StatusPaperProps) => (
   <SmallPaper>
     <Text>{`You are playing as ${playerID === '1' ? 'White' : 'Black'}.`}</Text>
-    <Text>{getStatusText({ isActive, playerID, gameover })}</Text>
+    <Text>
+      {gameover
+        ? getGameoverText(gameover.winner, playerID)
+        : getCurrentTurnText(isActive)}
+    </Text>
   </SmallPaper>
 );
 

@@ -14,7 +14,7 @@ type BoardProps = {
   moves: Moves;
 };
 
-const Board: React.FC<BoardProps> = ({ G, ctx, moves }: BoardProps) => {
+const Board = ({ G, ctx, moves }: BoardProps) => {
   const [showNumbers, setShowNumbers] = React.useState(true);
   return (
     <>

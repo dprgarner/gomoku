@@ -9,8 +9,9 @@ import woodImage from './wood.jpg';
 
 type GoBoardProps = {
   /**
-   * Render-prop for the interactive stone components. This is done to keep
-   * GoBoard and its child components agnostic of the overall game state.
+   * Render-prop for the interactive stone components. A render prop is used to
+   * keep GoBoard and its child components agnostic of the overall game state
+   * and to separate out the presentational details of the Go Board.
    */
   children: (rowIndex: number, colIndex: number) => React.ReactNode;
   size: number;

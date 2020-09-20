@@ -46,8 +46,8 @@ const getStarPoints = (size: number) => {
 
   if (size >= 7) {
     points[`${starOffset}-${starOffset}`] = true;
-    points[`${size - 1 - starOffset}-${starOffset}`] = true;
     points[`${starOffset}-${size - 1 - starOffset}`] = true;
+    points[`${size - 1 - starOffset}-${starOffset}`] = true;
     points[`${size - 1 - starOffset}-${size - 1 - starOffset}`] = true;
   }
 

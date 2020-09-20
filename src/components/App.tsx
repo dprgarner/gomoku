@@ -1,13 +1,12 @@
 import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider } from '@material-ui/core';
 import { Client } from 'boardgame.io/react';
 
 import game from '~/game';
 
-import theme from './theme';
 import Board from './Board';
 import Layout from './Layout';
+import ThemeProvider from './ThemeProvider';
 
 // Typing is still broken for Client.board as of v0.40. :(
 const GomokuClient = (Client as any)({
@@ -17,7 +16,7 @@ const GomokuClient = (Client as any)({
 });
 
 const App = () => (
-  <ThemeProvider theme={theme}>
+  <ThemeProvider>
     <CssBaseline />
     <Layout>
       <GomokuClient />

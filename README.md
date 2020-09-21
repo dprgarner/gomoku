@@ -20,6 +20,5 @@ When running in production mode, the static files are served by the same Koa ser
 
 ## TODO
 
-- Loading state
 - Who am I?
 - What's the winning five-in-a-row?

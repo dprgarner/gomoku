@@ -15,6 +15,7 @@ import game from '~/game';
 import Board from './Board';
 import Layout from './Layout';
 import ThemeProvider from './ThemeProvider';
+import { SetLoadingBackdrop, LoadingBackdrop } from './loadingBackdrop';
 
 // Typing is still broken for Client.board as of v0.40. :(
 const GomokuClient = (Client as any)({
@@ -25,6 +26,11 @@ const GomokuClient = (Client as any)({
       process.env.NODE_ENV === 'development' ? 'localhost:8000' : undefined,
   }),
   debug: false,
+  // For a smoother animation effect and a less jarring transition, the loading
+  // backdrop is split into two components. The SetLoadingBackdrop component
+  // triggers the loading effect via context; the LoadingBackdrop component
+  // listens.
+  loading: SetLoadingBackdrop,
 });
 
 const RoutedGomokuClient = () => {
@@ -32,7 +38,12 @@ const RoutedGomokuClient = () => {
     matchID: string;
     playerID: string;
   }>();
-  return <GomokuClient playerID={playerID} matchID={matchID} />;
+
+  return (
+    <LoadingBackdrop>
+      <GomokuClient playerID={playerID} matchID={matchID} />
+    </LoadingBackdrop>
+  );
 };
 
 const choose = (n: number) => Math.floor(Math.random() * n);

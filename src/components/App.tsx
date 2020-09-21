@@ -10,6 +10,7 @@ import {
   useParams,
 } from 'react-router-dom';
 
+import choose from '~/choose';
 import game from '~/game';
 
 import Board from './Board';
@@ -45,8 +46,6 @@ const RoutedGomokuClient = () => {
     </LoadingBackdrop>
   );
 };
-
-const choose = (n: number) => Math.floor(Math.random() * n);
 
 const App = () => {
   const randomGame = choose(100);

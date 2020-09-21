@@ -26,7 +26,8 @@ const Board = ({
   playerID,
   isConnected,
 }: BoardProps) => {
-  const [showNumbers, setShowNumbers] = React.useState(true);
+  const [showNumbers, setShowNumbers] = React.useState(false);
+
   return (
     <>
       {!isConnected && <SetLoadingBackdrop />}

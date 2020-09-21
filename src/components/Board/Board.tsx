@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Ctx } from 'boardgame.io';
 
 import { GameState, Moves } from '~/types';
+import { SetLoadingBackdrop } from '~/components/loadingBackdrop';
 
 import StatusPaper from './StatusPaper';
 import GoBoard from './GoBoard';
@@ -13,13 +14,23 @@ type BoardProps = {
   ctx: Ctx;
   moves: Moves;
   isActive: boolean;
+  isConnected: boolean;
   playerID: string;
 };
 
-const Board = ({ G, ctx, moves, isActive, playerID }: BoardProps) => {
+const Board = ({
+  G,
+  ctx,
+  moves,
+  isActive,
+  playerID,
+  isConnected,
+}: BoardProps) => {
   const [showNumbers, setShowNumbers] = React.useState(true);
   return (
     <>
+      {!isConnected && <SetLoadingBackdrop />}
+
       <StatusPaper
         isActive={isActive}
         playerID={playerID}

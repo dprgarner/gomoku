@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Backdrop, CircularProgress, makeStyles } from '@material-ui/core';
 
 const LoadingCallbackContext = React.createContext({
-  setIsLoading: (_isLoading: boolean) => {},
+  setLoadingCount: (_callback: (count: number) => number) => {},
 });
 
 type LoadingBackdropProps = {
@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const LoadingBackdrop = ({ children }: LoadingBackdropProps) => {
   const classes = useStyles();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [loadingCount, setLoadingCount] = React.useState(0);
 
   return (
-    <LoadingCallbackContext.Provider value={{ setIsLoading }}>
-      <Backdrop className={classes.backdrop} open={isLoading}>
+    <LoadingCallbackContext.Provider value={{ setLoadingCount }}>
+      <Backdrop className={classes.backdrop} open={!!loadingCount}>
         <CircularProgress color="inherit" />
       </Backdrop>
       {children}
@@ -32,19 +32,25 @@ export const LoadingBackdrop = ({ children }: LoadingBackdropProps) => {
 
 const delayBeforeOpening = 1000;
 
-export const SetLoadingBackdrop = () => {
-  const { setIsLoading } = React.useContext(LoadingCallbackContext);
+/**
+ * If any components with this hook are mounted, a full-page loading backdrop with a spinner appears.
+ */
+const useSetLoadingBackdrop = () => {
+  const { setLoadingCount } = React.useContext(LoadingCallbackContext);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      setIsLoading(true);
+      setLoadingCount((count: number) => count + 1);
     }, delayBeforeOpening);
 
     return () => {
       clearTimeout(timeout);
-      setIsLoading(false);
+      setLoadingCount((count: number) => Math.max(count - 1, 0));
     };
   }, []);
+};
 
+export const SetLoadingBackdrop = () => {
+  useSetLoadingBackdrop();
   return null;
 };

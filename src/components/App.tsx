@@ -2,35 +2,31 @@ import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Client } from 'boardgame.io/react';
 import { SocketIO } from 'boardgame.io/multiplayer';
-import {
-  BrowserRouter,
-  Route,
-  Redirect,
-  Switch,
-  useParams,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useParams } from 'react-router-dom';
 
-import choose from '~/choose';
 import game from '~/game';
 
 import Board from './Board';
 import Layout from './Layout';
 import ThemeProvider from './ThemeProvider';
-import { SetLoadingBackdrop, LoadingBackdrop } from './loadingBackdrop';
+import SetLoadingBackdrop from './loading/SetLoadingBackdrop';
+import LoadingBackdrop from './loading/LoadingBackdrop';
+
+const server =
+  process.env.NODE_ENV === 'development' ? '//localhost:8000' : undefined;
 
 // Typing is still broken for Client.board as of v0.40. :(
 const GomokuClient = (Client as any)({
   game,
   board: Board,
   multiplayer: SocketIO({
-    server:
-      process.env.NODE_ENV === 'development' ? 'localhost:8000' : undefined,
+    server,
   }),
   debug: false,
   // For a smoother animation effect and a less jarring transition, the loading
   // backdrop is split into two components. The SetLoadingBackdrop component
   // triggers the loading effect via context; the LoadingBackdrop component
-  // listens.
+  // listens and renders the backdrop.
   loading: SetLoadingBackdrop,
 });
 
@@ -47,9 +43,9 @@ const RoutedGomokuClient = () => {
   );
 };
 
+const Lobby = () => null;
+
 const App = () => {
-  const randomGame = choose(100);
-  const randomPlayer = choose(2);
   return (
     <BrowserRouter>
       <ThemeProvider>
@@ -60,7 +56,7 @@ const App = () => {
               <RoutedGomokuClient />
             </Route>
             <Route>
-              <Redirect to={`/match/${randomGame}/player/${randomPlayer}`} />
+              <Lobby />
             </Route>
           </Switch>
         </Layout>

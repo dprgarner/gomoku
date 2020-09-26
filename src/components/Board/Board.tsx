@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Ctx } from 'boardgame.io';
 
 import { GameState, Moves } from '~/types';
-import { SetLoadingBackdrop } from '~/components/loadingBackdrop';
+import SetLoadingBackdrop from '~/components/loading/SetLoadingBackdrop';
 
 import StatusPaper from './StatusPaper';
 import GoBoard from './GoBoard';

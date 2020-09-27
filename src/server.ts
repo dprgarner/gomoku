@@ -9,9 +9,14 @@ const distClient = path.resolve(__dirname, '..', 'dist_client');
 const serveStaticFiles = process.env.NODE_ENV === 'production';
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 
-const db = new PostgresStore(process.env.DATABASE_URL);
+const db = new PostgresStore(process.env.DATABASE_URL, {
+  logging: () => {},
+});
 
-const server = Server({ games: [game], db });
+const server = Server({
+  games: [game],
+  db,
+});
 
 if (serveStaticFiles) {
   server.app.use(serve(distClient));

@@ -85,9 +85,19 @@ const game = {
   name: 'gomoku',
 
   setup: (
-    _ctx: Ctx,
+    ctx: Ctx,
     { size, movesInARow }: SetupData = { size: 15, movesInARow: 5 },
   ): GameState => {
+    if (ctx.numPlayers !== 2) {
+      throw new Error('Invalid number of players');
+    }
+    if (!size || size < 9) {
+      throw new Error('Invalid board size');
+    }
+    if (!movesInARow) {
+      throw new Error('Invalid moves in a row');
+    }
+
     const cells: GameState['cells'] = range(size).map(() =>
       range(size).map(() => null),
     );

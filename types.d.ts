@@ -8,8 +8,10 @@ declare module '*.jpg' {
 
 declare var process: {
   env: {
+    APP_URL: string;
+    FIREBASE_CONFIG: string;
     NODE_ENV: 'development' | 'production';
-    PORT?: string;
     DATABASE_URL: string;
+    PORT?: string;
   };
 };

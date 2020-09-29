@@ -18,17 +18,25 @@ When running in production mode, the static files are served by the same Koa ser
 > docker-compose -f docker-compose.prod.yml up
 ```
 
+## Required .env variables
+
+- APP_URL
+- All of Firebase config...
+
 ## TODO
 
+- Finish Firebase stuff
+- Fix docker rebuilding
+- Log out
+- Profile/delet this page
+- Privacy Policy ☹️
 - Lobby
-- Who am I?
 - What's the winning five-in-a-row?
 
 ### Flow 1: Start game as an authenticated user
 
 - Navigate to /
-- Log in to auth. provider (Google? Pop-up?)
-- Add something identifying the user's SSO to... localStorage?
+- Log in to auth. provider (Firebase)
 - Choose "Create Game"
 - Pick options (board size, listed, numPlayers=2, black or white)
 - Game is created
@@ -40,8 +48,7 @@ When running in production mode, the static files are served by the same Koa ser
 ### Flow 2: Join game as an authenticated user
 
 - Navigate to /
-- Log in to auth. provider (Google? Pop-up?)
-- Add something identifying the user's SSO to... localStorage?
+- Log in to auth. provider (Firebase)
 - Choose existing listed game
 - Game is joined
 - Navigate to /game/...

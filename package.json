@@ -15,6 +15,7 @@
   "dependencies": {
     "bgio-postgres": "^1.0.8",
     "boardgame.io": "^0.40.0",
+    "firebase": "^7.21.1",
     "koa-static": "^5.0.0"
   },
   "devDependencies": {
@@ -26,7 +27,9 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
     "babel-plugin-module-resolver": "^4.0.0",
+    "firebaseui": "^4.6.1",
     "parcel-bundler": "^1.12.4",
+    "posthtml-expressions": "^1.5.0",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

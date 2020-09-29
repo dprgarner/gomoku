@@ -1,9 +1,7 @@
 import * as React from 'react';
 import LoadingCallbackContext from './LoadingCallbackContext';
 
-const delayBeforeOpening = 1000;
-
-const useSetLoadingBackdrop = () => {
+const useSetLoadingBackdrop = (delayBeforeOpening: number) => {
   const { setLoadingCount } = React.useContext(LoadingCallbackContext);
 
   React.useEffect(() => {
@@ -15,15 +13,15 @@ const useSetLoadingBackdrop = () => {
       clearTimeout(timeout);
       setLoadingCount((count: number) => Math.max(count - 1, 0));
     };
-  }, []);
+  }, [delayBeforeOpening]);
 };
 
 /**
  * If any instances of this component are mounted, a full-page loading backdrop
  * with a spinner appears.
  */
-const SetLoadingBackdrop = () => {
-  useSetLoadingBackdrop();
+const SetLoadingBackdrop = ({ delayBeforeOpening = 1000 } = {}) => {
+  useSetLoadingBackdrop(delayBeforeOpening);
   return null;
 };
 

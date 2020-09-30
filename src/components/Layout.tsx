@@ -7,9 +7,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   boardContainer: {
+    alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    padding: theme.spacing(4),
   },
 }));
 
@@ -29,7 +30,7 @@ const Layout = ({ children }: LayoutProps) => {
 
       <Container
         component="main"
-        maxWidth="md"
+        maxWidth="lg"
         className={classes.boardContainer}
       >
         <>{children}</>

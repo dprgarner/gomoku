@@ -32,6 +32,7 @@ When running in production mode, the static files are served by the same Koa ser
 - Privacy Policy ☹️
 - Lobby
 - What's the winning five-in-a-row?
+- Primary colour is a bit too intense. Perhaps keep banner as-is but make primary slightly dimmer?
 
 ### Flow 1: Start game as an authenticated user
 

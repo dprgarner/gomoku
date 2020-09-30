@@ -9,13 +9,17 @@ import GomokuClientContainer from './GomokuClientContainer';
 import { useFirebaseUser, Login } from './firebase';
 
 import SetLoadingBackdrop from './loading/SetLoadingBackdrop';
+import WelcomePage from './WelcomePage';
+import Lobby from './Lobby';
 
-const Lobby = () => {
-  const { user, isLoading } = useFirebaseUser();
-  if (isLoading) return <SetLoadingBackdrop />;
-  if (!user) return <Redirect to="/login" />;
-  return <>{`Welcome, ${user.displayName || 'friend'}`}</>;
-};
+// const Lobby = () => {
+//   const { user, isLoading } = useFirebaseUser();
+//   if (isLoading) return <SetLoadingBackdrop />;
+//   if (!user) return <Redirect to="/login" />;
+//   return <>{`Welcome, ${user.displayName || 'friend'}`}</>;
+// };
+
+const FakeLogin = () => <>{'fake login'}</>;
 
 const App = () => {
   return (
@@ -31,8 +35,14 @@ const App = () => {
               <Route path="/login">
                 <Login />
               </Route>
-              <Route>
+              <Route path="/fake-lobby">
                 <Lobby />
+              </Route>
+              <Route path="/fake-login">
+                <FakeLogin />
+              </Route>
+              <Route path="/" exact>
+                <WelcomePage />
               </Route>
             </Switch>
           </Layout>

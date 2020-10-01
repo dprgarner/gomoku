@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 
-type BaseLoginButtonProps = {
+export type BaseLoginButtonProps = {
   color: 'primary' | 'secondary' | 'white';
   icon: React.ReactNode;
+  noDelay?: boolean;
   text: string;
   onClick: () => void;
 };
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const BaseLoginButton = ({
   color,
   icon,
+  noDelay,
   text,
   onClick,
 }: BaseLoginButtonProps) => {
@@ -44,11 +46,15 @@ const BaseLoginButton = ({
       color={buttonColor}
       startIcon={icon}
       size="large"
-      onClick={() => {
-        setTimeout(() => {
-          onClick();
-        }, 350);
-      }}
+      onClick={
+        noDelay
+          ? onClick
+          : () => {
+              setTimeout(() => {
+                onClick();
+              }, 350);
+            }
+      }
       variant="contained"
     >
       <span className={classes.buttonText}>{text}</span>

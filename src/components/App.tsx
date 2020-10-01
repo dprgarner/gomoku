@@ -10,16 +10,34 @@ import { useFirebaseUser } from './firebase';
 
 import SetLoadingBackdrop from './loading/SetLoadingBackdrop';
 import LoginPage from './LoginPage';
-import Lobby from './Lobby';
+import FakeLobby from './Lobby';
 
-// const Lobby = () => {
-//   const { user, isLoading } = useFirebaseUser();
-//   if (isLoading) return <SetLoadingBackdrop />;
-//   if (!user) return <Redirect to="/login" />;
-//   return <>{`Welcome, ${user.displayName || 'friend'}`}</>;
-// };
+type UserProps = {
+  children: (user: firebase.User) => React.ReactElement;
+};
 
-const FakeLogin = () => <>{'fake login'}</>;
+/**
+ * A function-as-child component for rendering the child component with the user
+ * when logged-in.
+ * Not a hook because the child should only be rendered when there is a user.
+ */
+const GetUser = ({ children }: UserProps) => {
+  const { user, isLoading } = useFirebaseUser();
+  if (isLoading) return <SetLoadingBackdrop />;
+  if (!user) return <Redirect to="/login" />;
+  return children(user);
+};
+
+const LobbyPage = () => (
+  <GetUser>
+    {(user) => (
+      <>
+        {`Welcome, ${user.displayName || 'friend'}`}
+        <FakeLobby />
+      </>
+    )}
+  </GetUser>
+);
 
 const App = () => {
   return (
@@ -32,14 +50,11 @@ const App = () => {
               <Route path="/match/:matchID/player/:playerID">
                 <GomokuClientContainer />
               </Route>
-              <Route path="/fake-lobby">
-                <Lobby />
-              </Route>
-              <Route path="/fake-login">
-                <FakeLogin />
+              <Route path="/login">
+                <LoginPage />
               </Route>
               <Route path="/" exact>
-                <LoginPage />
+                <LobbyPage />
               </Route>
             </Switch>
           </Layout>

@@ -25,10 +25,12 @@ When running in production mode, the static files are served by the same Koa ser
 
 ## TODO
 
-- Finish Firebase stuff
-- Fix docker rebuilding
-- Log out
-- Profile/delet this page
+- More Firebase stuff
+- Figure out how to do global firebase stuff. Initialise in entry point? Or Provider?
+- Email should be split up by create vs. login
+- Find setState memory leak. Probably in FadeIn.
+- Log out should only appear when not anonymous
+- Profile page/delete this page
 - Privacy Policy ☹️
 - Lobby
 - What's the winning five-in-a-row?

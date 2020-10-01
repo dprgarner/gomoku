@@ -2,36 +2,33 @@ import * as React from 'react';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import EmailIcon from '@material-ui/icons/Email';
 
-import BaseLoginButton from './BaseLoginButton';
+import BaseLoginButton, { BaseLoginButtonProps } from './BaseLoginButton';
 import Google from './Google.svg';
 
-type LoginButtonProps = {
-  onClick: () => void;
-};
+type LoginButtonProps = Omit<BaseLoginButtonProps, 'color' | 'icon' | 'text'>;
 
-export const EmailLoginButton = ({ onClick }: LoginButtonProps) => (
+export const EmailLoginButton = (props: LoginButtonProps) => (
   <BaseLoginButton
     color="primary"
     icon={<EmailIcon fontSize="large" />}
     text="Sign in with email"
-    onClick={onClick}
+    {...props}
   />
 );
 
-export const GoogleLoginButton = ({ onClick }: LoginButtonProps) => (
+export const GoogleLoginButton = (props: LoginButtonProps) => (
   <BaseLoginButton
     color="white"
     icon={<Google />}
     text="Sign in with Google"
-    onClick={onClick}
+    {...props}
   />
 );
-
-export const AnonymousLoginButton = ({ onClick }: LoginButtonProps) => (
+export const AnonymousLoginButton = (props: LoginButtonProps) => (
   <BaseLoginButton
     color="secondary"
     icon={<PersonOutlineIcon fontSize="large" />}
     text="Play anonymously"
-    onClick={onClick}
+    {...props}
   />
 );

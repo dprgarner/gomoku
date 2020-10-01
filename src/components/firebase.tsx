@@ -38,7 +38,7 @@ export const useFirebaseUser = () => {
   return { user, isLoading };
 };
 
-export const Login = () => {
+const FirebaseUILogin = () => {
   React.useEffect(() => {
     ui.start('#fb', uiConfig);
 

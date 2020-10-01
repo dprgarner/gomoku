@@ -6,10 +6,10 @@ import Layout from './Layout';
 import ThemeProvider from './ThemeProvider';
 import LoadingBackdrop from './loading/LoadingBackdrop';
 import GomokuClientContainer from './GomokuClientContainer';
-import { useFirebaseUser, Login } from './firebase';
+import { useFirebaseUser } from './firebase';
 
 import SetLoadingBackdrop from './loading/SetLoadingBackdrop';
-import WelcomePage from './WelcomePage';
+import LoginPage from './LoginPage';
 import Lobby from './Lobby';
 
 // const Lobby = () => {
@@ -32,9 +32,6 @@ const App = () => {
               <Route path="/match/:matchID/player/:playerID">
                 <GomokuClientContainer />
               </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
               <Route path="/fake-lobby">
                 <Lobby />
               </Route>
@@ -42,7 +39,7 @@ const App = () => {
                 <FakeLogin />
               </Route>
               <Route path="/" exact>
-                <WelcomePage />
+                <LoginPage />
               </Route>
             </Switch>
           </Layout>

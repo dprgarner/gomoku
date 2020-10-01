@@ -33,6 +33,7 @@ When running in production mode, the static files are served by the same Koa ser
 - Lobby
 - What's the winning five-in-a-row?
 - Primary colour is a bit too intense. Perhaps keep banner as-is but make primary slightly dimmer?
+- More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
 
 ### Flow 1: Start game as an authenticated user
 

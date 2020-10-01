@@ -6,6 +6,14 @@ declare module '*.jpg' {
   export = value;
 }
 
+declare module '*.svg' {
+  /**
+   * Resolves to an SVG element.
+   */
+  const value: React.FC<React.HTMLProps<React.ReactSVGElement>>;
+  export = value;
+}
+
 declare var process: {
   env: {
     APP_URL: string;

@@ -3,9 +3,13 @@ import { makeStyles, Paper, Typography } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
-import FadeIn from '../FadeIn';
+import FadeIn from '~/components/FadeIn';
 
-import { AnonymousLoginButton, GoogleLoginButton } from './loginButtons';
+import {
+  AnonymousLoginButton,
+  EmailLoginButton,
+  GoogleLoginButton,
+} from './loginButtons';
 import EmailLoginModal from './EmailLoginModal';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +38,7 @@ const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const redirectDestination = useRedirectDestination();
+  const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
 
   const redirect = () => {
     history.push(redirectDestination);
@@ -47,7 +52,12 @@ const LoginPage = () => {
             {'Welcome, friend'}
           </Typography>
 
-          <EmailLoginModal onLoginComplete={redirect} />
+          <EmailLoginButton noDelay onClick={() => setIsEmailModalOpen(true)} />
+          <EmailLoginModal
+            isOpen={isEmailModalOpen}
+            onClose={() => setIsEmailModalOpen(false)}
+            onLoginComplete={redirect}
+          />
 
           <GoogleLoginButton
             onClick={async () => {

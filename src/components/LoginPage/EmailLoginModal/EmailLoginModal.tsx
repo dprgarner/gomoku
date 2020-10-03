@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Paper, Backdrop, Modal } from '@material-ui/core';
 
-import FadeIn from '../../FadeIn';
-import { EmailLoginButton } from '../loginButtons';
+import FadeIn from '~/components/FadeIn';
 import EmailForm from './EmailForm';
 
 const useStyles = makeStyles(() => ({
@@ -25,48 +24,39 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
   },
-
-  spinner: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    margin: -12,
-  },
 }));
 
 type Props = {
+  isOpen: boolean;
+  onClose: () => void;
   onLoginComplete: () => void;
 };
 
-const EmailLoginModal = ({ onLoginComplete }: Props) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+const EmailLoginModal = ({ isOpen, onClose, onLoginComplete }: Props) => {
   const classes = useStyles();
 
   return (
-    <>
-      <EmailLoginButton noDelay onClick={() => setIsOpen(true)} />
-      <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{ timeout: 350 }}
-      >
-        <div className={classes.emailBody}>
-          <FadeIn>
-            <Paper elevation={3} className={classes.paper}>
-              <form className={classes.form}>
-                <EmailForm
-                  onCancel={() => setIsOpen(false)}
-                  onError={() => setIsOpen(false)}
-                  onLoginComplete={onLoginComplete}
-                />
-              </form>
-            </Paper>
-          </FadeIn>
-        </div>
-      </Modal>
-    </>
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{ timeout: 350 }}
+    >
+      <div className={classes.emailBody}>
+        <FadeIn>
+          <Paper elevation={3} className={classes.paper}>
+            <form className={classes.form}>
+              <EmailForm
+                onCancel={onClose}
+                onError={onClose}
+                onLoginComplete={onLoginComplete}
+              />
+            </form>
+          </Paper>
+        </FadeIn>
+      </div>
+    </Modal>
   );
 };
 

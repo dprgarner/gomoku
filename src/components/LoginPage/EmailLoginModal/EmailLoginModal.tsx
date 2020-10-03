@@ -2,7 +2,16 @@ import * as React from 'react';
 import { makeStyles, Paper, Backdrop, Modal } from '@material-ui/core';
 
 import FadeIn from '~/components/FadeIn';
-import EmailForm from './EmailForm';
+
+import EmailAddressView from './EmailAddressView';
+import CreateUserView from './CreateUserView';
+import EmailExistsView from './EmailExistsView';
+
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+  onLoginComplete: () => void;
+};
 
 const useStyles = makeStyles(() => ({
   emailBody: {
@@ -19,21 +28,20 @@ const useStyles = makeStyles(() => ({
     pointerEvents: 'auto',
     width: 400,
   },
-
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
 }));
 
-type Props = {
-  isOpen: boolean;
-  onClose: () => void;
-  onLoginComplete: () => void;
-};
+type View = 'EMAIL' | 'CREATE' | 'EXISTS';
 
 const EmailLoginModal = ({ isOpen, onClose, onLoginComplete }: Props) => {
   const classes = useStyles();
+  const [view, setView] = React.useState<View>('EMAIL');
+  const [email, setEmail] = React.useState('');
+
+  const viewProps = {
+    email: email,
+    onError: onClose,
+    onChangeEmail: setEmail,
+  };
 
   return (
     <Modal
@@ -46,13 +54,27 @@ const EmailLoginModal = ({ isOpen, onClose, onLoginComplete }: Props) => {
       <div className={classes.emailBody}>
         <FadeIn>
           <Paper elevation={3} className={classes.paper}>
-            <form className={classes.form}>
-              <EmailForm
-                onCancel={onClose}
-                onError={onClose}
-                onLoginComplete={onLoginComplete}
+            {view === 'EMAIL' && (
+              <EmailAddressView
+                onBack={onClose}
+                onNext={(view) => setView(view)}
+                {...viewProps}
               />
-            </form>
+            )}
+            {view === 'CREATE' && (
+              <CreateUserView
+                onBack={() => setView('EMAIL')}
+                onNext={onLoginComplete}
+                {...viewProps}
+              />
+            )}
+            {view === 'EXISTS' && (
+              <EmailExistsView
+                onBack={() => setView('EMAIL')}
+                onNext={onLoginComplete}
+                {...viewProps}
+              />
+            )}
           </Paper>
         </FadeIn>
       </div>

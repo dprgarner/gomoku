@@ -1,62 +1,108 @@
 import * as React from 'react';
+import * as firebase from 'firebase/app';
 
-import { EmailFormState, EmailFormDispatch } from './useEmailFormReducer';
+import { useUpdateProfile } from '~/components/firebaseUser';
+
 import Field from './Field';
 import NavButtons from './NavButtons';
 import Title from './Title';
+import Form from './Form';
 
 type Props = {
-  state: EmailFormState;
-  dispatch: EmailFormDispatch;
-  onCancel: () => void;
+  email: string;
+  onBack: () => void;
+  onChangeEmail: (email: string) => void;
+  onError: () => void;
+  onNext: () => void;
 };
 
-const CreateUserView = ({ state, dispatch, onCancel }: Props) => (
-  <>
-    <Title>{'Choose an email address and password'}</Title>
+const CreateUserView = ({
+  email,
+  onChangeEmail,
+  onBack,
+  onError,
+  onNext,
+}: Props) => {
+  const [password, setPassword] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [emailError, setEmailError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState('');
 
-    <Field
-      autoComplete="email"
-      error={state.errors.email}
-      focusOnMount
-      label="Email"
-      onChange={(email) => dispatch({ type: 'SET_EMAIL', email })}
-      type="text"
-      value={state.email}
-    />
+  const updateProfile = useUpdateProfile();
 
-    <Field
-      autoComplete="password"
-      error={state.errors.password}
-      focusOnMount
-      label="Password"
-      onChange={(password) => dispatch({ type: 'SET_PASSWORD', password })}
-      type="password"
-      value={state.password}
-    />
+  const handleNext = async () => {
+    try {
+      setIsLoading(true);
+      setEmailError('');
+      setPasswordError('');
 
-    <Field
-      autoComplete="name"
-      label="Display Name"
-      onChange={(name) => dispatch({ type: 'SET_NAME', name })}
-      type="text"
-      value={state.name}
-    />
+      const { user } = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
 
-    <NavButtons
-      nextText="Create Account"
-      isLoading={!!state.createAccountDetails}
-      onCancel={onCancel}
-      onNext={() =>
-        dispatch({
-          type: 'CREATE_ACCOUNT',
-          email: state.email,
-          password: state.password,
-          name: state.name,
-        })
+      if (!user) {
+        return onError();
       }
-    />
-  </>
-);
+      if (name) {
+        await updateProfile({ displayName: name });
+      }
+      onNext();
+    } catch (e) {
+      setIsLoading(false);
+      if (
+        e?.code === 'auth/invalid-email' ||
+        e?.code === 'auth/email-already-in-use'
+      ) {
+        setEmailError(e.message);
+      } else if (e?.code === 'auth/weak-password') {
+        setPasswordError(e.message);
+      } else {
+        onError();
+      }
+    }
+  };
+
+  return (
+    <Form onSubmit={handleNext}>
+      <Title>{'Choose an email address and password'}</Title>
+
+      <Field
+        autoComplete="email"
+        error={emailError}
+        focusOnMount
+        label="Email"
+        onChange={onChangeEmail}
+        type="text"
+        value={email}
+      />
+
+      <Field
+        autoComplete="password"
+        error={passwordError}
+        focusOnMount
+        label="Password"
+        onChange={setPassword}
+        type="password"
+        value={password}
+      />
+
+      <Field
+        autoComplete="name"
+        label="Display Name"
+        onChange={setName}
+        type="text"
+        value={name}
+      />
+
+      <NavButtons
+        backText="Go back"
+        nextText="Create Account"
+        isLoading={isLoading}
+        onBack={onBack}
+      />
+    </Form>
+  );
+};
 
 export default CreateUserView;

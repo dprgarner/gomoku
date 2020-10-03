@@ -14,51 +14,8 @@ import ThemeProvider from './ThemeProvider';
 import LoadingBackdrop from './loading/LoadingBackdrop';
 import GomokuClient from './GomokuClient';
 import { FirebaseUserProvider, useFirebaseUser } from './firebaseUser';
-
 import LoginPage from './LoginPage';
-import FakeLobby from './Lobby';
-
-type UserProps = {
-  children: (user: firebase.User) => React.ReactElement;
-};
-
-/**
- * A function-as-child component for rendering the child component with the user
- * when logged-in.
- * Not a hook because the child should only be rendered when there is a user.
- */
-const GetUser = ({ children }: UserProps) => {
-  const user = useFirebaseUser();
-  const location = useLocation();
-
-  if (!user) {
-    const redirectPath = createPath(location);
-    return (
-      <Redirect to={`/login?redirect=${encodeURIComponent(redirectPath)}`} />
-    );
-  }
-  return children(user);
-};
-
-const LobbyPage = () => (
-  <GetUser>
-    {(user) => (
-      <>
-        {`Welcome, ${user.displayName || 'friend'}`}
-        <FakeLobby />
-      </>
-    )}
-  </GetUser>
-);
-
-type MatchPlayerParams = {
-  match: {
-    params: {
-      matchID: string;
-      playerID: string;
-    };
-  } | null;
-};
+import LobbyPage from './LobbyPage';
 
 const Providers: React.FC = ({ children }) => (
   <FirebaseUserProvider>
@@ -69,6 +26,33 @@ const Providers: React.FC = ({ children }) => (
     </BrowserRouter>
   </FirebaseUserProvider>
 );
+
+type CheckLoggedInProps = {
+  children: React.ReactElement;
+};
+
+const CheckLoggedIn = ({ children }: CheckLoggedInProps) => {
+  const user = useFirebaseUser();
+  const location = useLocation();
+
+  if (!user) {
+    const redirectPath = createPath(location);
+    return (
+      <Redirect to={`/login?redirect=${encodeURIComponent(redirectPath)}`} />
+    );
+  }
+
+  return children;
+};
+
+type MatchPlayerParams = {
+  match: {
+    params: {
+      matchID: string;
+      playerID: string;
+    };
+  } | null;
+};
 
 const App = () => {
   return (
@@ -83,20 +67,20 @@ const App = () => {
           <Route path="/match/:matchID/player/:playerID">
             {({ match }: MatchPlayerParams) =>
               match && (
-                <GetUser>
-                  {() => (
-                    <GomokuClient
-                      matchID={match.params.matchID}
-                      playerID={match.params.playerID}
-                    />
-                  )}
-                </GetUser>
+                <CheckLoggedIn>
+                  <GomokuClient
+                    matchID={match.params.matchID}
+                    playerID={match.params.playerID}
+                  />
+                </CheckLoggedIn>
               )
             }
           </Route>
 
           <Route path="/" exact>
-            <LobbyPage />
+            <CheckLoggedIn>
+              <LobbyPage />
+            </CheckLoggedIn>
           </Route>
         </Switch>
       </Layout>

@@ -1,37 +1,70 @@
 import * as React from 'react';
+import * as firebase from 'firebase/app';
 
-import { EmailFormState, EmailFormDispatch } from './useEmailFormReducer';
 import Field from './Field';
 import NavButtons from './NavButtons';
 import Title from './Title';
+import Form from './Form';
 
 type Props = {
-  state: EmailFormState;
-  dispatch: EmailFormDispatch;
-  onCancel: () => void;
+  email: string;
+  onBack: () => void;
+  onChangeEmail: (email: string) => void;
+  onNext: (view: 'EXISTS' | 'CREATE') => void;
+  onError: () => void;
 };
 
-const EmailAddressView = ({ state, dispatch, onCancel }: Props) => (
-  <>
-    <Title>Enter your email address</Title>
+const EmailAddressView = ({
+  email,
+  onBack,
+  onChangeEmail,
+  onError,
+  onNext,
+}: Props) => {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [emailError, setEmailError] = React.useState('');
 
-    <Field
-      autoComplete="email"
-      error={state.errors.email}
-      focusOnMount
-      label="Email"
-      onChange={(email) => dispatch({ type: 'SET_EMAIL', email })}
-      type="text"
-      value={state.email}
-    />
+  const handleNext = async () => {
+    try {
+      setIsLoading(true);
+      setEmailError('');
 
-    <NavButtons
-      nextText="Next"
-      isLoading={!!state.emailToCheck}
-      onCancel={onCancel}
-      onNext={() => dispatch({ type: 'CHECK_EMAIL', email: state.email })}
-    />
-  </>
-);
+      const methods = await firebase.auth().fetchSignInMethodsForEmail(email);
+
+      const nextView = methods.includes('password') ? 'EXISTS' : 'CREATE';
+      onNext(nextView);
+    } catch (e) {
+      setIsLoading(false);
+      if (e?.code === 'auth/invalid-email') {
+        setEmailError(e.message);
+      } else {
+        onError();
+      }
+    }
+  };
+
+  return (
+    <Form onSubmit={handleNext}>
+      <Title>Enter your email address</Title>
+
+      <Field
+        autoComplete="email"
+        error={emailError}
+        focusOnMount
+        label="Email"
+        onChange={onChangeEmail}
+        type="text"
+        value={email}
+      />
+
+      <NavButtons
+        backText="Cancel"
+        nextText="Next"
+        isLoading={isLoading}
+        onBack={onBack}
+      />
+    </Form>
+  );
+};
 
 export default EmailAddressView;

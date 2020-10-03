@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid, ThemeProvider } from '@material-ui/core';
 import FadeIn from './FadeIn';
+import { useFirebaseUser } from './firebaseUser';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {
@@ -26,19 +27,6 @@ const useStyles = makeStyles((theme) => ({
     height: 140,
   },
 }));
-
-/*
-What goes on a game card?
-- Is it in progress? (Not known)
-- One or two players?
-- Names of players?
-- Moves played?
-- "Join" button?
-- "Watch" button?
-- Listed? (We know this)
-- Board size? (Who cares?)
-- Free space?
-*/
 
 const PlaceholderCard = () => {
   const classes = useStyles();
@@ -76,10 +64,13 @@ const PlaceholderCard = () => {
 };
 
 const Lobby = () => {
+  const user = useFirebaseUser();
   const classes = useStyles();
+
   return (
     <FadeIn>
       <div className={classes.lobby}>
+        {`Welcome, ${user?.displayName || 'friend'}`}
         <div className={classes.buttonContainer}>
           <Button variant="contained" size="large" color="primary">
             Create new game

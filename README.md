@@ -27,11 +27,24 @@ When running in production mode, the static files are served by the same Koa ser
 
 ### With Firebase
 
-- The Layout component didn't update when I logged in but the lobby cpt did. Why?
 - What does /login do if already logged in?
   - Log-in page hides options that are already available?
   - Or redirect to a new page?
 - Upgrade from anon to tracked user
+
+### Lobby card
+
+What goes on a game card?
+
+- Is it in progress? (Not known)
+- One or two players?
+- Names of players?
+- Moves played?
+- "Join" button?
+- "Watch" button?
+- Listed? (We know this)
+- Board size? (Who cares?)
+- Free space?
 
 ### UI
 

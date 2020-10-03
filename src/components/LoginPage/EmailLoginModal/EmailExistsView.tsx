@@ -1,53 +1,85 @@
 import * as React from 'react';
+import * as firebase from 'firebase/app';
 
-import { EmailFormState, EmailFormDispatch } from './useEmailFormReducer';
 import Field from './Field';
 import NavButtons from './NavButtons';
 import Title from './Title';
+import Form from './Form';
 
 type Props = {
-  state: EmailFormState;
-  dispatch: EmailFormDispatch;
-  onCancel: () => void;
+  email: string;
+  onBack: () => void;
+  onChangeEmail: (email: string) => void;
+  onError: () => void;
+  onNext: () => void;
 };
 
-const EmailExistsView = ({ state, dispatch, onCancel }: Props) => (
-  <>
-    <Title>Enter your email address and password</Title>
+const EmailExistsView = ({
+  email,
+  onBack,
+  onChangeEmail,
+  onNext,
+  onError,
+}: Props) => {
+  const [password, setPassword] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [emailError, setEmailError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState('');
 
-    <Field
-      autoComplete="email"
-      error={state.errors.email}
-      focusOnMount
-      label="Email"
-      onChange={(email) => dispatch({ type: 'SET_EMAIL', email })}
-      type="text"
-      value={state.email}
-    />
+  const handleNext = async () => {
+    try {
+      setIsLoading(true);
+      setEmailError('');
+      setPasswordError('');
+      await firebase.auth().signInWithEmailAndPassword(email, password);
 
-    <Field
-      autoComplete="password"
-      error={state.errors.password}
-      focusOnMount
-      label="Password"
-      onChange={(password) => dispatch({ type: 'SET_PASSWORD', password })}
-      type="password"
-      value={state.password}
-    />
-
-    <NavButtons
-      nextText="Log in"
-      isLoading={!!state.signInDetails}
-      onCancel={onCancel}
-      onNext={() =>
-        dispatch({
-          type: 'SIGN_IN',
-          email: state.email,
-          password: state.password,
-        })
+      onNext();
+    } catch (e) {
+      setIsLoading(false);
+      if (
+        e?.code === 'auth/invalid-email' ||
+        e?.code === 'auth/user-not-found'
+      ) {
+        setEmailError(e.message);
+      } else if (e?.code === 'auth/wrong-password') {
+        setPasswordError(e.message);
+      } else {
+        onError();
       }
-    />
-  </>
-);
+    }
+  };
+
+  return (
+    <Form onSubmit={handleNext}>
+      <Title>Enter your email address and password</Title>
+
+      <Field
+        autoComplete="email"
+        error={emailError}
+        label="Email"
+        onChange={onChangeEmail}
+        type="text"
+        value={email}
+      />
+
+      <Field
+        autoComplete="password"
+        error={passwordError}
+        focusOnMount
+        label="Password"
+        onChange={setPassword}
+        type="password"
+        value={password}
+      />
+
+      <NavButtons
+        backText="Go back"
+        nextText="Log in"
+        isLoading={isLoading}
+        onBack={onBack}
+      />
+    </Form>
+  );
+};
 
 export default EmailExistsView;

@@ -28,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type Props = {
-  onCancel: () => void;
-  onNext: () => void;
+  backText: string;
   nextText: string;
   isLoading: boolean;
+  onBack: () => void;
 };
 
-const NavButtons = ({ onCancel, onNext, nextText, isLoading }: Props) => {
+const NavButtons = ({ backText, nextText, isLoading, onBack }: Props) => {
   const classes = useStyles();
 
   return (
@@ -43,16 +43,16 @@ const NavButtons = ({ onCancel, onNext, nextText, isLoading }: Props) => {
         className={classes.button}
         color="secondary"
         variant="contained"
-        onClick={onCancel}
+        onClick={onBack}
       >
-        Cancel
+        {backText}
       </Button>
 
       <Button
         className={classes.button}
         color="primary"
         disabled={isLoading}
-        onClick={onNext}
+        type="submit"
         variant="contained"
       >
         {nextText}

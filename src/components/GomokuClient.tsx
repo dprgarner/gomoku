@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Client } from 'boardgame.io/react';
 import { SocketIO } from 'boardgame.io/multiplayer';
-import { useParams } from 'react-router-dom';
 
 import game from '~/game';
 
@@ -11,8 +10,13 @@ import SetLoadingBackdrop from './loading/SetLoadingBackdrop';
 const server =
   process.env.NODE_ENV === 'development' ? 'localhost:8000' : undefined;
 
+type GomokuClientProps = {
+  matchID: string;
+  playerID: string;
+};
+
 // Typing is still broken for Client.board as of v0.40. :(
-const GomokuClient = (Client as any)({
+const GomokuClient: React.FC<GomokuClientProps> = (Client as any)({
   game,
   board: Board,
   multiplayer: SocketIO({
@@ -27,13 +31,4 @@ const GomokuClient = (Client as any)({
   loading: SetLoadingBackdrop,
 });
 
-const GomokuClientContainer = () => {
-  const { matchID, playerID } = useParams<{
-    matchID: string;
-    playerID: string;
-  }>();
-
-  return <GomokuClient playerID={playerID} matchID={matchID} />;
-};
-
-export default GomokuClientContainer;
+export default GomokuClient;

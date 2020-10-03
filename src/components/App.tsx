@@ -12,7 +12,7 @@ import { createPath } from 'history';
 import Layout from './Layout';
 import ThemeProvider from './ThemeProvider';
 import LoadingBackdrop from './loading/LoadingBackdrop';
-import GomokuClientContainer from './GomokuClientContainer';
+import GomokuClient from './GomokuClient';
 import { useFirebaseUser } from './firebase';
 
 import SetLoadingBackdrop from './loading/SetLoadingBackdrop';
@@ -53,6 +53,15 @@ const LobbyPage = () => (
   </GetUser>
 );
 
+type MatchPlayerParams = {
+  match: {
+    params: {
+      matchID: string;
+      playerID: string;
+    };
+  } | null;
+};
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -61,12 +70,25 @@ const App = () => {
         <LoadingBackdrop>
           <Layout>
             <Switch>
-              <Route path="/match/:matchID/player/:playerID">
-                <GetUser>{() => <GomokuClientContainer />}</GetUser>
-              </Route>
               <Route path="/login">
                 <LoginPage />
               </Route>
+
+              <Route path="/match/:matchID/player/:playerID">
+                {({ match }: MatchPlayerParams) =>
+                  match && (
+                    <GetUser>
+                      {() => (
+                        <GomokuClient
+                          matchID={match.params.matchID}
+                          playerID={match.params.playerID}
+                        />
+                      )}
+                    </GetUser>
+                  )
+                }
+              </Route>
+
               <Route path="/" exact>
                 <LobbyPage />
               </Route>

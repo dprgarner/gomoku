@@ -1,22 +1,12 @@
 import * as React from 'react';
-import {
-  Backdrop,
-  makeStyles,
-  Modal,
-  Paper,
-  Typography,
-} from '@material-ui/core';
+import { makeStyles, Paper, Typography } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
 import FadeIn from '../FadeIn';
 
-import {
-  AnonymousLoginButton,
-  EmailLoginButton,
-  GoogleLoginButton,
-} from './loginButtons';
-import EmailModalBody from './EmailModalBody';
+import { AnonymousLoginButton, GoogleLoginButton } from './loginButtons';
+import EmailLoginModal from './EmailLoginModal';
 
 const useStyles = makeStyles((theme) => ({
   welcomePage: {
@@ -32,34 +22,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }));
-
-type EmailLoginModalLauncherProps = {
-  onLoginComplete: () => void;
-};
-const EmailLoginModalLauncher = ({
-  onLoginComplete,
-}: EmailLoginModalLauncherProps) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  return (
-    <>
-      <EmailLoginButton noDelay onClick={() => setIsOpen(true)} />
-      <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{ timeout: 350 }}
-      >
-        <>
-          <EmailModalBody onLoginComplete={onLoginComplete} />
-        </>
-      </Modal>
-    </>
-  );
-};
-
-const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
 const useRedirectDestination = () => {
   const { search } = useLocation();
@@ -85,14 +47,11 @@ const LoginPage = () => {
             {'Welcome, friend'}
           </Typography>
 
-          <EmailLoginModalLauncher
-            onLoginComplete={() => {
-              redirect();
-            }}
-          />
+          <EmailLoginModal onLoginComplete={redirect} />
 
           <GoogleLoginButton
             onClick={async () => {
+              const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
               await firebase.auth().signInWithPopup(googleAuthProvider);
               redirect();
             }}

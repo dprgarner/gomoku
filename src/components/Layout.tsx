@@ -58,7 +58,7 @@ const Layout = ({ children }: LayoutProps) => {
             className={classes.logOutButton}
             onClick={() => firebase.auth().signOut()}
           >
-            Log out
+            {`Log out, ${user.displayName || 'friend'}`}
           </Button>
         )}
       </AppBar>

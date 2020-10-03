@@ -27,10 +27,7 @@ When running in production mode, the static files are served by the same Koa ser
 
 ### With Firebase
 
-- Figure out how to do global firebase stuff. Initialise in entry point? Or Provider?
-- Query email address to find if the user has an account or not
-  - If so, next modal page is just password
-  - If not, next modal page is Given Name and password
+- The Layout component didn't update when I logged in but the lobby cpt did. Why?
 - What does /login do if already logged in?
   - Log-in page hides options that are already available?
   - Or redirect to a new page?

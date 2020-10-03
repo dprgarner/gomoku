@@ -1,15 +1,12 @@
 import * as React from 'react';
 import {
   Backdrop,
-  Button,
-  Fade,
   makeStyles,
   Modal,
   Paper,
-  TextField,
   Typography,
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import firebase from '../firebase';
 import FadeIn from '../FadeIn';
@@ -35,7 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmailLoginButtonWithModal = ({ onLogin }: { onLogin: () => void }) => {
+type EmailLoginModalLauncherProps = {
+  onLoginComplete: () => void;
+};
+const EmailLoginModalLauncher = ({
+  onLoginComplete,
+}: EmailLoginModalLauncherProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -48,7 +50,9 @@ const EmailLoginButtonWithModal = ({ onLogin }: { onLogin: () => void }) => {
         BackdropComponent={Backdrop}
         BackdropProps={{ timeout: 350 }}
       >
-        <EmailModalBody />
+        <>
+          <EmailModalBody onLoginComplete={onLoginComplete} />
+        </>
       </Modal>
     </>
   );
@@ -56,9 +60,21 @@ const EmailLoginButtonWithModal = ({ onLogin }: { onLogin: () => void }) => {
 
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-const WelcomePage = () => {
+const useRedirectDestination = () => {
+  const { search } = useLocation();
+  const [, redirectParam] = search.match(/\?redirect=([^\&]*)/) || [];
+  const redirectDestination = decodeURIComponent(redirectParam || '') || '/';
+  return redirectDestination;
+};
+
+const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
+  const redirectDestination = useRedirectDestination();
+
+  const redirect = () => {
+    history.push(redirectDestination);
+  };
 
   return (
     <FadeIn>
@@ -68,23 +84,23 @@ const WelcomePage = () => {
             {'Welcome, friend'}
           </Typography>
 
-          <EmailLoginButtonWithModal
-            onLogin={() => {
-              history.push('/fake-login');
+          <EmailLoginModalLauncher
+            onLoginComplete={() => {
+              redirect();
             }}
           />
 
           <GoogleLoginButton
             onClick={async () => {
               await firebase.auth().signInWithPopup(googleAuthProvider);
-              history.push('/');
+              redirect();
             }}
           />
 
           <AnonymousLoginButton
             onClick={async () => {
               await firebase.auth().signInAnonymously();
-              history.push('/');
+              redirect();
             }}
           />
         </Paper>
@@ -93,4 +109,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default LoginPage;

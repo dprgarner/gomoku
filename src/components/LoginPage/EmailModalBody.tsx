@@ -9,7 +9,9 @@ import {
 
 import FadeIn from '../FadeIn';
 
-type EmailModalProps = {};
+type EmailModalProps = {
+  onLoginComplete: () => void;
+};
 
 const useStyles = makeStyles((theme) => ({
   emailBody: {
@@ -38,49 +40,64 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmailModalBody = React.forwardRef(
-  ({}: EmailModalProps, ref: React.Ref) => {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const classes = useStyles();
+const useFocusRef = () => {
+  const ref = React.useRef<HTMLElement>(null);
 
-    return (
-      <div className={classes.emailBody} ref={ref}>
-        <FadeIn>
-          <Paper elevation={3} className={classes.paper}>
-            <form className={classes.form}>
-              <Typography component="h3" variant="h6">
-                Choose an email address and password
-              </Typography>
+  React.useEffect(() => {
+    setTimeout(() => {
+      if (ref.current) {
+        ref.current.focus();
+      }
+    }, 50);
+  }, []);
 
-              <TextField
-                autoComplete="email"
-                className={classes.textField}
-                label="Email"
-                type="text"
-                variant="filled"
-                value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
-              />
+  return ref;
+};
 
-              <TextField
-                className={classes.textField}
-                label="Password"
-                type="password"
-                value={password}
-                variant="filled"
-                onChange={(e) => setPassword(e.currentTarget.value)}
-              />
+const EmailModalBody = ({ onLoginComplete }: EmailModalProps) => {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const classes = useStyles();
 
-              <Button color="primary" variant="contained">
-                Log in
-              </Button>
-            </form>
-          </Paper>
-        </FadeIn>
-      </div>
-    );
-  },
-);
+  const emailInputRef = useFocusRef();
+
+  return (
+    <div className={classes.emailBody}>
+      <FadeIn>
+        <Paper elevation={3} className={classes.paper}>
+          <form className={classes.form}>
+            <Typography component="h3" variant="h6">
+              Choose an email address and password
+            </Typography>
+
+            <TextField
+              inputRef={emailInputRef}
+              autoComplete="email"
+              className={classes.textField}
+              label="Email"
+              type="text"
+              variant="filled"
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+            />
+
+            <TextField
+              className={classes.textField}
+              label="Password"
+              type="password"
+              value={password}
+              variant="filled"
+              onChange={(e) => setPassword(e.currentTarget.value)}
+            />
+
+            <Button color="primary" variant="contained">
+              Log in
+            </Button>
+          </form>
+        </Paper>
+      </FadeIn>
+    </div>
+  );
+};
 
 export default EmailModalBody;

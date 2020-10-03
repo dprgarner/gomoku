@@ -28,6 +28,7 @@ When running in production mode, the static files are served by the same Koa ser
 - More Firebase stuff
 - Figure out how to do global firebase stuff. Initialise in entry point? Or Provider?
 - Email should be split up by create vs. login
+- Use Dialog component
 - Find setState memory leak. Probably in FadeIn.
 - Log out should only appear when not anonymous
 - Profile page/delete this page

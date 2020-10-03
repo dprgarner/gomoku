@@ -1,6 +1,13 @@
 import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Switch,
+  useLocation,
+} from 'react-router-dom';
+import { createPath } from 'history';
 
 import Layout from './Layout';
 import ThemeProvider from './ThemeProvider';
@@ -23,8 +30,15 @@ type UserProps = {
  */
 const GetUser = ({ children }: UserProps) => {
   const { user, isLoading } = useFirebaseUser();
+  const location = useLocation();
+
   if (isLoading) return <SetLoadingBackdrop />;
-  if (!user) return <Redirect to="/login" />;
+  if (!user) {
+    const redirectPath = createPath(location);
+    return (
+      <Redirect to={`/login?redirect=${encodeURIComponent(redirectPath)}`} />
+    );
+  }
   return children(user);
 };
 
@@ -48,7 +62,7 @@ const App = () => {
           <Layout>
             <Switch>
               <Route path="/match/:matchID/player/:playerID">
-                <GomokuClientContainer />
+                <GetUser>{() => <GomokuClientContainer />}</GetUser>
               </Route>
               <Route path="/login">
                 <LoginPage />

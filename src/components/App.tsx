@@ -13,9 +13,8 @@ import Layout from './Layout';
 import ThemeProvider from './ThemeProvider';
 import LoadingBackdrop from './loading/LoadingBackdrop';
 import GomokuClient from './GomokuClient';
-import { useFirebaseUser } from './firebase';
+import { FirebaseUserProvider, useFirebaseUser } from './firebaseUser';
 
-import SetLoadingBackdrop from './loading/SetLoadingBackdrop';
 import LoginPage from './LoginPage';
 import FakeLobby from './Lobby';
 
@@ -29,10 +28,9 @@ type UserProps = {
  * Not a hook because the child should only be rendered when there is a user.
  */
 const GetUser = ({ children }: UserProps) => {
-  const { user, isLoading } = useFirebaseUser();
+  const user = useFirebaseUser();
   const location = useLocation();
 
-  if (isLoading) return <SetLoadingBackdrop />;
   if (!user) {
     const redirectPath = createPath(location);
     return (
@@ -62,41 +60,47 @@ type MatchPlayerParams = {
   } | null;
 };
 
-const App = () => {
-  return (
+const Providers: React.FC = ({ children }) => (
+  <FirebaseUserProvider>
     <BrowserRouter>
       <ThemeProvider>
-        <CssBaseline />
-        <LoadingBackdrop>
-          <Layout>
-            <Switch>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-
-              <Route path="/match/:matchID/player/:playerID">
-                {({ match }: MatchPlayerParams) =>
-                  match && (
-                    <GetUser>
-                      {() => (
-                        <GomokuClient
-                          matchID={match.params.matchID}
-                          playerID={match.params.playerID}
-                        />
-                      )}
-                    </GetUser>
-                  )
-                }
-              </Route>
-
-              <Route path="/" exact>
-                <LobbyPage />
-              </Route>
-            </Switch>
-          </Layout>
-        </LoadingBackdrop>
+        <LoadingBackdrop>{children}</LoadingBackdrop>
       </ThemeProvider>
     </BrowserRouter>
+  </FirebaseUserProvider>
+);
+
+const App = () => {
+  return (
+    <Providers>
+      <CssBaseline />
+      <Layout>
+        <Switch>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+
+          <Route path="/match/:matchID/player/:playerID">
+            {({ match }: MatchPlayerParams) =>
+              match && (
+                <GetUser>
+                  {() => (
+                    <GomokuClient
+                      matchID={match.params.matchID}
+                      playerID={match.params.playerID}
+                    />
+                  )}
+                </GetUser>
+              )
+            }
+          </Route>
+
+          <Route path="/" exact>
+            <LobbyPage />
+          </Route>
+        </Switch>
+      </Layout>
+    </Providers>
   );
 };
 

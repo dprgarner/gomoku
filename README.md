@@ -25,36 +25,28 @@ When running in production mode, the static files are served by the same Koa ser
 
 ## TODO
 
-- More Firebase stuff
+### With Firebase
+
 - Figure out how to do global firebase stuff. Initialise in entry point? Or Provider?
-- Email should be split up by create vs. login
-- Use Dialog component
-- Find setState memory leak. Probably in FadeIn.
-- Log out should only appear when not anonymous
-- Profile page/delete this page
-- Privacy Policy ☹️
-- Lobby
-- What's the winning five-in-a-row?
-- Primary colour is a bit too intense. Perhaps keep banner as-is but make primary slightly dimmer?
+- Query email address to find if the user has an account or not
+  - If so, next modal page is just password
+  - If not, next modal page is Given Name and password
+- What does /login do if already logged in?
+  - Log-in page hides options that are already available?
+  - Or redirect to a new page?
+- Upgrade from anon to tracked user
+
+### UI
+
 - More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
+- Highlight winning five-in-a-row
+- Who am I? (Top corner? Drop-down?)
 
-### Flow 1: Start game as an authenticated user
+### Options for game
 
-- Navigate to /
-- Log in to auth. provider (Firebase)
-- Choose "Create Game"
-- Pick options (board size, listed, numPlayers=2, black or white)
-- Game is created
-- Game is joined
-- Navigate to /game/...
-- One player listed as Joined in the UI
-- Wait for opponent to join...
-
-### Flow 2: Join game as an authenticated user
-
-- Navigate to /
-- Log in to auth. provider (Firebase)
-- Choose existing listed game
-- Game is joined
-- Navigate to /game/...
-- Two players listed as Joined in the UI
+- Board size (15x15 or 19x19?)
+- listed
+- black or white
+- (Fixed params: numPlayers=2, in-a-row=5)
+- No overshooting (6-in-a-row does not win)
+- Nerf Black (cannot move next to first stone)

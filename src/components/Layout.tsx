@@ -6,7 +6,9 @@ import {
   Container,
   Button,
 } from '@material-ui/core';
-import firebase, { useFirebaseUser } from './firebase';
+import * as firebase from 'firebase/app';
+
+import { useFirebaseUser } from './firebaseUser';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -39,7 +41,7 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   const classes = useStyles();
-  const { user } = useFirebaseUser();
+  const user = useFirebaseUser();
 
   return (
     <>
@@ -54,9 +56,7 @@ const Layout = ({ children }: LayoutProps) => {
             size="small"
             color="inherit"
             className={classes.logOutButton}
-            onClick={() => {
-              firebase.auth().signOut();
-            }}
+            onClick={() => firebase.auth().signOut()}
           >
             Log out
           </Button>

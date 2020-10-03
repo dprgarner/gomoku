@@ -7,9 +7,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
+import * as firebase from 'firebase/app';
 
-import firebase from '../firebase';
 import FadeIn from '../FadeIn';
+
 import {
   AnonymousLoginButton,
   EmailLoginButton,

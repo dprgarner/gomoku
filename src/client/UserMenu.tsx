@@ -10,7 +10,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import * as firebase from 'firebase/app';
 import { useHistory } from 'react-router';
 
-import useEncodedLocation from './useEncodedLocation';
+import useEncodedLocation from './context/useEncodedLocation';
 
 type UserMenuProps = {
   displayName: string | null;

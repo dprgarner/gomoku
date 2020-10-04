@@ -3,7 +3,7 @@ import { Server } from 'boardgame.io/server';
 import serve from 'koa-static';
 import { PostgresStore } from 'bgio-postgres';
 
-import game from './game';
+import game from './shared/game';
 
 const distClient = path.resolve(__dirname, '..', 'dist_client');
 const serveStaticFiles = process.env.NODE_ENV === 'production';

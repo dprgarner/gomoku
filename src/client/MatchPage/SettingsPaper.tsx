@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 
-import choose from '~/choose';
+import choose from '~/shared/choose';
 
 import SmallPaper from './SmallPaper';
 

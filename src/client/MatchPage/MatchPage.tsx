@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Ctx } from 'boardgame.io';
 
-import { GameState, Moves } from '~/types';
-import SetLoadingBackdrop from '~/components/loading/SetLoadingBackdrop';
+import { GameState, Moves } from '~/shared/types';
+import SetLoadingBackdrop from '~/client/context/loading/SetLoadingBackdrop';
 
 import StatusPaper from './StatusPaper';
 import GoBoard from './GoBoard';

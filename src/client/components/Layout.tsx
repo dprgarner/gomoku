@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { makeStyles, AppBar, Typography, Container } from '@material-ui/core';
 
-import { useFirebaseUser } from './firebaseUser';
-import UserMenu from './UserMenu';
+import { useFirebaseUser } from '../context/firebaseUser';
+import UserMenu from '../UserMenu';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

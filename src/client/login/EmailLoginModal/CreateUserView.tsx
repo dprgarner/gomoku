@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as firebase from 'firebase/app';
 
-import { useUpdateProfile } from '~/components/firebaseUser';
+import { useUpdateProfile } from '~/client/context/firebaseUser';
 
 import Field from './Field';
 import NavButtons from './NavButtons';

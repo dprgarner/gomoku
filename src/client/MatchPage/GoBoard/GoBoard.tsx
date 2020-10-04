@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import range from '~/range';
+import range from '~/shared/range';
 import { boardGridBorderWidth, squareSize } from './constants';
 import woodImage from './wood.jpg';
 import GoBoardGrid from './GoBoardGrid';

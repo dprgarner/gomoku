@@ -6,10 +6,10 @@ import {
   AnonymousLoginButton,
   EmailLoginButton,
   GoogleLoginButton,
-} from './login/buttons';
+  LoginButtonsContainer,
+} from './components';
 import EmailLoginModal from './EmailLoginModal';
-import { useFirebaseUser } from './firebaseUser';
-import LoginButtonsContainer from './login/LoginButtonsContainer';
+import { useFirebaseUser } from '~/client/context/firebaseUser';
 
 const useRedirect = () => {
   const { search } = useLocation();
@@ -23,10 +23,7 @@ const useRedirect = () => {
   return redirect;
 };
 
-const LoginPage = () => {
-  const redirect = useRedirect();
-  const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
-
+const useRedirectLoggedInUser = () => {
   const history = useHistory();
   const location = useLocation();
   const user = useFirebaseUser();
@@ -39,6 +36,12 @@ const LoginPage = () => {
       });
     }
   }, [user, location, history]);
+};
+
+const LoginPage = () => {
+  const redirect = useRedirect();
+  const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
+  useRedirectLoggedInUser();
 
   return (
     <LoginButtonsContainer title="Welcome, friend">

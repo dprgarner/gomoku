@@ -8,8 +8,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
-import FadeIn from './FadeIn';
-import { useFirebaseUser } from './firebaseUser';
+
+import FadeIn from '~/client/components/FadeIn';
+import { useFirebaseUser } from '~/client/context/firebaseUser';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {

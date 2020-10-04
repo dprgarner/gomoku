@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Paper, Backdrop, Modal } from '@material-ui/core';
 
-import FadeIn from '~/components/FadeIn';
+import FadeIn from '~/client/components/FadeIn';
 
 import EmailAddressView from './EmailAddressView';
 import CreateUserView from './CreateUserView';

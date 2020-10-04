@@ -1,31 +1,17 @@
 import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
-import AddLoginMethodPage from './AddLoginMethodPage';
-import Layout from './Layout';
-import LoadingBackdrop from './loading/LoadingBackdrop';
+import AddLoginMethodPage from './login/AddLoginMethodPage';
+import Layout from './components/Layout';
 import LobbyPage from './LobbyPage';
-import LoginPage from './LoginPage';
+import LoginPage from './login/LoginPage';
 import MatchPage from './MatchPage';
-import ThemeProvider from './ThemeProvider';
-import useEncodedLocation from './useEncodedLocation';
+import useEncodedLocation from './context/useEncodedLocation';
 import withGomokuClient from './withGomokuClient';
-import { FirebaseUserProvider, useFirebaseUser } from './firebaseUser';
+import { useFirebaseUser } from './context/firebaseUser';
 
-type ProvidersProps = {
-  children: React.ReactNode;
-};
-
-const Providers = ({ children }: ProvidersProps) => (
-  <FirebaseUserProvider>
-    <BrowserRouter>
-      <ThemeProvider>
-        <LoadingBackdrop>{children}</LoadingBackdrop>
-      </ThemeProvider>
-    </BrowserRouter>
-  </FirebaseUserProvider>
-);
+import Providers from './context/Providers';
 
 type CheckLoggedInProps = {
   children: React.ReactElement;

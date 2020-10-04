@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 
-import FadeIn from '~/components/FadeIn';
+import FadeIn from '~/client/components/FadeIn';
 
 type Props = {
   title: string;

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Client } from 'boardgame.io/react';
 import { SocketIO } from 'boardgame.io/multiplayer';
 
-import game from '~/game';
-import SetLoadingBackdrop from '~/components/loading/SetLoadingBackdrop';
+import game from '~/shared/game';
+import SetLoadingBackdrop from '~/client/context/loading/SetLoadingBackdrop';
 
 const server =
   process.env.NODE_ENV === 'development' ? 'localhost:8000' : undefined;

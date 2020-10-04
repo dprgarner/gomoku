@@ -23,8 +23,8 @@ const MatchPage = ({
   ctx,
   moves,
   isActive,
-  playerID,
   isConnected,
+  playerID,
 }: Props) => {
   const [showNumbers, setShowNumbers] = React.useState(false);
 

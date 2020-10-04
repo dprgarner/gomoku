@@ -7,7 +7,7 @@ import {
   stoneLineHeight,
 } from './GoBoard/constants';
 
-type StoneCellProps = {
+type GoStoneProps = {
   ghostPlayer: string | null;
   stonePlayer: string | null;
   turnNumber: number | null;
@@ -76,7 +76,7 @@ const GoStone = ({
   ghostPlayer,
   turnNumber,
   onClick,
-}: StoneCellProps) => {
+}: GoStoneProps) => {
   const isEnabled = ghostPlayer !== null;
   const hasStone = stonePlayer !== null;
   const cellPlayer = hasStone ? stonePlayer : ghostPlayer;

@@ -35,9 +35,9 @@ const withGomokuClient = (BoardComponent: any) => {
     loading: SetLoadingBackdrop,
   });
 
-  const Component: React.FC<Props> & { displayName: string } = (
-    props: Props,
-  ) => <GomokuClient {...props} />;
+  const Component: React.FC<Props> = (props: Props) => (
+    <GomokuClient {...props} />
+  );
   Component.displayName = `WithGomokuClient(${getDisplayName(Component)})`;
 
   return Component;

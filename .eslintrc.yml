@@ -20,6 +20,7 @@ settings:
   react:
     version: detect
 rules:
-  # TODO enable this?
+  # Just-enough-typing is more readable.
   '@typescript-eslint/explicit-module-boundary-types': off
+  # Types should be checked at build-time, not run-time.
   'react/prop-types': off

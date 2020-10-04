@@ -20,12 +20,13 @@ const AddLoginMethodPage = () => {
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return null;
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleCredentialLogin = async (
+    credential: firebase.auth.AuthCredential,
+  ) => {
     try {
-      const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-      const { additionalUserInfo } = await currentUser.linkWithPopup(
-        googleAuthProvider,
-      );
+      const { additionalUserInfo } = await firebase
+        .auth()
+        .signInWithCredential(credential);
       const profile: GoogleProfile = additionalUserInfo?.profile || {};
       updateProfile({
         displayName: profile.given_name,
@@ -38,9 +39,31 @@ const AddLoginMethodPage = () => {
     }
   };
 
+  const handleAddGoogle = async () => {
+    try {
+      const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+      const { additionalUserInfo } = await currentUser.linkWithPopup(
+        googleAuthProvider,
+      );
+      const profile: GoogleProfile = additionalUserInfo?.profile || {};
+      updateProfile({
+        displayName: profile.given_name,
+        photoURL: profile.picture,
+      });
+      redirect();
+    } catch (e) {
+      if (e?.code === 'auth/credential-already-in-use') {
+        handleGoogleCredentialLogin(e.credential);
+      } else {
+        console.error(e);
+        setError(e?.message);
+      }
+    }
+  };
+
   return (
     <LoginButtonsContainer title="Choose a log-in method">
-      <GoogleLoginButton onClick={handleGoogleLogin} />
+      <GoogleLoginButton onClick={handleAddGoogle} />
 
       <AnonymousLoginButton onClick={redirect} />
 

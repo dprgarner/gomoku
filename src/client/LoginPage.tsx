@@ -38,18 +38,23 @@ const LoginPage = () => {
   const [error, setError] = React.useState('');
 
   const handleGoogleLogin = async () => {
-    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    try {
+      const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-    const { additionalUserInfo } = await firebase
-      .auth()
-      .signInWithPopup(googleAuthProvider);
+      const { additionalUserInfo } = await firebase
+        .auth()
+        .signInWithPopup(googleAuthProvider);
 
-    const profile: GoogleProfile = additionalUserInfo?.profile || {};
-    updateProfile({
-      displayName: profile.given_name,
-      photoURL: profile.picture,
-    });
-    redirect();
+      const profile: GoogleProfile = additionalUserInfo?.profile || {};
+      updateProfile({
+        displayName: profile.given_name,
+        photoURL: profile.picture,
+      });
+      redirect();
+    } catch (e) {
+      console.error(e);
+      setError(e.message || 'Something went wrong.');
+    }
   };
 
   return (

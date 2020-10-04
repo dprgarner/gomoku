@@ -63,7 +63,7 @@ const LoggedInUserMenu = ({
         {photoURL ? (
           <Avatar alt={welcomeText} src={photoURL} className={classes.avatar} />
         ) : (
-          <Avatar className={classes.avatar}>
+          <Avatar alt={welcomeText} className={classes.avatar}>
             <Person fontSize="large" />
           </Avatar>
         )}

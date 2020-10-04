@@ -2,14 +2,16 @@ import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
-import { useFirebaseUser, useUpdateProfile } from './context/firebaseUser';
+import {
+  useFirebaseUser,
+  useUpdateGoogleProfile,
+} from './context/firebaseUser';
 import useRedirectQueryParam from './context/useRedirectQueryParam';
 import {
   AnonymousLoginButton,
   EmailLoginButton,
   GoogleLoginButton,
   LoginButtonsContainer,
-  GoogleProfile,
 } from './login';
 import EmailLoginModal from './EmailLoginModal';
 import MiscError from './components/MiscError';
@@ -32,7 +34,7 @@ const useRedirectLoggedInUser = () => {
 const LoginPage = () => {
   const redirect = useRedirectQueryParam();
   const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
-  const updateProfile = useUpdateProfile();
+  const updateGoogleProfile = useUpdateGoogleProfile();
   useRedirectLoggedInUser();
 
   const [error, setError] = React.useState('');
@@ -40,16 +42,10 @@ const LoginPage = () => {
   const handleGoogleLogin = async () => {
     try {
       const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-
       const { additionalUserInfo } = await firebase
         .auth()
         .signInWithPopup(googleAuthProvider);
-
-      const profile: GoogleProfile = additionalUserInfo?.profile || {};
-      updateProfile({
-        displayName: profile.given_name,
-        photoURL: profile.picture,
-      });
+      updateGoogleProfile(additionalUserInfo);
       redirect();
     } catch (e) {
       console.error(e);

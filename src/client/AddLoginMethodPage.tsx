@@ -5,15 +5,14 @@ import {
   AnonymousLoginButton,
   GoogleLoginButton,
   LoginButtonsContainer,
-  GoogleProfile,
 } from './login';
 import useRedirectQueryParam from './context/useRedirectQueryParam';
-import { useUpdateProfile } from './context/firebaseUser';
+import { useUpdateGoogleProfile } from './context/firebaseUser';
 import MiscError from './components/MiscError';
 
 const AddLoginMethodPage = () => {
   const redirect = useRedirectQueryParam();
-  const updateProfile = useUpdateProfile();
+  const updateGoogleProfile = useUpdateGoogleProfile();
 
   const [error, setError] = React.useState('');
 
@@ -27,11 +26,7 @@ const AddLoginMethodPage = () => {
       const { additionalUserInfo } = await firebase
         .auth()
         .signInWithCredential(credential);
-      const profile: GoogleProfile = additionalUserInfo?.profile || {};
-      updateProfile({
-        displayName: profile.given_name,
-        photoURL: profile.picture,
-      });
+      updateGoogleProfile(additionalUserInfo);
       redirect();
     } catch (e) {
       console.error(e);
@@ -45,11 +40,7 @@ const AddLoginMethodPage = () => {
       const { additionalUserInfo } = await currentUser.linkWithPopup(
         googleAuthProvider,
       );
-      const profile: GoogleProfile = additionalUserInfo?.profile || {};
-      updateProfile({
-        displayName: profile.given_name,
-        photoURL: profile.picture,
-      });
+      updateGoogleProfile(additionalUserInfo);
       redirect();
     } catch (e) {
       if (e?.code === 'auth/credential-already-in-use') {

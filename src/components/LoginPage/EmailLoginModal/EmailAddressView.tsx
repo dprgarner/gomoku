@@ -31,8 +31,16 @@ const EmailAddressView = ({
 
       const methods = await firebase.auth().fetchSignInMethodsForEmail(email);
 
-      const nextView = methods.includes('password') ? 'EXISTS' : 'CREATE';
-      onNext(nextView);
+      if (methods.includes('password')) {
+        onNext('EXISTS');
+      } else if (!methods.includes('google.com')) {
+        onNext('CREATE');
+      } else {
+        setIsLoading(false);
+        setEmailError(
+          'Cannot register a new password for a Google email. Log in via Google instead.',
+        );
+      }
     } catch (e) {
       setIsLoading(false);
       if (e?.code === 'auth/invalid-email') {

@@ -42,7 +42,8 @@ const CreateUserView = ({
         .createUserWithEmailAndPassword(email, password);
 
       if (!user) {
-        return onError();
+        onError();
+        return;
       }
       if (name) {
         await updateProfile({ displayName: name });

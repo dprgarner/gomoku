@@ -1,14 +1,8 @@
 import * as React from 'react';
-import {
-  makeStyles,
-  AppBar,
-  Typography,
-  Container,
-  Button,
-} from '@material-ui/core';
-import * as firebase from 'firebase/app';
+import { makeStyles, AppBar, Typography, Container } from '@material-ui/core';
 
 import { useFirebaseUser } from './firebaseUser';
+import UserMenu from './UserMenu';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -20,11 +14,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     padding: theme.spacing(2),
-  },
-
-  logOutButton: {
-    color: 'white',
-    margin: theme.spacing(4),
   },
 
   boardContainer: {
@@ -50,17 +39,7 @@ const Layout = ({ children }: LayoutProps) => {
           Gomoku
         </Typography>
 
-        {user && (
-          <Button
-            variant="outlined"
-            size="small"
-            color="inherit"
-            className={classes.logOutButton}
-            onClick={() => firebase.auth().signOut()}
-          >
-            {`Log out, ${user.displayName || 'friend'}`}
-          </Button>
-        )}
+        {user && <UserMenu {...user} />}
       </AppBar>
 
       <Container

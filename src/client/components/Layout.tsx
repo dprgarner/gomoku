@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { makeStyles, AppBar, Typography, Container } from '@material-ui/core';
 
-import { useFirebaseUser } from '../context/firebaseUser';
-import UserMenu from '../UserMenu';
-
 const useStyles = makeStyles((theme) => ({
   appBar: {
     display: 'flex',
@@ -26,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
 
 type LayoutProps = {
   children: React.ReactNode;
+  userMenu: React.ReactNode;
 };
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, userMenu }: LayoutProps) => {
   const classes = useStyles();
-  const user = useFirebaseUser();
 
   return (
     <>
@@ -39,7 +36,7 @@ const Layout = ({ children }: LayoutProps) => {
           Gomoku
         </Typography>
 
-        {user && <UserMenu {...user} />}
+        {userMenu}
       </AppBar>
 
       <Container

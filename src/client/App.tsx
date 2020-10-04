@@ -1,17 +1,17 @@
 import * as React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import AddLoginMethodPage from './login/AddLoginMethodPage';
+import AddLoginMethodPage from './AddLoginMethodPage';
 import Layout from './components/Layout';
 import LobbyPage from './LobbyPage';
-import LoginPage from './login/LoginPage';
+import LoginPage from './LoginPage';
 import MatchPage from './MatchPage';
 import useEncodedLocation from './context/useEncodedLocation';
 import withGomokuClient from './withGomokuClient';
 import { useFirebaseUser } from './context/firebaseUser';
 
 import Providers from './context/Providers';
+import UserMenu from './UserMenu';
 
 type CheckLoggedInProps = {
   children: React.ReactElement;
@@ -42,8 +42,7 @@ const MatchPageWithClient = withGomokuClient(MatchPage);
 const App = () => {
   return (
     <Providers>
-      <CssBaseline />
-      <Layout>
+      <Layout userMenu={<UserMenu />}>
         <Switch>
           <Route path="/login">
             <LoginPage />

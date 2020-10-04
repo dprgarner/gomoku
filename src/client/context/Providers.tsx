@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { CssBaseline } from '@material-ui/core';
 
 import LoadingBackdrop from './loading/LoadingBackdrop';
 import ThemeProvider from './ThemeProvider';
@@ -13,6 +14,7 @@ const Providers = ({ children }: ProvidersProps) => (
   <FirebaseUserProvider>
     <BrowserRouter>
       <ThemeProvider>
+        <CssBaseline />
         <LoadingBackdrop>{children}</LoadingBackdrop>
       </ThemeProvider>
     </BrowserRouter>

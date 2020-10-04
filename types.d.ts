@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 declare module '*.jpg' {
   /**
    * Resolves to the hashed URL of the static asset.

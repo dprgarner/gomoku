@@ -2,11 +2,7 @@ import * as React from 'react';
 import * as firebase from 'firebase/app';
 
 import { useUpdateProfile } from '~/client/context/firebaseUser';
-
-import Field from './Field';
-import NavButtons from './NavButtons';
-import Title from './Title';
-import Form from './Form';
+import { Field, NavButtons, Title, Form } from './components';
 
 type Props = {
   email: string;

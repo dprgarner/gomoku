@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { LoginButtonsContainer } from './components';
+import { LoginButtonsContainer } from './loginPageComponents';
 
 const AddLoginMethodPage = () => {
   return (

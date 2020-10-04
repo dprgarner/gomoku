@@ -2,14 +2,14 @@ import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
+import { useFirebaseUser } from '~/client/context/firebaseUser';
 import {
   AnonymousLoginButton,
   EmailLoginButton,
   GoogleLoginButton,
   LoginButtonsContainer,
-} from './components';
+} from './loginPageComponents';
 import EmailLoginModal from './EmailLoginModal';
-import { useFirebaseUser } from '~/client/context/firebaseUser';
 
 const useRedirect = () => {
   const { search } = useLocation();

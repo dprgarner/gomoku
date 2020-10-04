@@ -9,7 +9,7 @@ import GoBoard from './GoBoard';
 import GoStone from './GoStone';
 import SettingsPaper from './SettingsPaper';
 
-type BoardProps = {
+type Props = {
   G: GameState;
   ctx: Ctx;
   moves: Moves;
@@ -18,14 +18,14 @@ type BoardProps = {
   playerID: string;
 };
 
-const Board = ({
+const MatchPage = ({
   G,
   ctx,
   moves,
   isActive,
   playerID,
   isConnected,
-}: BoardProps) => {
+}: Props) => {
   const [showNumbers, setShowNumbers] = React.useState(false);
 
   return (
@@ -57,4 +57,4 @@ const Board = ({
   );
 };
 
-export default Board;
+export default MatchPage;

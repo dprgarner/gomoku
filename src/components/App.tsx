@@ -1,23 +1,23 @@
 import * as React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {
-  BrowserRouter,
-  Redirect,
-  Route,
-  Switch,
-  useLocation,
-} from 'react-router-dom';
-import { createPath } from 'history';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
+import AddLoginMethodPage from './AddLoginMethodPage';
 import Layout from './Layout';
-import ThemeProvider from './ThemeProvider';
 import LoadingBackdrop from './loading/LoadingBackdrop';
-import GomokuClient from './GomokuClient';
-import { FirebaseUserProvider, useFirebaseUser } from './firebaseUser';
-import LoginPage from './LoginPage';
 import LobbyPage from './LobbyPage';
+import LoginPage from './LoginPage';
+import MatchPage from './MatchPage';
+import ThemeProvider from './ThemeProvider';
+import useEncodedLocation from './useEncodedLocation';
+import withGomokuClient from './withGomokuClient';
+import { FirebaseUserProvider, useFirebaseUser } from './firebaseUser';
 
-const Providers: React.FC = ({ children }) => (
+type ProvidersProps = {
+  children: React.ReactNode;
+};
+
+const Providers = ({ children }: ProvidersProps) => (
   <FirebaseUserProvider>
     <BrowserRouter>
       <ThemeProvider>
@@ -33,13 +33,10 @@ type CheckLoggedInProps = {
 
 const CheckLoggedIn = ({ children }: CheckLoggedInProps) => {
   const user = useFirebaseUser();
-  const location = useLocation();
+  const redirectPath = useEncodedLocation();
 
   if (!user) {
-    const redirectPath = createPath(location);
-    return (
-      <Redirect to={`/login?redirect=${encodeURIComponent(redirectPath)}`} />
-    );
+    return <Redirect to={`/login?redirect=${redirectPath}`} />;
   }
 
   return children;
@@ -54,6 +51,8 @@ type MatchPlayerParams = {
   } | null;
 };
 
+const MatchPageWithClient = withGomokuClient(MatchPage);
+
 const App = () => {
   return (
     <Providers>
@@ -64,11 +63,17 @@ const App = () => {
             <LoginPage />
           </Route>
 
+          <Route path="/add-login-method">
+            <CheckLoggedIn>
+              <AddLoginMethodPage />
+            </CheckLoggedIn>
+          </Route>
+
           <Route path="/match/:matchID/player/:playerID">
             {({ match }: MatchPlayerParams) =>
               match && (
                 <CheckLoggedIn>
-                  <GomokuClient
+                  <MatchPageWithClient
                     matchID={match.params.matchID}
                     playerID={match.params.playerID}
                   />

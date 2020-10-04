@@ -9,8 +9,9 @@ import {
   AnonymousLoginButton,
   EmailLoginButton,
   GoogleLoginButton,
-} from './loginButtons';
+} from './login/buttons';
 import EmailLoginModal from './EmailLoginModal';
+import { useFirebaseUser } from './firebaseUser';
 
 const useStyles = makeStyles((theme) => ({
   welcomePage: {
@@ -27,22 +28,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const useRedirectDestination = () => {
+const useRedirect = () => {
   const { search } = useLocation();
-  const [, redirectParam] = search.match(/\?redirect=([^\&]*)/) || [];
-  const redirectDestination = decodeURIComponent(redirectParam || '') || '/';
-  return redirectDestination;
-};
-
-const LoginPage = () => {
-  const classes = useStyles();
   const history = useHistory();
-  const redirectDestination = useRedirectDestination();
-  const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
+  const [, redirectParam] = search.match(/redirect=([^\&]*)/) || [];
+  const redirectDestination = decodeURIComponent(redirectParam || '') || '/';
 
   const redirect = () => {
     history.push(redirectDestination);
   };
+  return redirect;
+};
+
+const LoginPage = () => {
+  const classes = useStyles();
+  const redirect = useRedirect();
+  const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
+
+  const history = useHistory();
+  const location = useLocation();
+  const user = useFirebaseUser();
+
+  React.useEffect(() => {
+    if (user) {
+      history.push({
+        ...location,
+        pathname: '/add-login-method',
+      });
+    }
+  }, [user, location, history]);
 
   return (
     <FadeIn>

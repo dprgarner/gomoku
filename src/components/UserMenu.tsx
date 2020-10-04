@@ -8,6 +8,9 @@ import {
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import * as firebase from 'firebase/app';
+import { useHistory } from 'react-router';
+
+import useEncodedLocation from './useEncodedLocation';
 
 type UserMenuProps = {
   displayName: string | null;
@@ -28,6 +31,12 @@ const UserMenu = ({ displayName, isAnonymous }: UserMenuProps) => {
   ] = React.useState<HTMLButtonElement | null>(null);
   const classes = useStyles();
   const isMenuOpen = !!menuAnchorElement;
+  const canLogOut = process.env.NODE_ENV === 'development' || !isAnonymous;
+
+  const history = useHistory();
+  const redirectPath = useEncodedLocation();
+
+  const handleClose = () => setMenuAnchorElement(null);
 
   return (
     <>
@@ -49,18 +58,34 @@ const UserMenu = ({ displayName, isAnonymous }: UserMenuProps) => {
           vertical: 'bottom',
           horizontal: 'center',
         }}
+        getContentAnchorEl={null}
+        onClose={handleClose}
+        open={isMenuOpen}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'center',
         }}
-        open={isMenuOpen}
-        getContentAnchorEl={null}
-        onClose={() => {
-          setMenuAnchorElement(null);
-        }}
       >
-        <MenuItem onClick={() => firebase.auth().signOut()}>Log Out</MenuItem>
-        {isAnonymous && <MenuItem>Log in?</MenuItem>}
+        {canLogOut && (
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              firebase.auth().signOut();
+            }}
+          >
+            Log out
+          </MenuItem>
+        )}
+        {isAnonymous && (
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              history.push(`/add-login-method?redirect=${redirectPath}`);
+            }}
+          >
+            Log in
+          </MenuItem>
+        )}
       </Menu>
     </>
   );

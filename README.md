@@ -25,8 +25,11 @@ When running in production mode, the static files are served by the same Koa ser
 
 ## TODO
 
-### With Firebase
+### With Firebase Auth
 
+- I forgot my password
+- I want to change my password
+- Catch unknown errors - modal pop-up.
 - What does /login do if already logged in?
   - Log-in page hides options that are already available?
   - Or redirect to a new page?

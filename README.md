@@ -25,15 +25,6 @@ When running in production mode, the static files are served by the same Koa ser
 
 ## TODO
 
-### With Firebase Auth
-
-- I forgot my password
-- I want to change my password
-- I want to upgrade from anon to email-logged-in user
-- What does /login do if already logged in?
-  - Log-in page hides options that are already available?
-  - Or redirect to a new page?
-
 ### Lobby card
 
 What goes on a game card?
@@ -48,11 +39,18 @@ What goes on a game card?
 - Board size? (Who cares?)
 - Free space?
 
+### With Firebase Auth
+
+- I forgot my password
+- I want to change my password
+- I want to upgrade from anon to email-logged-in user
+- I want to delete everything about myself on the app
+- I want to change my display name
+
 ### UI
 
 - More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
 - Highlight winning five-in-a-row
-- Who am I? (Top corner? Drop-down?)
 
 ### Options for game
 

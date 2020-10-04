@@ -7,7 +7,7 @@ type Props = {
   email: string;
   onBack: () => void;
   onChangeEmail: (email: string) => void;
-  onError: () => void;
+  onError: (error: Error) => void;
   onNext: () => void;
 };
 
@@ -41,7 +41,7 @@ const EmailExistsView = ({
       } else if (e?.code === 'auth/wrong-password') {
         setPasswordError(e.message);
       } else {
-        onError();
+        onError(e);
       }
     }
   };

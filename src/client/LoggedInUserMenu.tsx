@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {
-  makeStyles,
-  Typography,
+  Avatar,
   IconButton,
   Menu,
   MenuItem,
+  Typography,
+  makeStyles,
 } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import Person from '@material-ui/icons/Person';
 import * as firebase from 'firebase/app';
 import { useHistory } from 'react-router';
 
@@ -14,19 +15,25 @@ import useEncodedLocation from './context/useEncodedLocation';
 
 type LoggedInUserMenuProps = {
   displayName: string | null;
+  photoURL: string | null;
   isAnonymous: boolean;
 };
 
 const useStyles = makeStyles((theme) => ({
-  menuButtonIcon: {
+  avatar: {
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(4),
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.getContrastText(theme.palette.secondary.main),
   },
+
+  placeholderIcon: {},
 }));
 
 const LoggedInUserMenu = ({
   displayName,
   isAnonymous,
+  photoURL,
 }: LoggedInUserMenuProps) => {
   const classes = useStyles();
   const history = useHistory();
@@ -40,7 +47,8 @@ const LoggedInUserMenu = ({
   const isMenuOpen = !!menuAnchorElement;
   const handleClose = () => setMenuAnchorElement(null);
 
-  const canLogOut = process.env.NODE_ENV === 'development' || !isAnonymous;
+  const canLogOut = !isAnonymous;
+  const welcomeText = `Welcome, ${displayName || 'stranger'}`;
 
   return (
     <>
@@ -50,10 +58,15 @@ const LoggedInUserMenu = ({
           setMenuAnchorElement(e.currentTarget);
         }}
       >
-        <Typography variant="button">
-          {`Welcome, ${displayName || 'stranger'}`}
-        </Typography>
-        <AccountCircle fontSize="large" className={classes.menuButtonIcon} />
+        <Typography variant="button">{welcomeText}</Typography>
+
+        {photoURL ? (
+          <Avatar alt={welcomeText} src={photoURL} className={classes.avatar} />
+        ) : (
+          <Avatar className={classes.avatar}>
+            <Person fontSize="large" />
+          </Avatar>
+        )}
       </IconButton>
 
       <Menu

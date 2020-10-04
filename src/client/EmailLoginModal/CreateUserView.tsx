@@ -8,7 +8,7 @@ type Props = {
   email: string;
   onBack: () => void;
   onChangeEmail: (email: string) => void;
-  onError: () => void;
+  onError: (error: Error) => void;
   onNext: () => void;
 };
 
@@ -38,7 +38,7 @@ const CreateUserView = ({
         .createUserWithEmailAndPassword(email, password);
 
       if (!user) {
-        onError();
+        onError(new Error('User could not be created'));
         return;
       }
       if (name) {
@@ -55,7 +55,7 @@ const CreateUserView = ({
       } else if (e?.code === 'auth/weak-password') {
         setPasswordError(e.message);
       } else {
-        onError();
+        onError(e);
       }
     }
   };
@@ -85,7 +85,7 @@ const CreateUserView = ({
       />
 
       <Field
-        autoComplete="name"
+        autoComplete="nickname"
         label="Display Name"
         onChange={setName}
         type="text"

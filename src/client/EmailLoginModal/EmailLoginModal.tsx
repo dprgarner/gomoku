@@ -10,6 +10,7 @@ import EmailExistsView from './EmailExistsView';
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  onError: (error: Error) => void;
   onLoginComplete: () => void;
 };
 
@@ -32,14 +33,19 @@ const useStyles = makeStyles(() => ({
 
 type View = 'EMAIL' | 'CREATE' | 'EXISTS';
 
-const EmailLoginModal = ({ isOpen, onClose, onLoginComplete }: Props) => {
+const EmailLoginModal = ({
+  isOpen,
+  onClose,
+  onError,
+  onLoginComplete,
+}: Props) => {
   const classes = useStyles();
   const [view, setView] = React.useState<View>('EMAIL');
   const [email, setEmail] = React.useState('');
 
   const viewProps = {
     email: email,
-    onError: onClose,
+    onError,
     onChangeEmail: setEmail,
   };
 

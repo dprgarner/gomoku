@@ -2,26 +2,17 @@ import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
-import { useFirebaseUser } from '~/client/context/firebaseUser';
+import { useFirebaseUser, useUpdateProfile } from './context/firebaseUser';
+import useRedirectQueryParam from './context/useRedirectQueryParam';
 import {
   AnonymousLoginButton,
   EmailLoginButton,
   GoogleLoginButton,
   LoginButtonsContainer,
-} from './loginPageComponents';
+  GoogleProfile,
+} from './login';
 import EmailLoginModal from './EmailLoginModal';
-
-const useRedirect = () => {
-  const { search } = useLocation();
-  const history = useHistory();
-  const [, redirectParam] = search.match(/redirect=([^&]*)/) || [];
-  const redirectDestination = decodeURIComponent(redirectParam || '') || '/';
-
-  const redirect = () => {
-    history.push(redirectDestination);
-  };
-  return redirect;
-};
+import MiscError from './components/MiscError';
 
 const useRedirectLoggedInUser = () => {
   const history = useHistory();
@@ -39,26 +30,43 @@ const useRedirectLoggedInUser = () => {
 };
 
 const LoginPage = () => {
-  const redirect = useRedirect();
+  const redirect = useRedirectQueryParam();
   const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
+  const updateProfile = useUpdateProfile();
   useRedirectLoggedInUser();
+
+  const [error, setError] = React.useState('');
+
+  const handleGoogleLogin = async () => {
+    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+
+    const { additionalUserInfo } = await firebase
+      .auth()
+      .signInWithPopup(googleAuthProvider);
+
+    const profile: GoogleProfile = additionalUserInfo?.profile || {};
+    updateProfile({
+      displayName: profile.given_name,
+      photoURL: profile.picture,
+    });
+    redirect();
+  };
 
   return (
     <LoginButtonsContainer title="Welcome, friend">
       <EmailLoginButton noDelay onClick={() => setIsEmailModalOpen(true)} />
       <EmailLoginModal
         isOpen={isEmailModalOpen}
+        onError={(e) => {
+          setIsEmailModalOpen(false);
+          console.error(e);
+          setError(e?.message || 'Something went wrong.');
+        }}
         onClose={() => setIsEmailModalOpen(false)}
         onLoginComplete={redirect}
       />
 
-      <GoogleLoginButton
-        onClick={async () => {
-          const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-          await firebase.auth().signInWithPopup(googleAuthProvider);
-          redirect();
-        }}
-      />
+      <GoogleLoginButton onClick={handleGoogleLogin} />
 
       <AnonymousLoginButton
         onClick={async () => {
@@ -66,6 +74,8 @@ const LoginPage = () => {
           redirect();
         }}
       />
+
+      {error && <MiscError error={error} onClose={() => setError('')} />}
     </LoginButtonsContainer>
   );
 };

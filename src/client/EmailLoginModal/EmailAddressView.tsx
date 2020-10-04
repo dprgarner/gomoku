@@ -8,7 +8,7 @@ type Props = {
   onBack: () => void;
   onChangeEmail: (email: string) => void;
   onNext: (view: 'EXISTS' | 'CREATE') => void;
-  onError: () => void;
+  onError: (error: Error) => void;
 };
 
 const EmailAddressView = ({
@@ -43,7 +43,7 @@ const EmailAddressView = ({
       if (e?.code === 'auth/invalid-email') {
         setEmailError(e.message);
       } else {
-        onError();
+        onError(e);
       }
     }
   };

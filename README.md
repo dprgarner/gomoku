@@ -29,11 +29,10 @@ When running in production mode, the static files are served by the same Koa ser
 
 - I forgot my password
 - I want to change my password
-- Catch unknown errors - modal pop-up.
+- I want to upgrade from anon to email-logged-in user
 - What does /login do if already logged in?
   - Log-in page hides options that are already available?
   - Or redirect to a new page?
-- Upgrade from anon to tracked user
 
 ### Lobby card
 

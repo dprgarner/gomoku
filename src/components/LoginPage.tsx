@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const useRedirect = () => {
   const { search } = useLocation();
   const history = useHistory();
-  const [, redirectParam] = search.match(/redirect=([^\&]*)/) || [];
+  const [, redirectParam] = search.match(/redirect=([^&]*)/) || [];
   const redirectDestination = decodeURIComponent(redirectParam || '') || '/';
 
   const redirect = () => {

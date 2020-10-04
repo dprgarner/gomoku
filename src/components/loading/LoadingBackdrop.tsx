@@ -19,7 +19,7 @@ const LoadingBackdrop = ({ children }: LoadingBackdropProps) => {
   const [loadingCount, setLoadingCount] = React.useState(0);
 
   return (
-    <LoadingCallbackContext.Provider value={{ setLoadingCount }}>
+    <LoadingCallbackContext.Provider value={setLoadingCount}>
       <Backdrop className={classes.backdrop} open={!!loadingCount}>
         <CircularProgress color="inherit" />
       </Backdrop>

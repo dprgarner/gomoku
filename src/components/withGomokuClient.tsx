@@ -13,11 +13,12 @@ type Props = {
   playerID: string;
 };
 
-const getDisplayName = <P extends {}>(WrappedComponent: React.FC<P>) =>
+const getDisplayName = <P extends unknown>(WrappedComponent: React.FC<P>) =>
   WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
 // Typing is still broken for Client.board as of v0.40. :(
 // The type of Board should _probably_ be React.FC<BoardProps<GameState>>.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const withGomokuClient = (BoardComponent: any) => {
   const GomokuClient = Client({
     game,
@@ -31,7 +32,7 @@ const withGomokuClient = (BoardComponent: any) => {
     // backdrop is split into two components. The SetLoadingBackdrop component
     // triggers the loading effect via context; the LoadingBackdrop component
     // listens to this and renders the backdrop.
-    loading: () => <SetLoadingBackdrop />,
+    loading: SetLoadingBackdrop,
   });
 
   const Component: React.FC<Props> & { displayName: string } = (

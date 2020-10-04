@@ -10,7 +10,7 @@
     "build-client": "parcel build index.html -d dist_client --public-url https://gomoku-boardgame-io.herokuapp.com/",
     "serve": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build-server": "tsc",
-    "ts": "tsc --noEmit"
+    "lint": "tsc --noEmit && eslint src"
   },
   "dependencies": {
     "bgio-postgres": "^1.0.8",
@@ -28,7 +28,12 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@typescript-eslint/parser": "^4.3.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "eslint": "^7.10.0",
+    "eslint-plugin-react": "^7.21.3",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "firebaseui": "^4.6.1",
     "history": "^5.0.0",
     "parcel-bundler": "^1.12.4",

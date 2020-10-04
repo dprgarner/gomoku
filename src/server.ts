@@ -10,7 +10,7 @@ const serveStaticFiles = process.env.NODE_ENV === 'production';
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 
 const db = new PostgresStore(process.env.DATABASE_URL, {
-  logging: () => {},
+  logging: false,
 });
 
 const server = Server({

@@ -20,8 +20,7 @@ When running in production mode, the static files are served by the same Koa ser
 
 ## Required .env variables
 
-- APP_URL
-- All of Firebase config...
+Several env variables need to be provided for local development or when running in production. See `process.env` in [types.d.ts](types.d.ts) for the list of required variables. Any variable not provided in the docker-compose files should be included in a `.env` file.
 
 ## TODO
 
@@ -49,8 +48,15 @@ What goes on a game card?
 
 ### UI
 
+- I logged in and my initial is "W". W for WTF?
 - More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
 - Highlight winning five-in-a-row
+
+### Associating users with games
+
+- Only store the (anonymous) user ID on each game
+- Store users in Firebase, pull on the backend using the service account
+- Gel each users' data and the games on the front-end. Easier than trying to integrate it with the lobby API.
 
 ### Options for game
 

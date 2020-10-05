@@ -2,6 +2,10 @@ import * as React from 'react';
 
 import LoadingCallbackContext from './LoadingCallbackContext';
 
+type SetLoadingBackdropProps = {
+  delayBeforeOpening?: number;
+};
+
 const useSetLoadingBackdrop = (delayBeforeOpening: number) => {
   const setLoadingCount = React.useContext(LoadingCallbackContext);
 
@@ -17,13 +21,12 @@ const useSetLoadingBackdrop = (delayBeforeOpening: number) => {
   }, [setLoadingCount, delayBeforeOpening]);
 };
 
-type SetLoadingBackdropProps = {
-  delayBeforeOpening?: number;
-};
-
 /**
- * If any instances of this component are mounted, a full-page loading backdrop
- * with a spinner appears.
+ * A component for setting the loading backdrop. This component doesn't render
+ * anything, but triggers a callback when mounting and unmounting. The provider
+ * component LoadingBackdrop listens to this callback and renders a loading
+ * backdrop if any SetLoadingBackdrop components are rendered on the page.
+ *
  */
 const SetLoadingBackdrop: React.FC<SetLoadingBackdropProps> = ({
   delayBeforeOpening = 1000,

@@ -19,8 +19,9 @@ services:
       target: base
     command: 'yarn serve'
     environment:
-      PORT: 8000
+      ADMIN_CREDENTIALS: ${ADMIN_CREDENTIALS}
       DATABASE_URL: postgresql://postgres:postgres@database:5432/postgres
+      PORT: 8000
     ports:
       - 8000:8000
     volumes:

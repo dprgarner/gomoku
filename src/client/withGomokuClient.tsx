@@ -28,10 +28,6 @@ const withGomokuClient = (BoardComponent: any) => {
     }),
     debug: false,
 
-    // For a smoother animation effect and a less jarring transition, the loading
-    // backdrop is split into two components. The SetLoadingBackdrop component
-    // triggers the loading effect via context; the LoadingBackdrop component
-    // listens to this and renders the backdrop.
     loading: SetLoadingBackdrop,
   });
 

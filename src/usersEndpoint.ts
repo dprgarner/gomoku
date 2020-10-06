@@ -1,12 +1,6 @@
 import { Middleware } from 'koa';
 import * as admin from 'firebase-admin';
-
-type SerializedUsers = {
-  [uid: string]: {
-    displayName?: string;
-    photoURL?: string;
-  };
-};
+import { SerializedUsers } from './shared/types';
 
 const getUids = (uid: string | string[] | undefined) => {
   if (!uid) return [];

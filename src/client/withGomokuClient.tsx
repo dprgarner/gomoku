@@ -1,7 +1,9 @@
 import * as React from 'react';
+
 import { Client } from 'boardgame.io/react';
 import { SocketIO } from 'boardgame.io/multiplayer';
 
+import { useCredentials } from './context/firebaseUser';
 import game from '~/shared/game';
 import SetLoadingBackdrop from '~/client/context/loading/SetLoadingBackdrop';
 
@@ -31,9 +33,12 @@ const withGomokuClient = (BoardComponent: any) => {
     loading: SetLoadingBackdrop,
   });
 
-  const Component: React.FC<Props> = (props: Props) => (
-    <GomokuClient {...props} />
-  );
+  const Component: React.FC<Props> = (props: Props) => {
+    const credentials = useCredentials();
+    if (!credentials) return <SetLoadingBackdrop />;
+    return <GomokuClient {...props} credentials={credentials} />;
+  };
+
   Component.displayName = `WithGomokuClient(${getDisplayName(Component)})`;
 
   return Component;

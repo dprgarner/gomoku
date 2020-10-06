@@ -21,7 +21,44 @@ const db = new PostgresStore(process.env.DATABASE_URL, {
 
 const server = Server({
   games: [game],
+
   db,
+
+  generateCredentials: async (ctx) => {
+    try {
+      const authHeader: string = ctx.get('authorization') || '';
+      const [, token] = authHeader.match(/Bearer (.*)/i) || [];
+      if (!token) {
+        throw new Error('Could not read token from Authorization header');
+      }
+      const { uid } = await admin.auth().verifyIdToken(token);
+
+      // This is a bit leaky, but the player metadata _must_ contain the
+      // current user's ID.
+      if (ctx.request.body?.data?.uid !== uid) {
+        throw new Error('Invalid player metadata');
+      }
+
+      return uid;
+    } catch (e) {
+      console.error(e);
+      ctx.status = 401;
+      throw e;
+    }
+  },
+
+  authenticateCredentials: async (credentials, playerMetadata) => {
+    try {
+      const { uid } = await admin.auth().verifyIdToken(credentials);
+      if (uid !== playerMetadata.credentials) {
+        throw new Error('User token is not valid for this user');
+      }
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
 });
 
 if (serveStaticFiles) {

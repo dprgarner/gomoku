@@ -13,3 +13,10 @@ export type GameState = {
 export type Moves = {
   clickCell(rowIndex: number, colIndex: number): void;
 };
+
+export type SerializedUsers = {
+  [uid: string]: {
+    displayName?: string;
+    photoURL?: string;
+  };
+};

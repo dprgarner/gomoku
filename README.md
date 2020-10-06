@@ -58,6 +58,10 @@ What goes on a game card?
 - Store users in Firebase, pull on the backend using the service account
 - Gel each users' data and the games on the front-end. Easier than trying to integrate it with the lobby API.
 
+### Bug
+
+- If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't return credential-errors to the frontend.
+
 ### Options for game
 
 - Board size (15x15 or 19x19?)

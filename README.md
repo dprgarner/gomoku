@@ -24,6 +24,9 @@ Several env variables need to be provided for local development or when running 
 
 ## TODO
 
+- Determine playerID from Firebase Auth and lobby API query.
+- Gel each users' data and the games on the front-end. Easier than trying to integrate it with the lobby API.
+
 ### Lobby card
 
 What goes on a game card?
@@ -52,11 +55,9 @@ What goes on a game card?
 - More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
 - Highlight winning five-in-a-row
 
-### Associating users with games
+### Bug (Probably)
 
-- Only store the (anonymous) user ID on each game
-- Store users in Firebase, pull on the backend using the service account
-- Gel each users' data and the games on the front-end. Easier than trying to integrate it with the lobby API.
+- If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't handle invalid credentials very well, so there's no way to recover from this.
 
 ### Bug
 

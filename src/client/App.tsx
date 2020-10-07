@@ -54,14 +54,11 @@ const App = () => {
             </CheckLoggedIn>
           </Route>
 
-          <Route path="/match/:matchID/player/:playerID">
+          <Route path="/match/:matchID">
             {({ match }: MatchPlayerParams) =>
               match && (
                 <CheckLoggedIn>
-                  <MatchPageWithClient
-                    matchID={match.params.matchID}
-                    playerID={match.params.playerID}
-                  />
+                  <MatchPageWithClient matchID={match.params.matchID} />
                 </CheckLoggedIn>
               )
             }

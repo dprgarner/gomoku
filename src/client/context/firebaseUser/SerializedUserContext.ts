@@ -3,7 +3,7 @@ import * as firebase from 'firebase/app';
 
 export type SerializedUser = Pick<
   firebase.User,
-  'isAnonymous' | 'displayName' | 'photoURL'
+  'uid' | 'isAnonymous' | 'displayName' | 'photoURL'
 >;
 
 const SerializedUserContext = React.createContext<SerializedUser | null>(null);

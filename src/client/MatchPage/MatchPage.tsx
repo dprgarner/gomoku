@@ -15,7 +15,7 @@ type Props = {
   moves: Moves;
   isActive: boolean;
   isConnected: boolean;
-  playerID: string;
+  playerID: string | null;
 };
 
 const MatchPage = ({
@@ -27,13 +27,19 @@ const MatchPage = ({
   playerID,
 }: Props) => {
   const [showNumbers, setShowNumbers] = React.useState(false);
+  if (playerID !== '0' && playerID !== '1' && playerID !== null) {
+    throw new Error('Unrecognised player');
+  }
+  if (ctx.currentPlayer !== '0' && ctx.currentPlayer !== '1') {
+    throw new Error('Unrecognised player');
+  }
 
   return (
     <>
       {!isConnected && <SetLoadingBackdrop />}
 
       <StatusPaper
-        isActive={isActive}
+        currentPlayer={ctx.currentPlayer}
         playerID={playerID}
         gameover={ctx.gameover}
       />

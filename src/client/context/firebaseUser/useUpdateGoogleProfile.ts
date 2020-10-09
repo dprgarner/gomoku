@@ -3,8 +3,8 @@ import * as firebase from 'firebase/app';
 import useUpdateProfile from './useUpdateProfile';
 
 type GoogleProfile = {
-  picture?: string;
   given_name?: string;
+  picture?: string;
 };
 
 const useUpdateGoogleProfile = () => {
@@ -14,10 +14,10 @@ const useUpdateGoogleProfile = () => {
     additionalUserInfo?: firebase.auth.AdditionalUserInfo | null,
   ) => {
     if (additionalUserInfo) {
-      const profile: GoogleProfile = additionalUserInfo.profile || {};
+      const googleProfile: GoogleProfile = additionalUserInfo.profile || {};
       updateProfile({
-        displayName: profile.given_name,
-        photoURL: profile.picture,
+        displayName: googleProfile.given_name,
+        photoURL: googleProfile.picture,
       });
     }
   };

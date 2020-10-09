@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 
 import FadeIn from '~/client/components/FadeIn';
-import { useFirebaseUser } from '~/client/context/firebaseUser';
+import { useProfile } from '~/client/context/firebaseUser';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {
@@ -65,7 +65,7 @@ const PlaceholderCard = () => {
 };
 
 const Lobby = () => {
-  const user = useFirebaseUser();
+  const user = useProfile();
   const classes = useStyles();
 
   return (

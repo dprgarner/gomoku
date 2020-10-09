@@ -2,10 +2,7 @@ import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
-import {
-  useFirebaseUser,
-  useUpdateGoogleProfile,
-} from './context/firebaseUser';
+import { useProfile, useUpdateGoogleProfile } from './context/firebaseUser';
 import useRedirectQueryParam from './context/useRedirectQueryParam';
 import {
   AnonymousLoginButton,
@@ -19,7 +16,7 @@ import MiscError from './components/MiscError';
 const useRedirectLoggedInUser = () => {
   const history = useHistory();
   const location = useLocation();
-  const user = useFirebaseUser();
+  const user = useProfile();
 
   React.useEffect(() => {
     if (user) {

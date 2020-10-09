@@ -8,7 +8,7 @@ import LoginPage from './LoginPage';
 import MatchPage from './MatchPage';
 import useEncodedLocation from './context/useEncodedLocation';
 import withGomokuClient from './withGomokuClient';
-import { useFirebaseUser } from './context/firebaseUser';
+import { useProfile } from './context/firebaseUser';
 
 import Providers from './context/Providers';
 import UserMenu from './UserMenu';
@@ -18,7 +18,7 @@ type CheckLoggedInProps = {
 };
 
 const CheckLoggedIn = ({ children }: CheckLoggedInProps) => {
-  const user = useFirebaseUser();
+  const user = useProfile();
   const redirectPath = useEncodedLocation();
 
   if (!user) {

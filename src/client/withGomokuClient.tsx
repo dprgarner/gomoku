@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Client } from 'boardgame.io/react';
 import { SocketIO } from 'boardgame.io/multiplayer';
 
-import { useCredentials, useFirebaseUser } from './context/firebaseUser';
+import { useCredentials, useProfile } from './context/firebaseUser';
 import game from '~/shared/game';
 import SetLoadingBackdrop from '~/client/context/loading/SetLoadingBackdrop';
 
@@ -23,7 +23,7 @@ type Players = Array<{
 }>;
 
 const usePlayerID = (matchID: string) => {
-  const user = useFirebaseUser();
+  const user = useProfile();
   const [players, setPlayers] = React.useState<Players | null>(null);
 
   React.useEffect(() => {
@@ -46,7 +46,7 @@ const usePlayerID = (matchID: string) => {
   }
 
   if (!user) {
-    return { loading: false, playerID: undefined };
+    return { loading: false };
   }
   for (const player of players) {
     if (player.data?.uid === user.uid) {
@@ -54,7 +54,7 @@ const usePlayerID = (matchID: string) => {
     }
   }
 
-  return { loading: false, playerID: undefined };
+  return { loading: false };
 };
 
 // Typing is still broken for Client.board as of v0.40. :(

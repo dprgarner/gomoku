@@ -1,22 +1,20 @@
 import * as React from 'react';
 import * as firebase from 'firebase/app';
 
-import { SerializedUser } from './SerializedUserContext';
-import UserUpdaterContext from './UserUpdaterContext';
-
-type Profile = {
-  displayName?: string | null;
-  photoURL?: string | null;
-};
+import { Profile } from './ProfileContext';
+import UpdateProfileContext from './UpdateProfileContext';
 
 const useUpdateProfile = () => {
-  const setUser = React.useContext(UserUpdaterContext);
+  const setProfile = React.useContext(UpdateProfileContext);
 
-  const updateProfile = async (profile: Profile) => {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      setUser({ ...(user.toJSON() as SerializedUser), ...profile });
-      await user.updateProfile(profile);
+  const updateProfile = async (updateProfileFields: Partial<Profile>) => {
+    const profile = firebase.auth().currentUser;
+    if (profile) {
+      setProfile({
+        ...profile,
+        ...updateProfileFields,
+      });
+      await profile.updateProfile(updateProfileFields);
     }
   };
 

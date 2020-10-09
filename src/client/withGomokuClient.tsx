@@ -6,24 +6,18 @@ import { SocketIO } from 'boardgame.io/multiplayer';
 import { useCredentials, useProfile } from './context/firebaseUser';
 import game from '~/shared/game';
 import SetLoadingBackdrop from '~/client/context/loading/SetLoadingBackdrop';
-
-const server =
-  process.env.NODE_ENV === 'development' ? 'localhost:8000' : undefined;
+import { server, serverRoot } from '~/client/config';
 
 type Props = {
   matchID: string;
 };
-
-const getDisplayName = <P extends unknown>(WrappedComponent: React.FC<P>) =>
-  WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
 type Players = Array<{
   id: number;
   data?: { uid: string };
 }>;
 
-const usePlayerID = (matchID: string) => {
-  const user = useProfile();
+const useMatchPlayers = (matchID: string) => {
   const [players, setPlayers] = React.useState<Players | null>(null);
 
   React.useEffect(() => {
@@ -31,7 +25,7 @@ const usePlayerID = (matchID: string) => {
       try {
         setPlayers(null);
         const response = await window.fetch(
-          `${server ? `//${server}` : ''}/games/gomoku/${matchID}`,
+          `${serverRoot}/games/gomoku/${matchID}`,
         );
         const { players } = await response.json();
         setPlayers(players);
@@ -41,21 +35,31 @@ const usePlayerID = (matchID: string) => {
     })();
   }, [matchID]);
 
+  return players;
+};
+
+const usePlayerID = (matchID: string) => {
+  const profile = useProfile();
+  const players = useMatchPlayers(matchID);
+
   if (!players) {
     return { loading: true };
   }
 
-  if (!user) {
+  if (!profile) {
     return { loading: false };
   }
   for (const player of players) {
-    if (player.data?.uid === user.uid) {
+    if (player.data?.uid === profile.uid) {
       return { loading: false, playerID: `${player.id}` };
     }
   }
 
   return { loading: false };
 };
+
+const getDisplayName = <P extends unknown>(WrappedComponent: React.FC<P>) =>
+  WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
 // Typing is still broken for Client.board as of v0.40. :(
 // The type of Board should _probably_ be React.FC<BoardProps<GameState>>.

@@ -8,31 +8,53 @@ import StatusPaper from './StatusPaper';
 import GoBoard from './GoBoard';
 import GoStone from './GoStone';
 import SettingsPaper from './SettingsPaper';
+import CtaButtons from './CtaButtons';
+
+type MatchData = Array<{
+  id: string;
+  data?: {
+    uid: string;
+  };
+}>;
 
 type Props = {
   G: GameState;
   ctx: Ctx;
-  moves: Moves;
   isActive: boolean;
   isConnected: boolean;
+  matchData: MatchData;
+  matchID: string;
+  moves: Moves;
   playerID: string | null;
+};
+
+const getAvailableSeat = (playerID: '0' | '1' | null, matchData: MatchData) => {
+  if (playerID !== null) return null;
+  if (!matchData[0].data) return '0';
+  if (!matchData[1].data) return '1';
+  return null;
 };
 
 const MatchPage = ({
   G,
   ctx,
-  moves,
   isActive,
   isConnected,
+  matchData,
+  matchID,
+  moves,
   playerID,
 }: Props) => {
   const [showNumbers, setShowNumbers] = React.useState(false);
+
   if (playerID !== '0' && playerID !== '1' && playerID !== null) {
     throw new Error('Unrecognised player');
   }
   if (ctx.currentPlayer !== '0' && ctx.currentPlayer !== '1') {
     throw new Error('Unrecognised player');
   }
+
+  const availableSeat = getAvailableSeat(playerID, matchData);
 
   return (
     <>
@@ -54,6 +76,8 @@ const MatchPage = ({
           />
         )}
       </GoBoard>
+
+      <CtaButtons availableSeat={availableSeat} matchID={matchID} />
 
       <SettingsPaper
         showNumbers={showNumbers}

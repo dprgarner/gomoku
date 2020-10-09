@@ -8,9 +8,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 import FadeIn from '~/client/components/FadeIn';
-import { useProfile } from '~/client/context/firebaseUser';
+import MiscError from './components/MiscError';
+import { serverRoot } from './config';
+import useJoinMatch from './useJoinMatch';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {
@@ -65,24 +68,61 @@ const PlaceholderCard = () => {
 };
 
 const Lobby = () => {
-  const user = useProfile();
   const classes = useStyles();
+  const history = useHistory();
+  const [error, setError] = React.useState('');
+  const joinMatch = useJoinMatch();
+
+  const createGame = async () => {
+    try {
+      const createResponse = await window.fetch(
+        `${serverRoot}/games/gomoku/create`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            numPlayers: 2,
+            setupData: {
+              size: 15,
+              movesInARow: 5,
+            },
+          }),
+        },
+      );
+      const { matchID } = await createResponse.json();
+      await joinMatch(matchID, '0');
+
+      history.push({
+        pathname: `/match/${matchID}`,
+      });
+    } catch (e) {
+      console.error(e);
+      setError(e.message);
+    }
+  };
 
   return (
     <FadeIn>
       <div className={classes.lobby}>
-        {`Welcome, ${user?.displayName || 'friend'}`}
         <div className={classes.buttonContainer}>
-          <Button variant="contained" size="large" color="primary">
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            onClick={createGame}
+          >
             Create new game
           </Button>
         </div>
-        <Grid container spacing={4}>
+        {/* <Grid container spacing={4}>
           <PlaceholderCard />
           <PlaceholderCard />
           <PlaceholderCard />
           <PlaceholderCard />
-        </Grid>
+        </Grid> */}
+        {error && <MiscError error={error} onClose={() => setError('')} />}
       </div>
     </FadeIn>
   );

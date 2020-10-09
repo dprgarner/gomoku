@@ -24,7 +24,6 @@ Several env variables need to be provided for local development or when running 
 
 ## TODO
 
-- Joining is annoying from the API only. Make a "create game" button on the home page and a "join game" button on the match page, for now.
 - Gel each users' data and the games on the front-end. Easier than trying to integrate it with the lobby API.
 
 ### Lobby card

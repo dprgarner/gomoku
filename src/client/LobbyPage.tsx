@@ -13,7 +13,7 @@ import { useHistory } from 'react-router';
 import FadeIn from '~/client/components/FadeIn';
 import MiscError from './components/MiscError';
 import { serverRoot } from './config';
-import useJoinMatch from './useJoinMatch';
+import useJoinMatch from './context/useJoinMatch';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {

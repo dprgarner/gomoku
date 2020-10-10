@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useProfile } from './context/firebaseUser';
+import { useProfile } from '../context/firebaseUser';
 import LoggedInUserMenu from './LoggedInUserMenu';
 
 const UserMenu = () => {

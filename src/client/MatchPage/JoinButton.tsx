@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 
-import useJoinMatch from '../useJoinMatch';
+import useJoinMatch from '../context/useJoinMatch';
 
 type Props = {
   matchID: string;

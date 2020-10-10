@@ -8,7 +8,7 @@ import StatusPaper from './StatusPaper';
 import GoBoard from './GoBoard';
 import GoStoneCell from './GoStoneCell';
 import MatchPlayers from './MatchPlayers';
-import useUsers from './useUsers';
+import useUsers from '../context/useUsers';
 import MatchNav from './MatchNav';
 
 type MatchData = Array<{

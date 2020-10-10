@@ -1,5 +1,5 @@
-import { serverRoot } from './config';
-import { useCredentials, useProfile } from './context/firebaseUser';
+import { serverRoot } from '../config';
+import { useCredentials, useProfile } from './firebaseUser';
 
 const useJoinMatch = () => {
   const user = useProfile();

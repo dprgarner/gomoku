@@ -17,6 +17,10 @@ type GoBoardProps = {
 
 const boxShadow = '4px 4px 12px 0px rgba(0,0,0,0.75)';
 
+type StyleProps = {
+  size: number;
+};
+
 const useStyles = makeStyles((theme) => ({
   board: {
     background: '#EEBB1C',
@@ -26,19 +30,18 @@ const useStyles = makeStyles((theme) => ({
     '-webkit-box-shadow': boxShadow,
     '-moz-box-shadow': boxShadow,
     'box-shadow': boxShadow,
-    margin: theme.spacing(4),
     padding: theme.spacing(4),
     position: 'relative',
   },
 
-  boardPositioner: {
+  boardPositioner: ({ size }: StyleProps) => ({
     display: 'grid',
-    gridTemplateColumns: '1fr 28fr 1fr',
-    gridTemplateRows: '1fr 28fr 1fr',
+    gridTemplateColumns: `1fr ${2 * (size - 1)}fr 1fr`,
+    gridTemplateRows: `1fr ${2 * (size - 1)}fr 1fr`,
     position: 'relative',
-  },
+  }),
 
-  interactiveGrid: ({ size }: { size: number }) => ({
+  interactiveGrid: ({ size }: StyleProps) => ({
     border: '4px solid transparent',
     borderCollapse: 'collapse',
     display: 'grid',

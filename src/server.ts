@@ -6,6 +6,7 @@ import * as admin from 'firebase-admin';
 
 import game from './shared/game';
 import usersEndpoint from './usersEndpoint';
+import { Middleware } from 'koa';
 
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(process.env.ADMIN_CREDENTIALS)),
@@ -64,6 +65,13 @@ const server = Server({
 if (serveStaticFiles) {
   server.app.use(serve(distClient));
 }
+
+const allowCors: Middleware = async (ctx, next) => {
+  ctx.response.set('Access-Control-Allow-Origin', '*');
+  return next();
+};
+
+server.app.use(allowCors);
 
 server.app.use(usersEndpoint);
 

@@ -24,8 +24,7 @@ Several env variables need to be provided for local development or when running 
 
 ## TODO
 
-- Gel each users' data and the games on the front-end. Easier than trying to integrate it with the lobby API.
-  - http://localhost:8000/users?uid=ixArcIeXcteTGNS25jiL1lsP4aq1
+- It is _really_ slow. What's happened? :(
 
 ### Lobby card
 

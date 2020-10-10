@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Typography } from '@material-ui/core';
-import SmallPaper from './SmallPaper';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Paper } from '@material-ui/core';
 
 type StatusPaperProps = {
   currentPlayer: '0' | '1';
@@ -8,12 +8,20 @@ type StatusPaperProps = {
   gameover?: { winner?: '0' | '1' };
 };
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(2),
+    width: '100%',
+  },
+}));
+
 type TextProps = {
   children: React.ReactNode;
 };
 
 const Text = ({ children }: TextProps) => (
-  <Typography variant="h5" component="h2">
+  <Typography variant="h6" component="h2">
     {children}
   </Typography>
 );
@@ -66,15 +74,17 @@ const StatusPaper = ({
   playerID,
   gameover,
 }: StatusPaperProps) => {
+  const classes = useStyles();
+
   return (
-    <SmallPaper>
+    <Paper elevation={3} className={classes.paper}>
       <Text>{getPlayerText(playerID)}</Text>
       <Text>
         {gameover
           ? getGameoverText(playerID, gameover.winner)
           : getCurrentTurnText(playerID, currentPlayer)}
       </Text>
-    </SmallPaper>
+    </Paper>
   );
 };
 

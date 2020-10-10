@@ -1,17 +1,16 @@
 import * as React from 'react';
 import {
-  Avatar,
   IconButton,
   Menu,
   MenuItem,
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import Person from '@material-ui/icons/Person';
 import * as firebase from 'firebase/app';
 import { useHistory } from 'react-router';
 
 import useEncodedLocation from './context/useEncodedLocation';
+import ProfileAvatar from './components/ProfileAvatar';
 
 type LoggedInUserMenuProps = {
   displayName: string | null;
@@ -23,11 +22,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(4),
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.getContrastText(theme.palette.secondary.main),
   },
-
-  placeholderIcon: {},
 }));
 
 const LoggedInUserMenu = ({
@@ -60,13 +55,12 @@ const LoggedInUserMenu = ({
       >
         <Typography variant="button">{welcomeText}</Typography>
 
-        {photoURL ? (
-          <Avatar alt={welcomeText} src={photoURL} className={classes.avatar} />
-        ) : (
-          <Avatar alt={welcomeText} className={classes.avatar}>
-            <Person fontSize="large" />
-          </Avatar>
-        )}
+        <div className={classes.avatar}>
+          <ProfileAvatar
+            displayName={displayName || undefined}
+            photoURL={photoURL || undefined}
+          />
+        </div>
       </IconButton>
 
       <Menu

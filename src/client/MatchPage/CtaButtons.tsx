@@ -12,14 +12,14 @@ type Props = {
 const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     textAlign: 'center',
-    margin: 20,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
   },
+
   button: {
-    flex: '0 0  50%',
-    margin: 10,
+    flex: '1 0 50%',
+    margin: theme.spacing(1),
   },
 }));
 
@@ -51,7 +51,7 @@ const CtaButtons = ({ availableSeat, matchID }: Props) => {
         }}
         variant="contained"
       >
-        Return to Lobby
+        Back to Lobby
       </Button>
     </div>
   );

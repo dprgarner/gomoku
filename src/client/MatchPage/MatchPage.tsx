@@ -6,9 +6,10 @@ import SetLoadingBackdrop from '~/client/context/loading/SetLoadingBackdrop';
 
 import StatusPaper from './StatusPaper';
 import GoBoard from './GoBoard';
-import GoStone from './GoStone';
 import SettingsPaper from './SettingsPaper';
 import CtaButtons from './CtaButtons';
+import GoCell from './GoCell';
+import { Grid } from '@material-ui/core';
 
 type MatchData = Array<{
   id: string;
@@ -46,44 +47,51 @@ const MatchPage = ({
   playerID,
 }: Props) => {
   const [showNumbers, setShowNumbers] = React.useState(false);
+  const { currentPlayer } = ctx;
 
   if (playerID !== '0' && playerID !== '1' && playerID !== null) {
     throw new Error('Unrecognised player');
   }
-  if (ctx.currentPlayer !== '0' && ctx.currentPlayer !== '1') {
+  if (currentPlayer !== '0' && currentPlayer !== '1') {
     throw new Error('Unrecognised player');
   }
 
   const availableSeat = getAvailableSeat(playerID, matchData);
 
   return (
-    <>
-      {!isConnected && <SetLoadingBackdrop />}
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={3}>
+        <StatusPaper
+          currentPlayer={currentPlayer}
+          playerID={playerID}
+          gameover={ctx.gameover}
+        />
 
-      <StatusPaper
-        currentPlayer={ctx.currentPlayer}
-        playerID={playerID}
-        gameover={ctx.gameover}
-      />
+        <SettingsPaper
+          showNumbers={showNumbers}
+          setShowNumbers={setShowNumbers}
+        >
+          <CtaButtons availableSeat={availableSeat} matchID={matchID} />
+        </SettingsPaper>
+      </Grid>
 
-      <GoBoard size={G.size}>
-        {(rowIndex: number, colIndex: number) => (
-          <GoStone
-            stonePlayer={G.cells[rowIndex][colIndex]}
-            turnNumber={showNumbers ? G.turnNumbers[rowIndex][colIndex] : null}
-            ghostPlayer={isActive ? ctx.currentPlayer : null}
-            onClick={() => moves.clickCell(rowIndex, colIndex)}
-          />
-        )}
-      </GoBoard>
+      <Grid item xs={12} md={9}>
+        {!isConnected && <SetLoadingBackdrop />}
 
-      <CtaButtons availableSeat={availableSeat} matchID={matchID} />
-
-      <SettingsPaper
-        showNumbers={showNumbers}
-        setShowNumbers={setShowNumbers}
-      />
-    </>
+        <GoBoard size={G.size}>
+          {(rowIndex: number, colIndex: number) => (
+            <GoCell
+              ghostPlayer={isActive ? currentPlayer : null}
+              stonePlayer={G.cells[rowIndex][colIndex]}
+              turnNumber={
+                showNumbers ? G.turnNumbers[rowIndex][colIndex] : null
+              }
+              onClick={() => moves.clickCell(rowIndex, colIndex)}
+            />
+          )}
+        </GoBoard>
+      </Grid>
+    </Grid>
   );
 };
 

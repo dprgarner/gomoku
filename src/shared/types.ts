@@ -6,7 +6,7 @@ export type SetupData = {
 export type GameState = {
   size: number;
   movesInARow: number;
-  cells: (string | null)[][];
+  cells: ('0' | '1' | null)[][];
   turnNumbers: (number | null)[][];
 };
 

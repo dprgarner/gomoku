@@ -117,6 +117,9 @@ const game = {
       if (G.cells[cellRow][cellCol] !== null) {
         return INVALID_MOVE;
       }
+      if (ctx.currentPlayer !== '0' && ctx.currentPlayer !== '1') {
+        return INVALID_MOVE;
+      }
       G.cells[cellRow][cellCol] = ctx.currentPlayer;
       G.turnNumbers[cellRow][cellCol] = ctx.turn;
     },

@@ -1,24 +1,18 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import {
-  squareSize,
-  stoneFontSize,
-  stoneLineHeight,
-} from './GoBoard/constants';
+import { squareSize, stoneFontSize, stoneLineHeight } from './constants';
 
 type GoStoneProps = {
-  ghostPlayer: string | null;
-  stonePlayer: string | null;
+  element: keyof JSX.IntrinsicElements;
+  isInteractive: boolean;
+  isVisible: boolean;
+  player: '0' | '1' | null;
   turnNumber: number | null;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
-type StyleProps = {
-  isEnabled: boolean;
-  hasStone: boolean;
-  cellPlayer: string | null;
-};
+type StyleProps = Pick<GoStoneProps, 'player' | 'isInteractive' | 'isVisible'>;
 
 const stoneShadow = '3px 3px 5px 0px rgba(0,0,0,0.6)';
 
@@ -35,18 +29,18 @@ const whiteStyles = {
 };
 
 const useStyles = makeStyles({
-  cell: ({ isEnabled, hasStone }: StyleProps) => ({
+  cell: ({ isInteractive, isVisible }: StyleProps) => ({
     border: '1px solid transparent',
     padding: squareSize,
     position: 'relative',
-    opacity: hasStone ? 1 : 0,
+    opacity: isVisible ? 1 : 0,
 
     '&:hover': {
-      opacity: hasStone ? 1 : isEnabled ? 0.5 : 0,
+      opacity: isVisible ? 1 : isInteractive ? 0.5 : 0,
     },
   }),
 
-  stone: ({ cellPlayer }: StyleProps) => ({
+  stone: ({ player }: StyleProps) => ({
     borderRadius: squareSize,
     bottom: 0,
     left: 0,
@@ -66,31 +60,28 @@ const useStyles = makeStyles({
     '-moz-box-shadow': stoneShadow,
     'box-shadow': stoneShadow,
 
-    ...(cellPlayer === '0' && blackStyles),
-    ...(cellPlayer === '1' && whiteStyles),
+    ...(player === '0' && blackStyles),
+    ...(player === '1' && whiteStyles),
   }),
 });
 
 const GoStone = ({
-  stonePlayer,
-  ghostPlayer,
+  element: Tag,
+  isInteractive,
+  isVisible,
+  player,
   turnNumber,
   onClick,
 }: GoStoneProps) => {
-  const isEnabled = ghostPlayer !== null;
-  const hasStone = stonePlayer !== null;
-  const cellPlayer = hasStone ? stonePlayer : ghostPlayer;
-
-  const classes = useStyles({ isEnabled, hasStone, cellPlayer });
-
+  const classes = useStyles({ isInteractive, isVisible, player });
   return (
-    <td
+    <Tag
       className={classes.cell}
-      onClick={isEnabled ? onClick : undefined}
+      onClick={isInteractive ? onClick : undefined}
       role="button"
     >
       <div className={classes.stone}>{turnNumber}</div>
-    </td>
+    </Tag>
   );
 };
 

@@ -4,11 +4,16 @@ import { FormControlLabel, Switch, FormControl } from '@material-ui/core';
 import SmallPaper from './SmallPaper';
 
 type SettingsPaperProps = {
+  children: React.ReactNode;
   showNumbers: boolean;
   setShowNumbers: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SettingsPaper = ({ showNumbers, setShowNumbers }: SettingsPaperProps) => {
+const SettingsPaper = ({
+  children,
+  showNumbers,
+  setShowNumbers,
+}: SettingsPaperProps) => {
   return (
     <SmallPaper>
       <FormControl component="fieldset">
@@ -24,6 +29,7 @@ const SettingsPaper = ({ showNumbers, setShowNumbers }: SettingsPaperProps) => {
           label="Show Turn Numbers"
         />
       </FormControl>
+      {children}
     </SmallPaper>
   );
 };

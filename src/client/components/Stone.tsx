@@ -47,9 +47,9 @@ const useStyles = makeStyles(() => ({
   }),
 }));
 
-const Stone = ({ player, children }: Props) => {
+const Stone = React.memo(({ player, children }: Props) => {
   const classes = useStyles({ player });
   return <div className={classes.stone}>{children}</div>;
-};
+});
 
 export default Stone;

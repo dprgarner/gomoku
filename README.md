@@ -24,7 +24,7 @@ Several env variables need to be provided for local development or when running 
 
 ## TODO
 
-- It is _really_ slow. What's happened? :(
+- Sort out CORS.
 
 ### Lobby card
 

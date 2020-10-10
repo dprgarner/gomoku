@@ -10,7 +10,10 @@ type Props = {
 
 const useStyles = makeStyles((theme) => ({
   welcomePage: {
-    margin: theme.spacing(4),
+    marginTop: theme.spacing(4),
+    marginRight: 'auto',
+    marginBottom: theme.spacing(4),
+    marginLeft: 'auto',
   },
 
   paper: {

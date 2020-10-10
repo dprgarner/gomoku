@@ -11,7 +11,6 @@ type Props = {
 };
 
 type StyleProps = {
-  player: '0' | '1' | null;
   isInteractive: boolean;
   isVisible: boolean;
 };
@@ -59,7 +58,7 @@ const GoStoneCell = ({
   const isVisible = stonePlayer !== null;
   const player = isVisible ? stonePlayer : ghostPlayer;
 
-  const classes = useStyles({ isInteractive, isVisible, player });
+  const classes = useStyles({ isInteractive, isVisible });
 
   return (
     <div

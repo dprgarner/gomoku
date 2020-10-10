@@ -2,7 +2,6 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import range from '~/shared/range';
-import { boardGridBorderWidth } from './constants';
 import GoBoardCell from './GoBoardCell';
 
 type GoBoardGridProps = {
@@ -36,30 +35,34 @@ const getStarPoints = (size: number) => {
 };
 
 const useStyles = makeStyles({
-  backgroundGrid: {
-    border: `${boardGridBorderWidth}px solid black`,
+  backgroundGrid: ({ size }: GoBoardGridProps) => ({
     borderCollapse: 'collapse',
-  },
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderWidth: '2px 1px 1px 2px',
+    display: 'grid',
+    gridArea: '2 / 2 / -2 / -2',
+    gridTemplateColumns: `repeat(${size - 1}, 1fr)`,
+  }),
 });
 
 const GoBoardGrid = ({ size }: GoBoardGridProps) => {
   const starPoints = getStarPoints(size);
-  const classes = useStyles();
+  const classes = useStyles({ size });
+
   return (
-    <table className={classes.backgroundGrid}>
-      <tbody>
-        {range(size - 1).map((_, rowIndex) => (
-          <tr key={rowIndex}>
-            {range(size - 1).map((_, colIndex) => (
-              <GoBoardCell
-                key={colIndex}
-                hasStarPoint={!!starPoints[`${rowIndex}-${colIndex}`]}
-              />
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className={classes.backgroundGrid}>
+      {range(size - 1).map((_, rowIndex) => (
+        <React.Fragment key={rowIndex}>
+          {range(size - 1).map((_, colIndex) => (
+            <GoBoardCell
+              key={colIndex}
+              hasStarPoint={!!starPoints[`${rowIndex}-${colIndex}`]}
+            />
+          ))}
+        </React.Fragment>
+      ))}
+    </div>
   );
 };
 

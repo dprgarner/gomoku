@@ -2,7 +2,6 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import range from '~/shared/range';
-import { boardGridBorderWidth, squareSize } from './constants';
 import woodImage from './wood.jpg';
 import GoBoardGrid from './GoBoardGrid';
 
@@ -28,44 +27,46 @@ const useStyles = makeStyles((theme) => ({
     '-moz-box-shadow': boxShadow,
     'box-shadow': boxShadow,
     margin: theme.spacing(4),
-    padding: 2 * squareSize,
+    padding: theme.spacing(4),
     position: 'relative',
   },
 
   boardPositioner: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 28fr 1fr',
+    gridTemplateRows: '1fr 28fr 1fr',
     position: 'relative',
   },
 
-  interactiveGrid: {
+  interactiveGrid: ({ size }: { size: number }) => ({
+    border: '4px solid transparent',
     borderCollapse: 'collapse',
-    border: `${boardGridBorderWidth}px solid transparent`,
-    position: 'absolute',
-    top: -squareSize,
-    left: -squareSize,
-  },
+    display: 'grid',
+    gridArea: '1 / 1 / -1 / -1',
+    gridTemplateColumns: `repeat(${size * 2}, 1fr)`,
+    gridGap: 3,
+  }),
 }));
 
 const GoBoard = ({ children, size }: GoBoardProps) => {
-  const classes = useStyles();
+  const classes = useStyles({ size });
 
   return (
     <div className={classes.board}>
       <div className={classes.boardPositioner}>
         <GoBoardGrid size={size} />
 
-        <table className={classes.interactiveGrid}>
-          <tbody>
-            {range(size).map((_, rowIndex) => (
-              <tr key={rowIndex}>
-                {range(size).map((_, colIndex) => (
-                  <React.Fragment key={colIndex}>
-                    {children(rowIndex, colIndex)}
-                  </React.Fragment>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className={classes.interactiveGrid}>
+          {range(size).map((_, rowIndex) => (
+            <React.Fragment key={rowIndex}>
+              {range(size).map((_, colIndex) => (
+                <React.Fragment key={colIndex}>
+                  {children(rowIndex, colIndex)}
+                </React.Fragment>
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
     </div>
   );

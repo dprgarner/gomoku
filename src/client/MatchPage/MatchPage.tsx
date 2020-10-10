@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Ctx } from 'boardgame.io';
+import { Grid } from '@material-ui/core';
 
 import { GameState, Moves } from '~/shared/types';
 import SetLoadingBackdrop from '~/client/context/loading/SetLoadingBackdrop';
@@ -8,8 +9,8 @@ import StatusPaper from './StatusPaper';
 import GoBoard from './GoBoard';
 import SettingsPaper from './SettingsPaper';
 import CtaButtons from './CtaButtons';
-import GoCell from './GoCell';
-import { Grid } from '@material-ui/core';
+import GoStoneCell from './GoStoneCell';
+import Stone from '../components/Stone';
 
 type MatchData = Array<{
   id: string;
@@ -59,7 +60,7 @@ const MatchPage = ({
   const availableSeat = getAvailableSeat(playerID, matchData);
 
   return (
-    <Grid container spacing={3}>
+    <Grid container>
       <Grid item xs={12} md={3}>
         <StatusPaper
           currentPlayer={currentPlayer}
@@ -80,7 +81,7 @@ const MatchPage = ({
 
         <GoBoard size={G.size}>
           {(rowIndex: number, colIndex: number) => (
-            <GoCell
+            <GoStoneCell
               ghostPlayer={isActive ? currentPlayer : null}
               stonePlayer={G.cells[rowIndex][colIndex]}
               turnNumber={

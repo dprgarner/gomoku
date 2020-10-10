@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   boardContainer: {
-    alignItems: 'center',
+    alignItems: 'stretch',
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(4),

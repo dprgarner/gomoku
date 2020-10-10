@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { squareSize } from './constants';
-
 const starPointSize = 4;
 
 type GoBoardCellProps = {
@@ -15,8 +13,8 @@ type StyleProps = {
 
 const useStyles = makeStyles({
   cell: ({ hasStarPoint }: StyleProps) => ({
-    border: '1px solid black',
-    padding: squareSize,
+    borderBottom: '1px solid black',
+    borderRight: '1px solid black',
     position: 'relative',
 
     '&:after': hasStarPoint
@@ -35,7 +33,7 @@ const useStyles = makeStyles({
 
 const GoBoardCell = ({ hasStarPoint }: GoBoardCellProps) => {
   const classes = useStyles({ hasStarPoint });
-  return <td className={classes.cell} />;
+  return <div className={classes.cell} />;
 };
 
 export default GoBoardCell;

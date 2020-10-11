@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { makeStyles, AppBar, Typography, Container } from '@material-ui/core';
+import {
+  makeStyles,
+  AppBar,
+  Link,
+  Typography,
+  Container,
+} from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -33,7 +40,9 @@ const Layout = ({ children, userMenu }: LayoutProps) => {
     <>
       <AppBar position="static" className={classes.appBar}>
         <Typography variant="h3" component="h1" className={classes.title}>
-          Gomoku
+          <Link color="inherit" underline="none" component={RouterLink} to="/">
+            Gomoku
+          </Link>
         </Typography>
 
         {userMenu}

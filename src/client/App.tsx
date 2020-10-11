@@ -9,9 +9,9 @@ import MatchPage from './MatchPage';
 import useEncodedLocation from './context/useEncodedLocation';
 import withGomokuClient from './withGomokuClient';
 import { useProfile } from './context/firebaseUser';
-
 import Providers from './context/Providers';
 import UserMenu from './UserMenu';
+import ProfilePage from './ProfilePage';
 
 type CheckLoggedInProps = {
   children: React.ReactElement;
@@ -62,6 +62,12 @@ const App = () => {
                 </CheckLoggedIn>
               )
             }
+          </Route>
+
+          <Route path="/profile">
+            <CheckLoggedIn>
+              <ProfilePage />
+            </CheckLoggedIn>
           </Route>
 
           <Route path="/" exact>

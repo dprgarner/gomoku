@@ -2,6 +2,7 @@ import * as React from 'react';
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 
 import FadeIn from '~/client/components/FadeIn';
+import CookiesModalLauncher from './CookiesModalLauncher';
 
 type Props = {
   title: string;
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginBottom: theme.spacing(4),
     marginLeft: 'auto',
+    width: 450,
   },
 
   paper: {
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginButtonsContainer = ({ title, children }: Props) => {
   const classes = useStyles();
+
   return (
     <FadeIn>
       <div className={classes.welcomePage}>
@@ -37,6 +40,8 @@ const LoginButtonsContainer = ({ title, children }: Props) => {
           </Typography>
 
           {children}
+
+          <CookiesModalLauncher />
         </Paper>
       </div>
     </FadeIn>

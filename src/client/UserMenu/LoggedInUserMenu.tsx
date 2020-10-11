@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { MenuItem } from '@material-ui/core';
 import * as firebase from 'firebase/app';
 import { useHistory } from 'react-router';
 
 import useEncodedLocation from '../context/useEncodedLocation';
-import AvatarPopup from './AvatarPopup';
+import AvatarPopupMenu from './AvatarPopupMenu';
 
 type Props = {
   displayName: string | null;
@@ -17,35 +16,26 @@ const LoggedInUserMenu = ({ isAnonymous, displayName, photoURL }: Props) => {
   const redirectPath = useEncodedLocation();
 
   return (
-    <AvatarPopup
+    <AvatarPopupMenu
       displayName={displayName || undefined}
       photoURL={photoURL || undefined}
-      text={`Welcome, ${displayName || 'stranger'}`}
-    >
-      {(closeMenu) => (
-        <>
-          {isAnonymous ? (
-            <MenuItem
-              onClick={() => {
-                closeMenu();
+      avatarText={`Welcome, ${displayName || 'stranger'}`}
+      menuItems={[
+        isAnonymous
+          ? {
+              text: 'Log in',
+              onClick: () => {
                 history.push(`/add-login-method?redirect=${redirectPath}`);
-              }}
-            >
-              Log in
-            </MenuItem>
-          ) : (
-            <MenuItem
-              onClick={() => {
-                closeMenu();
+              },
+            }
+          : {
+              text: 'Log out',
+              onClick: () => {
                 firebase.auth().signOut();
-              }}
-            >
-              Log out
-            </MenuItem>
-          )}
-        </>
-      )}
-    </AvatarPopup>
+              },
+            },
+      ]}
+    />
   );
 };
 

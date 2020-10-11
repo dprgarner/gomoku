@@ -25,6 +25,10 @@ Several env variables need to be provided for local development or when running 
 ## TODO
 
 - Sort out CORS.
+- Lobby.
+- Cache users. It looks a bit daft, being fetched each time.
+- "Delete all data" button.
+- GDPR?
 
 ### Lobby card
 

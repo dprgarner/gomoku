@@ -1,11 +1,17 @@
 import * as React from 'react';
-import { IconButton, Menu, Typography, makeStyles } from '@material-ui/core';
+import {
+  IconButton,
+  Menu,
+  Typography,
+  makeStyles,
+  MenuItem,
+} from '@material-ui/core';
 
 import ProfileAvatar from '../components/ProfileAvatar';
 
 type Props = {
-  text: string;
-  children: (closeMenu: () => void) => React.ReactNode;
+  avatarText: string;
+  menuItems: Array<{ text: string; onClick: () => void }>;
   displayName?: string;
   photoURL?: string;
 };
@@ -17,7 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AvatarPopup = ({ displayName, photoURL, text, children }: Props) => {
+const AvatarPopupMenu = ({
+  displayName,
+  photoURL,
+  avatarText,
+  menuItems,
+}: Props) => {
   const classes = useStyles();
   const [
     menuAnchorElement,
@@ -35,7 +46,7 @@ const AvatarPopup = ({ displayName, photoURL, text, children }: Props) => {
           setMenuAnchorElement(e.currentTarget);
         }}
       >
-        <Typography variant="button">{text}</Typography>
+        <Typography variant="button">{avatarText}</Typography>
 
         <div className={classes.avatar}>
           <ProfileAvatar displayName={displayName} photoURL={photoURL} />
@@ -56,10 +67,20 @@ const AvatarPopup = ({ displayName, photoURL, text, children }: Props) => {
           horizontal: 'center',
         }}
       >
-        {children(handleClose)}
+        {menuItems.map(({ text, onClick }) => (
+          <MenuItem
+            key={text}
+            onClick={() => {
+              handleClose();
+              onClick();
+            }}
+          >
+            {text}
+          </MenuItem>
+        ))}
       </Menu>
     </>
   );
 };
 
-export default AvatarPopup;
+export default AvatarPopupMenu;

@@ -1,8 +1,9 @@
-node_modules
+.DS_Store
+.cache
+.env
+.parcel-cache
+.vscode
+dist
 dist_client
 dist_server
-dist
-.cache
-.vscode
-.DS_Store
-.env
+node_modules

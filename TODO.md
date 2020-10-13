@@ -1,5 +1,10 @@
 # TODO list
 
+## Bugs
+
+- Providers are messed-up in the production build. They probably load in a different order.
+- If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't return credential-errors to the frontend.
+
 ## Lobby
 
 ### What goes on a game card?
@@ -38,7 +43,3 @@
 - Update game pages when another user joins (somehow)
 - More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
 - Highlight winning five-in-a-row
-
-## Bugs
-
-- If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't return credential-errors to the frontend.

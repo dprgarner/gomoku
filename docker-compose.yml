@@ -5,13 +5,14 @@ services:
     build:
       context: .
       target: base
-    command: 'yarn start'
+    command: yarn start
     ports:
       - 1234:1234
-      - 4321:4321
     volumes:
       - ./package.json:/app/package.json
       - ./src:/app/src
+    environment:
+      PARCEL_WORKERS: 1
 
   server:
     build:

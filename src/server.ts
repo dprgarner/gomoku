@@ -71,7 +71,9 @@ const allowCors: Middleware = async (ctx, next) => {
   return next();
 };
 
-server.app.use(allowCors);
+if (process.env.NODE_ENV !== 'production') {
+  server.app.use(allowCors);
+}
 
 server.app.use(usersEndpoint);
 

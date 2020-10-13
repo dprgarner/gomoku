@@ -8,7 +8,7 @@ This is an unabashedy isomorphic app, with co-located client and server code.
 > docker-compose up
 ```
 
-In development mode, the client starts on port 1234, the hot-reloading websocket runs on port 4321, the server starts on port 8000, and the database starts on port 5432.
+In development mode, the client starts on port 1234, the server starts on port 8000, and the database starts on port 5432.
 
 ## Production
 

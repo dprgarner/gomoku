@@ -1,5 +1,5 @@
 import * as React from 'react';
-import CredentialsContext from './CredentialsContext';
+import { CredentialsContext } from './contexts';
 
 const useCredentials = () => React.useContext(CredentialsContext);
 

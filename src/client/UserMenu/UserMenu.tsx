@@ -5,7 +5,7 @@ import LoggedInUserMenu from './LoggedInUserMenu';
 
 const UserMenu = () => {
   const user = useProfile();
-  return user && <LoggedInUserMenu {...user} />;
+  return user ? <LoggedInUserMenu {...user} /> : null;
 };
 
 export default UserMenu;

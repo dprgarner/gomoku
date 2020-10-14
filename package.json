@@ -2,7 +2,6 @@
   "name": "gomoku",
   "version": "0.0.1",
   "description": "Gomoku with Boardgame.io",
-  "main": "index.js",
   "author": "David Garner",
   "license": "MIT",
   "scripts": {
@@ -25,6 +24,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@parcel/optimizer-terser": "^2.0.0-alpha.3",
     "@parcel/transformer-svg-react": "^2.0.0-nightly.1739",
     "@types/history": "^4.7.8",
     "@types/koa": "^2.11.4",

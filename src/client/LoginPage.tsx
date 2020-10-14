@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
 import { useProfile, useUpdateGoogleProfile } from './context/firebaseUser';
@@ -13,28 +12,20 @@ import {
 import EmailLoginModal from './EmailLoginModal';
 import MiscError from './components/MiscError';
 
-const useRedirectLoggedInUser = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const user = useProfile();
-
-  React.useEffect(() => {
-    if (user) {
-      history.push({
-        ...location,
-        pathname: '/add-login-method',
-      });
-    }
-  }, [user, location, history]);
-};
-
 const LoginPage = () => {
   const redirect = useRedirectQueryParam();
   const [isEmailModalOpen, setIsEmailModalOpen] = React.useState(false);
-  const updateGoogleProfile = useUpdateGoogleProfile();
-  useRedirectLoggedInUser();
-
   const [error, setError] = React.useState('');
+
+  const user = useProfile();
+  React.useEffect(() => {
+    if (user) redirect();
+  }, [user, redirect]);
+
+  const updateGoogleProfile = useUpdateGoogleProfile();
+  if (!updateGoogleProfile) {
+    return null;
+  }
 
   const handleGoogleLogin = async () => {
     try {

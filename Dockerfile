@@ -1,4 +1,4 @@
-FROM node:12-stretch-slim AS base
+FROM node:14-stretch-slim AS base
 WORKDIR /app
 COPY ./package.json ./yarn.lock ./
 RUN yarn
@@ -13,7 +13,7 @@ FROM base AS server-build
 RUN yarn build-server
 
 
-FROM node:12-stretch-slim AS production
+FROM node:14-stretch-slim AS production
 ENV NODE_ENV=production
 WORKDIR /app
 COPY ./package.json ./yarn.lock ./

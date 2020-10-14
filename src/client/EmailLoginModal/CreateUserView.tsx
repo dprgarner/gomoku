@@ -26,6 +26,7 @@ const CreateUserView = ({
   const [passwordError, setPasswordError] = React.useState('');
 
   const updateProfile = useUpdateProfile();
+  if (!updateProfile) return null;
 
   const handleNext = async () => {
     try {

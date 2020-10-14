@@ -12,9 +12,12 @@ import MiscError from './components/MiscError';
 
 const AddLoginMethodPage = () => {
   const redirect = useRedirectQueryParam();
+  const [error, setError] = React.useState('');
   const updateGoogleProfile = useUpdateGoogleProfile();
 
-  const [error, setError] = React.useState('');
+  if (!updateGoogleProfile) {
+    return null;
+  }
 
   const currentUser = firebase.auth().currentUser;
   if (!currentUser) return null;

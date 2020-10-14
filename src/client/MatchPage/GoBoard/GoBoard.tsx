@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import range from '~/shared/range';
-import woodImage from './wood.jpg';
+import woodImage from 'url:./wood.jpg';
 import GoBoardGrid from './GoBoardGrid';
 
 type GoBoardProps = {

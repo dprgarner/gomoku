@@ -2,9 +2,12 @@ import * as React from 'react';
 import * as firebase from 'firebase/app';
 
 import SetLoadingBackdrop from '../loading/SetLoadingBackdrop';
-import ProfileContext, { Profile } from './ProfileContext';
-import UpdateProfileContext from './UpdateProfileContext';
-import CredentialsContext from './CredentialsContext';
+import {
+  Profile,
+  CredentialsContext,
+  ProfileContext,
+  UpdateProfileContext,
+} from './contexts';
 
 const FirebaseUserProvider: React.FC = ({ children }) => {
   const [profile, setProfile] = React.useState<Profile | null>(null);
@@ -26,11 +29,25 @@ const FirebaseUserProvider: React.FC = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  const updateProfile = React.useMemo(
+    () => async (updateProfileFields: Partial<Profile>) => {
+      const currentProfile = firebase.auth().currentUser;
+      if (currentProfile) {
+        setProfile({
+          ...currentProfile,
+          ...updateProfileFields,
+        });
+        await currentProfile.updateProfile(updateProfileFields);
+      }
+    },
+    [setProfile],
+  );
+
   if (isLoading) return <SetLoadingBackdrop />;
 
   return (
     <ProfileContext.Provider value={profile}>
-      <UpdateProfileContext.Provider value={setProfile}>
+      <UpdateProfileContext.Provider value={updateProfile}>
         <CredentialsContext.Provider value={credentials}>
           {children}
         </CredentialsContext.Provider>

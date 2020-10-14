@@ -9,6 +9,7 @@ type GoogleProfile = {
 
 const useUpdateGoogleProfile = () => {
   const updateProfile = useUpdateProfile();
+  if (!updateProfile) return null;
 
   const updateGoogleProfile = (
     additionalUserInfo?: firebase.auth.AdditionalUserInfo | null,

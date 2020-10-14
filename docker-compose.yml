@@ -12,6 +12,7 @@ services:
       - ./package.json:/app/package.json
       - ./src:/app/src
     environment:
+      FIREBASE_CONFIG: eyJhcGlLZXkiOiJBSXphU3lDSWlGZGZ2ZS1zdFpzTkE3OFhwZWFsNHdCeVVtZTktS3ciLCJhdXRoRG9tYWluIjoiZ29tb2t1LWJvYXJkZ2FtZS1pby5maXJlYmFzZWFwcC5jb20iLCJkYXRhYmFzZVVSTCI6Imh0dHBzOi8vZ29tb2t1LWJvYXJkZ2FtZS1pby5maXJlYmFzZWlvLmNvbSIsInByb2plY3RJZCI6ImdvbW9rdS1ib2FyZGdhbWUtaW8iLCJzdG9yYWdlQnVja2V0IjoiZ29tb2t1LWJvYXJkZ2FtZS1pby5hcHBzcG90LmNvbSIsIm1lc3NhZ2luZ1NlbmRlcklkIjoiNzQ4MzEzNzU2Njc0IiwiYXBwSWQiOiIxOjc0ODMxMzc1NjY3NDp3ZWI6NTY2MGVlOWQ1YWY4MjEzYTEwNTMxYiJ9
       PARCEL_WORKERS: 1
 
   server:

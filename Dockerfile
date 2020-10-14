@@ -6,6 +6,8 @@ COPY . ./
 
 
 FROM base AS client-build
+ARG APP_URL
+ARG FIREBASE_CONFIG
 RUN yarn build-client
 
 

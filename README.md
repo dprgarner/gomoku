@@ -20,6 +20,6 @@ When running in production mode, the static files are served by the same Koa ser
 
 ## Required .env variables
 
-Several env variables need to be provided for local development or when running in production. This includes credentials for a Firebase service account and credentials for a Firebase client.
+Several env variables need to be provided for local development or when running in production. This includes credentials for a Firebase service account and credentials for a Firebase client. These should be base64 encoded (pipe the credentials through `toBase64.js`).
 
 See `process.env` in [types.d.ts](types.d.ts) for the list of required variables. Any variable not provided in the docker-compose files should be included in a `.env` file.

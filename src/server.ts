@@ -8,8 +8,11 @@ import game from './shared/game';
 import usersEndpoint from './usersEndpoint';
 import { Middleware } from 'koa';
 
+const fromBase64 = (base64String: string) =>
+  JSON.parse(Buffer.from(base64String, 'base64').toString());
+
 admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(process.env.ADMIN_CREDENTIALS)),
+  credential: admin.credential.cert(fromBase64(process.env.ADMIN_CREDENTIALS)),
 });
 
 const distClient = path.resolve(__dirname, '..', 'dist_client');

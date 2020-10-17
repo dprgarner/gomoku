@@ -2,8 +2,8 @@
 
 ## Bugs
 
-- Providers are messed-up in the production build. They probably load in a different order.
 - If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't return credential-errors to the frontend.
+- If it keeps crashing in Docker, `node --max-old-space-size=8192 node_modules/.bin/parcel ...`
 
 ## Lobby
 
@@ -40,6 +40,6 @@
 
 - Cache users. It looks a bit daft, being fetched each time.
 - Distinguish between "No user joined" versus "Anon user joined"
-- Update game pages when another user joins (somehow)
+- Update match page when another user joins (somehow)
 - More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
 - Highlight winning five-in-a-row

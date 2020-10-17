@@ -9,18 +9,31 @@ export enum Status {
   Loading,
 }
 
+type User = {
+  uid?: string;
+  displayName?: string;
+  photoURL?: string;
+};
+
+const isNotUndefined = <T extends unknown>(x: T | undefined): x is T =>
+  x !== undefined;
+
 const useUsers = (uids: (string | undefined)[]) => {
   const [usersData, setUsersData] = React.useState<SerializedUsers>({});
   const [status, setStatus] = React.useState<Status>(Status.Loading);
 
+  const apiPath =
+    uids.length &&
+    `${serverRoot}/users?${uids
+      .filter(isNotUndefined)
+      .map((uid) => `uid=${uid}`)
+      .join('&')}`;
+
   React.useEffect(() => {
     (async () => {
+      if (!apiPath) return;
       try {
         setStatus(Status.Loading);
-        const apiPath = `${serverRoot}/users?${uids
-          .filter((uid) => uid)
-          .map((uid) => `uid=${uid}`)
-          .join('&')}`;
         const userResponse = await window.fetch(apiPath);
         setUsersData(await userResponse.json());
         setStatus(Status.Ok);
@@ -29,10 +42,9 @@ const useUsers = (uids: (string | undefined)[]) => {
         console.error(e);
       }
     })();
-  }, [uids]);
+  }, [apiPath]);
 
-  const users = uids.map((uid) => (uid && usersData[uid]) || {});
-
+  const users: User[] = uids.map((uid) => (uid && usersData[uid]) || {});
   return { users, status };
 };
 

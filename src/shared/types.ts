@@ -15,8 +15,24 @@ export type Moves = {
 };
 
 export type SerializedUsers = {
-  [uid: string]: {
-    displayName?: string;
-    photoURL?: string;
-  };
+  [uid: string]:
+    | {
+        uid: string;
+        displayName?: string;
+        photoURL?: string;
+      }
+    | undefined;
+};
+
+export type SerializedLobbyMatch = {
+  players: Array<{
+    id: '0' | '1';
+    data?: {
+      uid: string;
+    };
+  }>;
+  setupData: SetupData;
+  createdAt: number;
+  updatedAt: number;
+  matchID: string;
 };

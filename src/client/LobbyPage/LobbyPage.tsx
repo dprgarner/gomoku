@@ -8,12 +8,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
-import { useHistory } from 'react-router';
 
 import FadeIn from '~/client/components/FadeIn';
-import MiscError from './components/MiscError';
-import { serverRoot } from './config';
-import useJoinMatch from './context/useJoinMatch';
+
+import MiscError from '../components/MiscError';
+import useMatches from './useMatches';
+import useCreateMatch from './useCreateMatch';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {
@@ -69,49 +69,25 @@ const PlaceholderCard = () => {
 
 const Lobby = () => {
   const classes = useStyles();
-  const history = useHistory();
   const [error, setError] = React.useState('');
-  const joinMatch = useJoinMatch();
-
-  const createGame = async () => {
-    try {
-      const createResponse = await window.fetch(
-        `${serverRoot}/games/gomoku/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            numPlayers: 2,
-            setupData: {
-              size: 15,
-              movesInARow: 5,
-            },
-          }),
-        },
-      );
-      const { matchID } = await createResponse.json();
-      await joinMatch(matchID, '0');
-
-      history.push({
-        pathname: `/match/${matchID}`,
-      });
-    } catch (e) {
-      console.error(e);
-      setError(e.message);
+  const createMatch = useCreateMatch((error?: Error) => {
+    if (error) {
+      console.error(error);
+      setError(error.message);
     }
-  };
+  });
+  const matches = useMatches();
 
   return (
     <FadeIn>
       <div className={classes.lobby}>
+        {matches && <pre>{JSON.stringify(matches, null, 2)}</pre>}
         <div className={classes.buttonContainer}>
           <Button
             variant="contained"
             size="large"
             color="primary"
-            onClick={createGame}
+            onClick={createMatch}
           >
             Create new game
           </Button>

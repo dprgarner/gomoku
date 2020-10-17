@@ -15,7 +15,7 @@ const getSerializedUsers = async (uids: string[]) => {
   const serializedUsers = users.reduce<SerializedUsers>(
     (acc, { uid, displayName, photoURL }) => ({
       ...acc,
-      [uid]: { displayName, photoURL, uid },
+      [uid]: { displayName, photoURL },
     }),
     {},
   );

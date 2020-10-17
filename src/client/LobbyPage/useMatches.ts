@@ -7,6 +7,8 @@ import useUsersById from '../context/useUsersById';
 const flatten = <T extends unknown>(arrayOfArrays: T[][]) =>
   ([] as T[]).concat(...arrayOfArrays);
 
+const tuple = <T extends Record<string, unknown>[]>(...args: T) => args;
+
 const useMatches = () => {
   const [error, setError] = React.useState();
   if (error) throw error;
@@ -23,7 +25,6 @@ const useMatches = () => {
       }
     })();
   }, []);
-
   const userUids = React.useMemo(
     () =>
       matches &&
@@ -35,14 +36,29 @@ const useMatches = () => {
     [matches],
   );
   const usersById = useUsersById(userUids);
+
   if (matches && usersById) {
-    return matches.map((match) => ({
-      ...match,
-      players: match.players.map((player) => ({
-        id: player.id,
-        data: (player.data?.uid && usersById[player.data?.uid]) || undefined,
-      })),
-    }));
+    return matches
+      .map((match) => ({
+        ...match,
+        players: tuple(
+          {
+            id: '0',
+            data:
+              (match.players[0].data?.uid &&
+                usersById[match.players[0].data?.uid]) ||
+              undefined,
+          },
+          {
+            id: '1',
+            data:
+              (match.players[1].data?.uid &&
+                usersById[match.players[1].data?.uid]) ||
+              undefined,
+          },
+        ),
+      }))
+      .sort((match1, match2) => match2.createdAt - match1.createdAt);
   }
 
   return null;

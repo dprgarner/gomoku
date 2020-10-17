@@ -3,7 +3,7 @@ import { Avatar } from '@material-ui/core';
 import Person from '@material-ui/icons/Person';
 import { makeStyles } from '@material-ui/core/styles';
 
-type ProfileAvatarProps = {
+export type ProfileAvatarProps = {
   displayName?: string;
   photoURL?: string;
 };

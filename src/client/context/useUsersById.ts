@@ -1,7 +1,7 @@
 import useUsers from './useUsers';
 
 type User = {
-  uid?: string;
+  uid: string;
   displayName?: string;
   photoURL?: string;
 };
@@ -15,11 +15,16 @@ const useUsersById = (uids: (string | undefined)[] | null) => {
 
   if (!uids) return null;
 
-  return users.reduce<UsersById>((acc, user) => {
-    const { uid } = user;
+  const anonymousUsersById = uids.reduce<UsersById>((acc, uid) => {
     if (!uid) return acc;
-    return { ...acc, [uid]: { ...user, uid } };
+    return { ...acc, [uid]: { uid } };
   }, {});
+
+  return users.reduce<UsersById>((acc, user, idx) => {
+    const uid = uids[idx];
+    if (!uid) return acc;
+    return { ...acc, [uid]: { ...acc[uid], ...user } };
+  }, anonymousUsersById);
 };
 
 export default useUsersById;

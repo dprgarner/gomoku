@@ -1,4 +1,4 @@
-import useUsers from './useUsers';
+import useUsers, { Status } from './useUsers';
 
 type User = {
   uid: string;
@@ -11,9 +11,9 @@ type UsersById = {
 };
 
 const useUsersById = (uids: (string | undefined)[] | null) => {
-  const { users } = useUsers(uids || []);
+  const { users, status } = useUsers(uids || []);
 
-  if (!uids) return null;
+  if (!uids || status === Status.Loading) return null;
 
   const anonymousUsersById = uids.reduce<UsersById>((acc, uid) => {
     if (!uid) return acc;

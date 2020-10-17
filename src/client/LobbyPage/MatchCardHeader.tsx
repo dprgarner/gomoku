@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PlayButton from './PlayButton';
 import Stone from '../components/Stone';
 import NamedAvatar from './NamedAvatar';
+import { useProfile } from '../context/firebaseUser';
 
 type StyleProps = {
   hasBlack: boolean;
@@ -66,12 +67,14 @@ export type MatchCardHeaderProps = {
   players: [
     {
       data?: {
+        uid: string;
         displayName?: string;
         photoURL?: string;
       };
     },
     {
       data?: {
+        uid: string;
         displayName?: string;
         photoURL?: string;
       };
@@ -81,9 +84,12 @@ export type MatchCardHeaderProps = {
 
 const MatchCardHeader = ({ matchID, players }: MatchCardHeaderProps) => {
   const [black, white] = players;
-  const hasWhite = !!white.data;
   const hasBlack = !!black.data;
-  const classes = useStyles({ hasWhite, hasBlack });
+  const hasWhite = !!white.data;
+  const classes = useStyles({ hasBlack, hasWhite });
+  const user = useProfile();
+  const isBlack = !!user && user.uid === black.data?.uid;
+  const isWhite = !!user && user.uid === white.data?.uid;
 
   return (
     <>
@@ -99,18 +105,26 @@ const MatchCardHeader = ({ matchID, players }: MatchCardHeaderProps) => {
 
       <div className={classes.players}>
         <div className={classes.blackColumn}>
-          {black.data ? (
+          {hasBlack ? (
             <NamedAvatar {...black.data} />
-          ) : (
-            <PlayButton displayName={white.data?.displayName} />
+          ) : isWhite ? null : (
+            <PlayButton
+              displayName={white.data?.displayName}
+              matchID={matchID}
+              playerID="0"
+            />
           )}
         </div>
 
         <div className={classes.whiteColumn}>
-          {white.data ? (
+          {hasWhite ? (
             <NamedAvatar {...white.data} />
-          ) : (
-            <PlayButton displayName={black.data?.displayName} />
+          ) : isBlack ? null : (
+            <PlayButton
+              displayName={black.data?.displayName}
+              matchID={matchID}
+              playerID="1"
+            />
           )}
         </div>
       </div>

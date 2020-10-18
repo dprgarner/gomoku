@@ -74,7 +74,7 @@ const Lobby = () => {
   const matches = useMatches();
   const user = useProfile();
   const [tab, setTab] = React.useState<0 | 1 | 2>(0);
-  const [isModalOpen, setIsModalOpen] = React.useState(true);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   if (!matches || !user) return <SetLoadingBackdrop />;
 

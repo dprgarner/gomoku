@@ -3,21 +3,12 @@
 ## Bugs
 
 - If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't return credential-errors to the frontend.
-- If it keeps crashing in Docker, `node --max-old-space-size=8192 node_modules/.bin/parcel ...`
+- If it keeps crashing in Docker, try `node --max-old-space-size=8192 node_modules/.bin/parcel ...`
 - No error recovery on the lobby page.
 
 ## Lobby
 
 - Move tab state to the route
-
-### Options for starting a game
-
-- Board size (15x15 or 19x19?)
-- Listed
-- Play as black or white
-- (Fixed params: numPlayers=2, in-a-row=5)
-- No overshooting (6-in-a-row does not win)
-- Nerf Black (cannot move next to first stone)
 
 ## Auth flow improvements
 
@@ -29,9 +20,15 @@
 
 ## UI improvements
 
+- Zen garden theme?
 - Big componentDidCatch modal around everything?
 - Cache users. It looks a bit daft, being fetched each time.
 - Distinguish between "No user joined" versus "Anon user joined"
 - Update match page when another user joins (somehow)
 - More emphasis on last-played stone. Animation when being played, like a slight zoom? Or perhaps an outline?
 - Highlight winning five-in-a-row
+
+### Additional game options
+
+- No overshooting (6-in-a-row does not win)
+- Nerf Black (cannot move next to first stone)

@@ -67,7 +67,7 @@ const StoneRadio = ({ player, setPlayer }: Props) => {
       </div>
 
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Play as...</FormLabel>
+        <FormLabel component="legend">Play as:</FormLabel>
         <RadioGroup
           row
           className={classes.radioGroup}

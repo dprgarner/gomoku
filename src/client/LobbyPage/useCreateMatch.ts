@@ -3,10 +3,20 @@ import { useHistory } from 'react-router';
 import { serverRoot } from '../config';
 import useJoinMatch from '../context/useJoinMatch';
 
-const useCreateMatch = (callback: (error?: Error) => void) => {
+type Options = {
+  player: '0' | '1';
+  boardSize: 15 | 19;
+  unlisted: boolean;
+};
+
+const useCreateMatch = () => {
   const history = useHistory();
   const joinMatch = useJoinMatch();
-  const createMatch = async () => {
+
+  const createMatch = async (
+    options: Options,
+    callback: (error?: Error) => void,
+  ) => {
     try {
       const createResponse = await window.fetch(
         `${serverRoot}/games/gomoku/create`,
@@ -18,14 +28,15 @@ const useCreateMatch = (callback: (error?: Error) => void) => {
           body: JSON.stringify({
             numPlayers: 2,
             setupData: {
-              size: 15,
+              size: options.boardSize,
               movesInARow: 5,
             },
+            unlisted: options.unlisted,
           }),
         },
       );
       const { matchID } = await createResponse.json();
-      await joinMatch(matchID, '0');
+      await joinMatch(matchID, options.player);
 
       history.push({
         pathname: `/match/${matchID}`,

@@ -9,6 +9,7 @@ import MatchCard from './MatchCard';
 import useMatches from './useMatches';
 import { useProfile } from '../context/firebaseUser';
 import CreateMatchModal from './CreateMatchModal';
+import { useHistory, useLocation } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {
@@ -25,6 +26,31 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
 }));
+
+const getTabIndex = (tabParam: string) => {
+  if (tabParam === 'open') return 1;
+  if (tabParam === 'filled') return 2;
+  return 0;
+};
+
+const getSearchParam = (idx: 0 | 1 | 2) =>
+  ['', '?matches=open', '?matches=filled'][idx];
+
+const useMatchesTab = (): [0 | 1 | 2, (idx: 0 | 1 | 2) => void] => {
+  const { search } = useLocation();
+  const history = useHistory();
+  const [, tabParam] = search.match(/matches=([^&]*)/) || [];
+
+  const tab = getTabIndex(tabParam);
+  const setTab = (idx: 0 | 1 | 2) => {
+    history.replace({
+      pathname: '/',
+      search: getSearchParam(idx),
+    });
+  };
+
+  return [tab, setTab];
+};
 
 const hasCurrentPlayer = (
   uid: string,
@@ -73,7 +99,7 @@ const Lobby = () => {
   const [error, setError] = React.useState('');
   const matches = useMatches();
   const user = useProfile();
-  const [tab, setTab] = React.useState<0 | 1 | 2>(0);
+  const [tab, setTab] = useMatchesTab();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   if (!matches || !user) return <SetLoadingBackdrop />;
@@ -109,7 +135,7 @@ const Lobby = () => {
         <Paper className={classes.tabsPaper}>
           <Tabs
             value={tab}
-            onChange={(_, idx) => setTab(idx)}
+            onChange={(_, idx: 0 | 1 | 2) => setTab(idx)}
             indicatorColor="primary"
             textColor="primary"
             centered

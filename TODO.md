@@ -1,14 +1,13 @@
 # TODO list
 
+- Write Readme
+- Zen garden theme?
+
 ## Bugs
 
 - If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't return credential-errors to the frontend.
 - If it keeps crashing in Docker, try `node --max-old-space-size=8192 node_modules/.bin/parcel ...`
 - No error recovery on the lobby page.
-
-## Lobby
-
-- Move tab state to the route
 
 ## Auth flow improvements
 
@@ -20,7 +19,6 @@
 
 ## UI improvements
 
-- Zen garden theme?
 - Big componentDidCatch modal around everything?
 - Cache users. It looks a bit daft, being fetched each time.
 - Distinguish between "No user joined" versus "Anon user joined"

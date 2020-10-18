@@ -8,6 +8,8 @@
 
 ## Lobby
 
+- Move tab state to the route
+
 ### Options for starting a game
 
 - Board size (15x15 or 19x19?)

@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { Grid, Paper, Tab, Tabs } from '@material-ui/core';
+import { Button, Grid, Paper, Tab, Tabs } from '@material-ui/core';
 
 import FadeIn from '~/client/components/FadeIn';
 import MiscError from '../components/MiscError';
-import useCreateMatch from './useCreateMatch';
 import SetLoadingBackdrop from '../context/loading/SetLoadingBackdrop';
 import MatchCard from './MatchCard';
 import useMatches from './useMatches';
 import { useProfile } from '../context/firebaseUser';
+import CreateMatchModal from './CreateMatchModal';
 
 const useStyles = makeStyles((theme) => ({
   lobby: {
@@ -72,15 +71,10 @@ const partitionMatches = <M extends { players: { data?: { uid: string } }[] }>(
 const Lobby = () => {
   const classes = useStyles();
   const [error, setError] = React.useState('');
-  const createMatch = useCreateMatch((error?: Error) => {
-    if (error) {
-      console.error(error);
-      setError(error.message);
-    }
-  });
   const matches = useMatches();
   const user = useProfile();
   const [tab, setTab] = React.useState<0 | 1 | 2>(0);
+  const [isModalOpen, setIsModalOpen] = React.useState(true);
 
   if (!matches || !user) return <SetLoadingBackdrop />;
 
@@ -97,10 +91,19 @@ const Lobby = () => {
             variant="contained"
             size="large"
             color="primary"
-            onClick={createMatch}
+            onClick={() => setIsModalOpen(true)}
           >
-            Create new game
+            Create a new game
           </Button>
+          <CreateMatchModal
+            isOpen={isModalOpen}
+            onError={(e) => {
+              setIsModalOpen(false);
+              console.error(e);
+              setError(e?.message || 'Something went wrong.');
+            }}
+            onClose={() => setIsModalOpen(false)}
+          />
         </div>
 
         <Paper className={classes.tabsPaper}>

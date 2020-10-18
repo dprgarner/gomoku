@@ -10,6 +10,7 @@ const useStyles = makeStyles(() => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
+    minWidth: 360,
   },
 }));
 

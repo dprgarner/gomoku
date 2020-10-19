@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel index.html",
-    "build-client": "parcel build index.html --dist-dir dist_client",
+    "build-client": "parcel build index.html --dist-dir dist_client --public-url https://gomoku-boardgame-io.herokuapp.com/",
     "serve": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build-server": "tsc",
     "ts": "tsc --noEmit",

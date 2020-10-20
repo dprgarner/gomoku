@@ -1,8 +1,5 @@
 # TODO list
 
-- Write Readme
-- Zen garden theme?
-
 ## Bugs
 
 - If I leave my browser open for an hour and then play a move, the token will be invalid. The backend doesn't return credential-errors to the frontend.

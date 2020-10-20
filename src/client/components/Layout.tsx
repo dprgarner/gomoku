@@ -8,6 +8,21 @@ import {
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 
+import Logo from './Logo.svg';
+import multipleRocks from 'data-url:./multiple-rocks.svg';
+import singleRock from 'data-url:./single-rock.svg';
+
+const backgroundRocks = {
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'contain',
+  content: '""',
+  height: '100%',
+  opacity: 0.7,
+  pointerEvents: 'none',
+  position: 'fixed',
+  zIndex: -1,
+};
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     display: 'flex',
@@ -18,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     padding: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  logo: {
+    flex: '0 1 40px',
+    marginRight: theme.spacing(2),
+    height: 40,
   },
 
   boardContainer: {
@@ -25,6 +48,25 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(4),
+
+    '&:before': {
+      ...backgroundRocks,
+      backgroundImage: `url(${multipleRocks})`,
+      backgroundPosition: 'bottom left',
+      bottom: 0,
+      left: 0,
+      width: '30vw',
+    },
+
+    '&:after': {
+      ...backgroundRocks,
+      backgroundImage: `url(${singleRock})`,
+      backgroundPosition: 'top right',
+      backgroundRepeat: 'no-repeat',
+      right: '-5vw',
+      top: '30vh',
+      width: '20vw',
+    },
   },
 }));
 
@@ -39,11 +81,18 @@ const Layout = ({ children, userMenu }: LayoutProps) => {
   return (
     <>
       <AppBar position="static" className={classes.appBar}>
-        <Typography variant="h3" component="h1" className={classes.title}>
-          <Link color="inherit" underline="none" component={RouterLink} to="/">
+        <Link
+          color="inherit"
+          underline="none"
+          component={RouterLink}
+          to="/"
+          className={classes.title}
+        >
+          <Logo className={classes.logo} />
+          <Typography variant="h3" component="h1">
             Gomoku
-          </Link>
-        </Typography>
+          </Typography>
+        </Link>
 
         {userMenu}
       </AppBar>

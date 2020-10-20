@@ -4,6 +4,7 @@
     "*.js": ["@parcel/optimizer-terser"]
   },
   "transformers": {
-    "*.svg": ["@parcel/transformer-svg-react"]
+    "*.svg": ["@parcel/transformer-svg-react"],
+    "data-url:*": ["@parcel/transformer-inline-string"],
   }
 }

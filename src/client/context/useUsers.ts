@@ -31,7 +31,10 @@ const useUsers = (uids: (string | undefined)[]) => {
 
   React.useEffect(() => {
     (async () => {
-      if (!apiPath) return;
+      if (!apiPath) {
+        setStatus(Status.Ok);
+        return;
+      }
       try {
         setStatus(Status.Loading);
         const userResponse = await window.fetch(apiPath);

@@ -12,6 +12,7 @@ import { useProfile } from './context/firebaseUser';
 import Providers from './context/Providers';
 import UserMenu from './UserMenu';
 import ProfilePage from './ProfilePage';
+import BackgroundImage from './components/BackgroundImage';
 
 type CheckLoggedInProps = {
   children: React.ReactElement;
@@ -58,7 +59,9 @@ const App = () => {
             {({ match }: MatchPlayerParams) =>
               match && (
                 <CheckLoggedIn>
-                  <MatchPageWithClient matchID={match.params.matchID} />
+                  <BackgroundImage image="multipleRocks">
+                    <MatchPageWithClient matchID={match.params.matchID} />
+                  </BackgroundImage>
                 </CheckLoggedIn>
               )
             }
@@ -72,7 +75,9 @@ const App = () => {
 
           <Route path="/" exact>
             <CheckLoggedIn>
-              <LobbyPage />
+              <BackgroundImage image="singleRock">
+                <LobbyPage />
+              </BackgroundImage>
             </CheckLoggedIn>
           </Route>
         </Switch>

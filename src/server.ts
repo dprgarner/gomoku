@@ -24,7 +24,10 @@ const db = new PostgresStore(process.env.DATABASE_URL, {
   ssl: true,
   dialect: 'postgres',
   dialectOptions: {
-    ssl: true,
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
   },
 });
 

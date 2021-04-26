@@ -22,6 +22,10 @@ const port = parseInt(process.env.PORT, 10);
 const db = new PostgresStore(process.env.DATABASE_URL, {
   logging: false,
   ssl: true,
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: true,
+  },
 });
 
 const server = Server({

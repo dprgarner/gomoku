@@ -19,8 +19,9 @@ const distClient = path.resolve(__dirname, '..', 'dist_client');
 const serveStaticFiles = process.env.NODE_ENV === 'production';
 const port = parseInt(process.env.PORT, 10);
 
-const db = new PostgresStore(`${process.env.DATABASE_URL}?sslmode=require`, {
+const db = new PostgresStore(process.env.DATABASE_URL, {
   logging: false,
+  ssl: true,
 });
 
 const server = Server({
